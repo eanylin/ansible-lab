@@ -1,0 +1,9 @@
+---
+# tasks file for roles/win_service_manage
+ - name: Start windows service
+   win_service:
+      name: "{{ service_name }}"
+      state: restarted
+      start_mode: auto
+   when: ansible_distribution == "Microsoft Windows Server 2012 R2 Standard" 
+   

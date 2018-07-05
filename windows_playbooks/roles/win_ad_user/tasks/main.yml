@@ -1,0 +1,13 @@
+---
+# tasks file for roles/win_ad_user
+# - name: Include var
+#   include_vars: main.yml
+ - name: Create AD User
+   win_domain_user:
+      name: "{{ item.name }}"
+      firstname: "{{item.firstname }}"
+      surname: "{{ item.surname }}"
+      password: "{{ item.password }}"
+      state: present
+      email: '"{{ item.name }}"@ad.c95c.example.opentlc.com'
+   with_items: "{{ user_info }}"   

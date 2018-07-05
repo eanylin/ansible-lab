@@ -1,0 +1,8 @@
+- hosts: all
+  tasks:
+  - name: Check Windows server
+    win_ping:
+    when: ansible_distribution == "Microsoft Windows Server 2012 R2 Standard" 
+  - name: Check Linux servers
+    ping:
+    when: ansible_distribution != "Microsoft Windows Server 2012 R2 Standard"

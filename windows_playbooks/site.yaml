@@ -1,0 +1,5 @@
+- hosts: windows
+  roles:
+   - win_package_install 
+   - win_service_manage
+   - win_ad_user

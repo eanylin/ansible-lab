@@ -1,0 +1,5 @@
+---
+instance_name: db
+group: appdbs
+deployment: dev
+security_group_name: db_servers

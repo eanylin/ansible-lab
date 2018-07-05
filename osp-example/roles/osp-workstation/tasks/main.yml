@@ -1,0 +1,34 @@
+---
+  - name: Install epel rpm from remote repo
+    yum:
+     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+     state: present     
+  - name: Install python ansible python dependencies
+    yum:
+     name: "{{ item }}"
+     state: latest
+    with_items:
+     - python
+     - python-devel
+     - python-pip
+     - gcc
+     - ansible
+  - name: Install shade library for intercating with Openstack clouds
+    pip:
+     name: shade       
+  - name: Create openstack directory
+    file: name=/etc/openstack state=directory
+  - name: Create clouds.yaml file
+    blockinfile:
+     create: yes
+     path: /etc/openstack/clouds.yaml
+     block: |2
+       clouds:
+         ospcloud:
+           auth:
+             auth_url: http://192.168.0.20:5000/
+             password: r3dh4t1!
+             project_name: admin
+             username: admin
+           identity_api_version: '3.0'
+           region_name: RegionOne

@@ -1,0 +1,18 @@
+# tasks file for roles/win_ad_user
+- name: Create windows domain group
+  win_domain_group:
+    name: "{{ item.group_name }}"
+    scope: "{{ item.group_scope }}"
+    state: present
+  with_items: "{{ user_info }}" 
+- name: Create AD User
+  win_domain_user:
+    name: "{{ item.name }}"
+    firstname: "{{item.firstname }}"
+    surname: "{{ item.surname }}"
+    password: "{{ item.password }}"
+    state: present
+    email: '"{{ item.name }}"@ad1.1473.example.opentlc.com'
+    groups:
+      - "{{ item.group_name }}"
+  with_items: "{{ user_info }}"

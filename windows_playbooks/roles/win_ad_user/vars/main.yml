@@ -1,0 +1,5 @@
+---
+# vars file for roles/win_ad_user
+ user_info:
+   - { name: 'james', firstname: 'James', surname: 'Jockey', password: 'redhat@123'} 
+   - { name: 'mickey', firstname: 'Mickey', surname: 'Mouse', password: 'redhat@123'} 

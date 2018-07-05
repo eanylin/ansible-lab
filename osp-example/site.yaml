@@ -1,0 +1,34 @@
+- hosts: jumpbox
+#  become: yes
+  roles:
+     - osp-network
+     - osp-keypair
+     - osp-securitygroup
+     - osp-flavor
+  tasks:
+##Create Fronend Instance
+  - name: Create frontend instance
+    include_role:
+       name: osp-instances
+       vars_from: frontend.yaml
+###Create App1 server 
+  - name: Create app1 instance
+    include_role:
+       name: osp-instances
+       vars_from: app1.yaml
+##Create App2 server
+  - name: Create app2 instance
+    include_role:
+       name: osp-instances
+       vars_from: app2.yaml
+##Create DB server
+  - name: Create db instance
+    include_role:
+       name: osp-instances
+       vars_from: db.yaml
+## Alternate Method to create dynmaic inventory
+  - name: Gather facts
+    include_role: 
+       name: osp-facts
+    tags:
+     - test_inventory

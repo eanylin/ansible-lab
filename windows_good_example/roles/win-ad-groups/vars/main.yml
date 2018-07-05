@@ -1,0 +1,7 @@
+---
+# vars file for roles/win-ad-groups
+  ad_groups:
+    - { group_name: 'qa', scope_name: 'global' }
+    - { group_name: dev, scope_name: 'domainlocal' }
+    - { group_name: prod, scope_name: 'domainlocal' }
+    

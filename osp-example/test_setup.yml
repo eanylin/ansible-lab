@@ -1,0 +1,16 @@
+- hosts: jumpbox
+  gather_facts: false
+  roles:
+    - osp-facts
+
+- hosts: apps
+  gather_facts: true
+  become: yes
+  tasks:
+  - name: setup
+    setup:
+    register: result
+  - debug: var=result
+    tags:
+     - test_inventory
+ 

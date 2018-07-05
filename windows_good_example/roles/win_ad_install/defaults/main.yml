@@ -1,0 +1,4 @@
+ad_domain_name: ad.b2d7.example.opentlc.com
+ad_safe_mode_password: 'jVMijRwLbI02gFCo2xkjlZ9lxEA7bm7zgg==' 
+ad_admin_user: "admin@{{ ad_domain_name}}"
+ad_admin_password: 'jVMijRwLbI02gFCo2xkjlZ9lxEA7bm7zgg=='

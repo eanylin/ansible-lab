@@ -1,0 +1,11 @@
+---
+# tasks file for roles/win_firewall
+ - name: Add win_firewall_rule
+   win_firewall_rule:
+      name: "{{ service_name }}"
+      localport: "{{ local_port }}"
+      action: allow
+      direction: in
+      protocol: "{{ protocol_name }}"
+      state: present
+      enabled: yes

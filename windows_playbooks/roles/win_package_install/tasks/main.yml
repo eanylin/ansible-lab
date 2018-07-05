@@ -1,0 +1,7 @@
+---
+# tasks file for roles/win_package_install
+  - name: Install Windows package
+    win_chocolatey:
+       name: "{{ package_name }}"
+       state: latest
+    when: ansible_distribution == "Microsoft Windows Server 2012 R2 Standard"
