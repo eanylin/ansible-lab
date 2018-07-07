@@ -55,4 +55,4 @@
       dest: /tmp/openstack.pub
 
   - name: Set up remote access with shared openstack public key
-    command: cat /tmp/openstack.pub  >> /home/cloud-user/.ssh/authorized_keys
+    shell: cat /tmp/openstack.pub  >> /home/cloud-user/.ssh/authorized_keys
