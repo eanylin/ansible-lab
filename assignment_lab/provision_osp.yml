@@ -1,4 +1,6 @@
-- hosts: jumpbox
+---
+- name: Provision OpenStack Environment
+  hosts: jumpbox
   become: yes
   roles:
      - osp-workstation

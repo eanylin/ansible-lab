@@ -1,5 +1,5 @@
 [jumpbox]
-workstation-57b1.rhpds.opentlc.com
+workstation-57b1.rhpds.opentlc.com ansible_user=julin-redhat.com
 
 [frontends]
 frontends
