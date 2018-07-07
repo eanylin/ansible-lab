@@ -1,0 +1,58 @@
+---
+# tasks file for roles/osp-workstation
+  - name: Install epel rpm from remote repo
+    yum:
+     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+     state: present     
+
+  - name: Copy OpenStack repo
+    copy:
+      src: ./templates/open.repo.j2
+      dest: /etc/yum.repos.d/open.repo
+
+  - name: Install python ansible openstack-client dependencies
+    yum:
+     name: "{{ item }}"
+     state: latest
+    with_items:
+     - python
+     - python-devel
+     - python-pip
+     - gcc
+     - ansible
+     - python-openstackclient
+
+  - name: Install shade library for interacting with Openstack clouds
+    pip:
+     name: shade       
+
+  - name: Create openstack directory
+    file: name=/etc/openstack state=directory
+
+  - name: Create clouds.yaml file
+    blockinfile:
+     create: yes
+     path: /etc/openstack/clouds.yaml
+     block: |2
+       clouds:
+         ospcloud:
+           auth:
+             auth_url: http://192.168.0.20:5000/
+             password: "{{ admin_project_password }}"
+             project_name: admin
+             username: admin
+           identity_api_version: '3.0'
+           region_name: RegionOne
+
+  - name: Copy keystonerc_admin
+    copy:
+      src: ./templates/keystonerc_admin.j2
+      dest: /root/keystonerc_admin
+
+  - name: Copy shared openstack public key
+    get_url:
+      url: http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      dest: /tmp/openstack.pub
+
+  - name: Set up remote access with shared openstack public key
+    command: cat /tmp/openstack.pub  >> /home/cloud-user/.ssh/authorized_keys

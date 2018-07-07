@@ -1,0 +1,54 @@
+---
+# tasks file for osp-securitygroup
+  - os_security_group:
+      cloud: ospcloud
+      state: present
+      name: app_servers
+      description: ports_open
+
+  - os_security_group_rule:
+      cloud: ospcloud
+      security_group: app_servers 
+      protocol: tcp
+      port_range_min: "{{ item.port }}"
+      port_range_max: "{{ item.port }}" 
+      remote_ip_prefix: "{{ item.ip_prefix }}"
+    with_items:
+      - { port: '8080', ip_prefix: '0.0.0.0/0' }
+      - { port: '22', ip_prefix: '0.0.0.0/0' }
+
+        
+  - os_security_group:
+      cloud: ospcloud
+      state: present
+      name: frontend_servers
+      description: ports_open
+
+  - os_security_group_rule:
+      cloud: ospcloud
+      security_group: frontend_servers 
+      protocol: tcp
+      port_range_min: "{{ item.port }}"
+      port_range_max: "{{ item.port }}" 
+      remote_ip_prefix: "{{ item.ip_prefix }}"
+    with_items:
+      - { port: '80', ip_prefix: '0.0.0.0/0' }
+      - { port: '443', ip_prefix: '0.0.0.0/0' }
+      - { port: '22', ip_prefix: '0.0.0.0/0' }
+      
+  - os_security_group:
+      cloud: ospcloud
+      state: present
+      name: db_servers
+      description: ports_open
+
+  - os_security_group_rule:
+      cloud: ospcloud
+      security_group: db_servers
+      protocol: tcp
+      port_range_min: "{{ item.port }}"
+      port_range_max: "{{ item.port }}" 
+      remote_ip_prefix: "{{ item.ip_prefix }}"
+    with_items:
+      - { port: '5432', ip_prefix: '20.20.20.0/24' }
+      - { port: '22', ip_prefix: '0.0.0.0/0' }

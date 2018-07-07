@@ -1,0 +1,5 @@
+---
+instance_name: app1
+group: apps
+deployment: dev
+security_group_name: app_servers

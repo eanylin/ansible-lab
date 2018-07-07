@@ -1,0 +1,13 @@
+- hosts: jumpbox
+  roles:
+    - osp-facts
+
+- hosts: dev
+  gather_facts: false
+  become: yes
+  tasks:
+  - name: Ping
+    ping:
+    tags:
+     - test_inventory
+ 
