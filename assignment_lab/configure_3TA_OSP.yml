@@ -1,0 +1,34 @@
+---
+- name: Gather Facts
+  hosts: jumpbox
+  become: yes
+  tasks:
+  - name: Gather facts
+    include_role: 
+       name: osp-facts
+    tags:
+     - test_inventory
+
+- name: setup load-balancer tier
+  hosts: frontends
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: lb-tier, tags: [lbs, haproxy]}
+
+- name: setup app tier
+  hosts: apps
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: app-tier, tags: [apps, tomcat]}
+
+- name: setup database tier
+  hosts: appdbs
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
