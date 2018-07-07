@@ -44,7 +44,7 @@
            identity_api_version: '3.0'
            region_name: RegionOne
 
-  - name: Copy keystonerc_admin
+  - name: Create keystonerc_admin file
     copy:
       src: ./templates/keystonerc_admin.j2
       dest: /root/keystonerc_admin
