@@ -47,7 +47,10 @@
   - name: Create keystonerc_admin file
     copy:
       src: ./templates/keystonerc_admin.j2
-      dest: /root/keystonerc_admin
+      dest: /home/cloud-user/keystonerc_admin
+      owner: cloud-user
+      group: cloud-user
+      mode: 0644
 
   - name: Copy shared openstack public key
     get_url:
