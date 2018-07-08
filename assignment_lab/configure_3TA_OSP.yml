@@ -7,7 +7,7 @@
     include_role: 
        name: osp-facts
     tags:
-     - test_inventory
+     - get_openstack_vm_inventory
 
 - name: setup load-balancer tier
   hosts: frontends
