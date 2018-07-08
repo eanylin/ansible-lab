@@ -1,12 +1,11 @@
 ---
-# tasks file for osp-keypair
-  - name: Generate key files
-    user:
-      name: "{{ ansible_env.USER }}"
-      generate_ssh_key: yes
-      ssh_key_file: .ssh/openstack_key
+  - name: Download public key
+    get_url:
+      url: http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      dest: "{{ ansible_env.HOME }}/.ssh/openstack_key.pub"
 
-  - os_keypair:
+  - name: Create ansible_ssh keypair 
+    os_keypair:
       cloud: ospcloud
       state: present
       name: ansible_ssh
