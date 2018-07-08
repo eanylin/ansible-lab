@@ -37,6 +37,3 @@
   hosts: frontends
   uri:
     url: http://127.0.0.1 
-    return_content: yes
-  register: frontend_result
-  failed_when: "'Ansible Deployed Tomcat' not in frontend_result.content" 
