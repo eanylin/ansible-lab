@@ -1,13 +1,13 @@
 ---
-#- name: Gather Facts
-#  hosts: jumpbox
-#  become: yes
-#  tasks:
-#  - name: Gather facts
-#    include_role: 
-#       name: osp-facts
-#    tags:
-#     - test_inventory
+- name: Gather Facts
+  hosts: jumpbox
+  become: yes
+  tasks:
+  - name: Gather facts
+    include_role: 
+       name: osp-facts
+    tags:
+     - test_inventory
 
 - name: setup load-balancer tier
   hosts: frontends
