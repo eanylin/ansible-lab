@@ -4,10 +4,10 @@
     user:
       name: "{{ ansible_env.USER }}"
       generate_ssh_key: yes
-      ssh_key_file: .ssh/test_id_rsa
+      ssh_key_file: .ssh/openstack_key
 
   - os_keypair:
       cloud: ospcloud
       state: present
       name: ansible_ssh
-      public_key_file: "{{ ansible_env.HOME }}/.ssh/test_id_rsa.pub"
+      public_key_file: "{{ ansible_env.HOME }}/.ssh/openstack_key.pub"
