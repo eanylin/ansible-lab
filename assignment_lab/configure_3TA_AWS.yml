@@ -1,0 +1,33 @@
+---
+- name: Setup load-balancer tier
+  hosts: tag_AnsibleGroup_frontends
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: lb-tier, tags: [lbs, haproxy]}
+
+- name: Setup app tier
+  hosts: tag_AnsibleGroup_apps
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: app-tier, tags: [apps, tomcat]}
+
+- name: Setup database tier
+  hosts: tag_AnsibleGroup_appdbs
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base-config, tags: base-config}
+    - {name: geerlingguy.postgresql, tags: [dbs, postgres]}
+
+- name: Smoke test
+  hosts: tag_AnsibleGroup_frontends
+  tasks:
+  - uri:
+      url: http://127.0.0.1 
+      return_content: yes
+    register: frontend_result
+    failed_when: "'Ansible Deployed Tomcat' not in frontend_result.content" 
