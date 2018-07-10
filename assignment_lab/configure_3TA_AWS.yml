@@ -9,7 +9,6 @@
       src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
       dest: /tmp/
       flat: yes
-    register: fetch_results
 
 - name: Inject Key into Ansible Tower
   hosts: localhost
@@ -17,8 +16,8 @@
   gather_facts: false
 
   tasks:
-  - debug:
-      msg: "{{ fetch_results.stdout.dest }}"
+  - name: Rename Private Key
+    shell: mv /tmp/*.pem /tmp/bastion.pem
 
   - name: Inject Key into Ansible Tower
     tower_credential:
@@ -30,7 +29,7 @@
       tower_password: "{{ tower_password }}"
       kind: ssh
       username: "{{ three_tier_user }}"
-      ssh_key_data: "/tmp/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
+      ssh_key_data: "/tmp/bastion.pem"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
