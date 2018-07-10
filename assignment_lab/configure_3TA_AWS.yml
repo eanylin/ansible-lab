@@ -3,8 +3,9 @@
   hosts: tag_AnsibleGroup_bastions
   become: yes
   tasks:
-  - debug:
-      msg: "{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}"
+  - fetch:
+      src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
+      dest: /tmp/bastion_key.pem
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
