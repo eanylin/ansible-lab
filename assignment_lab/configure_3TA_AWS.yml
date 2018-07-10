@@ -5,7 +5,19 @@
   tasks:
   - fetch:
       src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
-      dest: /tmp/bastion_key.pem
+      dest: "{{ three_tier_prod_key }}"
+
+- name: Inject Key into Ansible Tower
+  tower_credential:
+    name: Three_Tier_Prod_Key
+    organization: Default
+    state: present
+    tower_host: "{{ tower_node }}.{{ tower_guid }}.{{ tower_domain_path }}"
+    tower_username: "{{ tower_username }}"
+    tower_password: "{{ tower_password }}"
+    kind: machine
+    username: "{{ three_tier_user }}"
+    ssh_key_data: "{{ three_tier_prod_key }}"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
