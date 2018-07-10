@@ -1,10 +1,10 @@
 ---
-- name: Refresh Inventory
-  hosts: jumpbox
+- name: Fetch Private Key from Bastion
+  hosts: tag_AnsibleGroup_bastions
   become: yes
   tasks:
-  - name: Refresh Dynamic Inventory
-    meta: refresh_inventory
+  - debug:
+      msg: "{{ inventory_hostname }}"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
