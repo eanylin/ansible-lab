@@ -45,7 +45,7 @@
            region_name: RegionOne
 
   - name: Create keystonerc_admin file
-    copy:
+    template:
       src: ./templates/keystonerc_admin.j2
       dest: /home/cloud-user/keystonerc_admin
       owner: cloud-user

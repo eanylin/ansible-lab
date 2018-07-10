@@ -1,0 +1,35 @@
+---
+- name: Provision Production Environment
+  hosts: localhost
+  gather_facts: true
+  become: yes
+
+  tasks:
+  - name: Create bin directory
+    file:
+      path: "{{ ansible_env.HOME }}/bin"
+      state: directory
+      mode: 0755
+
+  - name: Download common.sh and order_svc.sh
+    get_url:
+      url: http://www.opentlc.com/download/ansible_bootcamp/scripts/{{ item }}
+      dest: "{{ ansible_env.HOME }}/{{ item }}"
+      mode: 0755
+    with_items:
+    - common.sh
+    - order_svc.sh
+
+  - name: Download jq-linux64
+    shell: wget http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64 -O ~/bin/jq
+
+  - name: Change mod - order_svc.sh
+    shell: chmod +x order_svc.sh ~/bin/jq
+
+  - name: Create credential.rc
+    template:
+      src: templates/credential.rc.j2
+      dest: "{{ ansible_env.HOME }}/credential.rc"
+
+  - name: Deploy production environment in AWS
+    shell: source credential.rc ; ./order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y
