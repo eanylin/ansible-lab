@@ -1,6 +1,6 @@
 ---
 - name: Provision Production Environment
-  hosts: localhost
+  hosts: jumpbox
   gather_facts: true
   become: yes
 
