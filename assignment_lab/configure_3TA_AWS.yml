@@ -7,7 +7,8 @@
   - name: Fetch Private Key from Bastion
     fetch:
       src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
-      dest: "{{ three_tier_prod_key }}"
+      dest: /tmp/
+      flat: yes
 
 - name: Inject Key into Ansible Tower
   hosts: localhost
@@ -15,10 +16,6 @@
   gather_facts: false
 
   tasks:
-  - name: Install Tower CLI
-    pip:
-      name: ansible-tower-cli
-
   - name: Inject Key into Ansible Tower
     tower_credential:
       name: Three_Tier_Prod_Key
@@ -29,7 +26,7 @@
       tower_password: "{{ tower_password }}"
       kind: ssh
       username: "{{ three_tier_user }}"
-      ssh_key_data: "{{ three_tier_prod_key }}"
+      ssh_key_data: "/tmp/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
