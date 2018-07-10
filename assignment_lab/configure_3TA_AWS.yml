@@ -1,4 +1,7 @@
 ---
+- name: Refresh Dynamic Inventory
+  meta: refresh_inventory
+
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
   become: yes
