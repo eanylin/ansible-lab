@@ -9,6 +9,7 @@
       src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
       dest: /tmp/
       flat: yes
+    register: fetch_results
 
 - name: Inject Key into Ansible Tower
   hosts: localhost
@@ -16,6 +17,9 @@
   gather_facts: false
 
   tasks:
+  - debug:
+      msg: "{{ fetch_results.stdout.dest }}"
+
   - name: Inject Key into Ansible Tower
     tower_credential:
       name: Three_Tier_Prod_Key
