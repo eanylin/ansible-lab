@@ -4,7 +4,7 @@
   become: yes
   tasks:
   - debug:
-      msg: "{{ inventory_hostname }}"
+      msg: "{{ ec2_tags.ec2_tag_Project }}"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
