@@ -4,7 +4,7 @@
   become: yes
   tasks:
   - debug:
-      msg: "{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('.*-(\\w*)-\\w*$','\\1') }}"
+      msg: "{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('.*-(\\w*)-(\\w*)-\\w*$','\\1') }}"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
