@@ -21,10 +21,10 @@
     - order_svc.sh
 
   - name: Download jq-linux64
-    shell: wget http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64 -O ~/bin/jq
+    shell: "wget http://www.opentlc.com/download/ansible_bootcamp/scripts/jq-linux64 -O {{ ansible_env.HOME }}/bin/jq"
 
   - name: Change mod - order_svc.sh
-    shell: chmod +x order_svc.sh ~/bin/jq
+    shell: "chmod +x {{ ansible_env.HOME }}/order_svc.sh {{ ansible_env.HOME }}/bin/jq"
 
   - name: Create credential.rc
     template:
@@ -32,4 +32,4 @@
       dest: "{{ ansible_env.HOME }}/credential.rc"
 
   - name: Deploy production environment in AWS
-    shell: source credential.rc ; ./order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y
+    shell: "source {{ ansible_env.HOME }}/credential.rc && ./{{ ansible_env.HOME }}/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y"
