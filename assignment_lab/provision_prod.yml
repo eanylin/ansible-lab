@@ -32,4 +32,4 @@
       dest: "{{ ansible_env.HOME }}/credential.rc"
 
   - name: Deploy production environment in AWS
-    shell: "source {{ ansible_env.HOME }}/credential.rc && ./{{ ansible_env.HOME }}/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y"
+    shell: "source {{ ansible_env.HOME }}/credential.rc && {{ ansible_env.HOME }}/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y"
