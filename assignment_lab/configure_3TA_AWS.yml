@@ -1,6 +1,10 @@
 ---
-- name: Refresh Dynamic Inventory
-  meta: refresh_inventory
+- name: Refresh Inventory
+  hosts: jumpbox
+  become: yes
+  tasks:
+  - name: Refresh Dynamic Inventory
+    meta: refresh_inventory
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
