@@ -23,7 +23,7 @@
       tower_host: "{{ tower_node }}.{{ tower_guid }}.{{ tower_domain_path }}"
       tower_username: "{{ tower_username }}"
       tower_password: "{{ tower_password }}"
-      kind: machine
+      kind: ssh
       username: "{{ three_tier_user }}"
       ssh_key_data: "{{ three_tier_prod_key }}"
 
