@@ -5,6 +5,11 @@
   become: yes
 
   tasks:
+  - name: Install latest version of jq
+    yum:
+      name: jq
+      state: latest
+
   - name: Create bin directory
     file:
       path: "{{ ansible_env.HOME }}/bin"
