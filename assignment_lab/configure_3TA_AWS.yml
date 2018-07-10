@@ -15,6 +15,10 @@
   gather_facts: false
 
   tasks:
+  - name: Install Tower CLI
+    pip:
+      name: ansible-tower-cli
+
   - name: Inject Key into Ansible Tower
     tower_credential:
       name: Three_Tier_Prod_Key
