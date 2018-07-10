@@ -2,10 +2,8 @@
 - name: Fetch Private Key from Bastion
   hosts: tag_AnsibleGroup_bastions
   become: yes
-
   tasks:
-  - name: Fetch Private Key from Bastion
-    fetch:
+  - fetch:
       src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
       dest: "{{ three_tier_prod_key }}"
 
@@ -16,8 +14,7 @@
   gather_facts: false
 
   tasks:
-  - name: Inject Key into Ansible Tower
-    tower_credential:
+  - tower_credential:
       name: Three_Tier_Prod_Key
       organization: Default
       state: present
