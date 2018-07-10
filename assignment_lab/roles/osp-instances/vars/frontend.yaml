@@ -3,5 +3,3 @@ instance_name: frontend
 group: frontends
 deployment: dev
 security_group_name: frontend_servers 
-
-

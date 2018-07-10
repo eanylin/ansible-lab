@@ -1,0 +1,17 @@
+---
+- name: Clean up OpenStack VMs
+  hosts: jumpbox
+  become: yes
+
+  tasks:
+  - name: Clean up OpenStack VMs
+    os_server:
+      state: absent
+      cloud: ospcloud
+      name: "{{ item }}"
+      delete_fip: true
+    with_items:
+      - app1
+      - app2
+      - db
+      - frontend

@@ -1,5 +1,5 @@
 ---
-# tasks file for roles/osp-instance 
+  # tasks file for roles/osp-instance 
   - name: Create a server instance
     os_server:
       cloud: ospcloud
