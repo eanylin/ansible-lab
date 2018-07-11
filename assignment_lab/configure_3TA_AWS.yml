@@ -16,8 +16,13 @@
   gather_facts: false
 
   tasks:
-  - name: Rename Private Key
-    shell: mv /tmp/*.pem /tmp/bastion.pem
+  - name: List files in directory
+    shell: ls -1 /tmp
+    register: tmp_directory
+
+  - debug:
+      msg: "{{ tmp_directory.stdout_lines }}"
+    when: "key" in "{{ tmp_directory.stdout_lines }}"
 
   - name: Inject Key into Ansible Tower
     tower_credential:
