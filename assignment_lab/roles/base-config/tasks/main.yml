@@ -18,6 +18,4 @@
     name: "{{ item }}" 
     state: latest
   with_items:
-    - httpie
     - python-pip
-    - python-pygments
