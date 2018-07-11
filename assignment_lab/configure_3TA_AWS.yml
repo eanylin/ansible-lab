@@ -13,7 +13,7 @@
 - name: Inject Key into Ansible Tower
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: true
 
   tasks:
   - name: Move Private Key to temporary location under home directory
