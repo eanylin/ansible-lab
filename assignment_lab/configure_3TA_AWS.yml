@@ -23,6 +23,9 @@
     shell: ls -1 {{ ansible_env.HOME }}/tmp
     register: private_key
 
+  - debug:
+      msg: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout }}"
+
   - name: Inject Key into Ansible Tower
     tower_credential:
       name: Three_Tier_Prod_Key
@@ -33,7 +36,7 @@
       tower_password: "{{ tower_password }}"
       kind: ssh
       username: "{{ three_tier_user }}"
-      ssh_key_data: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout_lines }}"
+      ssh_key_data: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout }}"
 
 - name: Setup load-balancer tier
   hosts: tag_AnsibleGroup_frontends
