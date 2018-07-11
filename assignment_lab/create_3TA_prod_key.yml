@@ -24,7 +24,7 @@
     register: private_key
 
   - debug:
-      msg: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout }}"
+      msg: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout_lines }}"
 
 #  - name: Inject Key into Ansible Tower
 #    tower_credential:
