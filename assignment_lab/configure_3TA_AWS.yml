@@ -22,7 +22,7 @@
 
   - debug:
       msg: "{{ tmp_directory.stdout_lines }}"
-    when: "key" in "{{ tmp_directory.stdout_lines }}"
+    when: '"key" in tmp_directory.stdout_lines'
 
   - name: Inject Key into Ansible Tower
     tower_credential:
