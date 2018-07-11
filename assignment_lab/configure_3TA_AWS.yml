@@ -21,8 +21,7 @@
     register: tmp_directory
 
   - debug:
-      msg: "{{ tmp_directory.stdout_lines }}"
-    when: '"key" in tmp_directory.stdout_lines'
+      msg: "{{ tmp_directory }}"
 
   - name: Inject Key into Ansible Tower
     tower_credential:
