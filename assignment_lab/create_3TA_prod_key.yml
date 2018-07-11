@@ -33,4 +33,4 @@
       tower_password: "{{ tower_password }}"
       kind: ssh
       username: "{{ three_tier_user }}"
-      ssh_key_data: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout_lines }}"
+      ssh_key_data: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout }}"
