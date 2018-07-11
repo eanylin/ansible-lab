@@ -20,3 +20,4 @@
   with_items:
     - httpie
     - python-pip
+    - python-pygments
