@@ -7,14 +7,14 @@
 - name: Clean up Front Ends
   hosts: tag_AnsibleGroup_frontends
   roles:
-    - cleaner
+    - clean-three-tier
 
 - name: Clean up App
   hosts: tag_AnsibleGroup_apps
   roles:
-    - cleaner
+    - clean-three-tier
 
 - name: Clean up App DBs
   hosts: tag_AnsibleGroup_appdbs
   roles:
-    - cleaner
+    - clean-three-tier
