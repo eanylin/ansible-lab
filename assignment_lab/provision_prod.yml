@@ -1,6 +1,6 @@
 ---
 - name: Provision Production Environment
-  hosts: jumpbox
+  hosts: osp_workstation
   gather_facts: true
   become: yes
 

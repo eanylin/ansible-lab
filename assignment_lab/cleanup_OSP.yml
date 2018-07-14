@@ -1,6 +1,6 @@
 ---
 - name: Clean up OpenStack VMs
-  hosts: jumpbox
+  hosts: osp_workstation
   become: yes
 
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Gather Facts
-  hosts: jumpbox
+  hosts: osp_workstation
   become: yes
   tasks:
   - name: Gather facts
