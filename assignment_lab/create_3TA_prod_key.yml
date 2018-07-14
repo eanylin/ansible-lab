@@ -4,19 +4,6 @@
   become: yes
 
   tasks:
-  - name: Fetch Private Key from Bastion
-    fetch:
-      src: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
-      dest: /tmp/
-      flat: yes
-
-- name: Inject Key into Ansible Tower
-  hosts: localhost
-  become: yes
-  connection: local
-  gather_facts: true
-
-  tasks:
   - name: Install python-pip
     yum:
      name: python-pip
@@ -25,13 +12,6 @@
   - name: Install ansible-tower-cli with pip
     pip:
       name: ansible-tower-cli
-    
-  - name: Move Private Key to temporary location under home directory
-    shell: mkdir -p {{ ansible_env.HOME }}/tmp && mv /tmp/*.pem {{ ansible_env.HOME }}/tmp/ && chmod 400 {{ ansible_env.HOME }}/tmp/*.pem
-
-  - name: List files in temporary directory
-    shell: ls -1 {{ ansible_env.HOME }}/tmp
-    register: private_key
 
   - name: Inject Key into Ansible Tower
     tower_credential:
@@ -43,4 +23,4 @@
       tower_password: "{{ tower_password }}"
       kind: ssh
       username: "{{ three_tier_user }}"
-      ssh_key_data: "{{ ansible_env.HOME }}/tmp/{{ private_key.stdout }}"
+      ssh_key_data: "/root/.ssh/{{ hostvars[inventory_hostname]['ec2_tag_Project'] | regex_replace('three-tier-app-','') }}key.pem"
