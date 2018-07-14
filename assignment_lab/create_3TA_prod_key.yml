@@ -12,6 +12,7 @@
 
 - name: Inject Key into Ansible Tower
   hosts: localhost
+  become: yes
   connection: local
   gather_facts: true
 
