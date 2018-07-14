@@ -7,4 +7,4 @@
     name: m2.small
     ram: 2048
     vcpus: 1
-    disk: 5
+    disk: 10
