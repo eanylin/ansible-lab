@@ -16,6 +16,15 @@
   gather_facts: true
 
   tasks:
+  - name: Install python-pip
+    yum:
+     name: python-pip
+     state: latest
+
+  - name: Install ansible-tower-cli with pip
+    pip:
+      name: ansible-tower-cli
+    
   - name: Move Private Key to temporary location under home directory
     shell: mkdir -p {{ ansible_env.HOME }}/tmp && mv /tmp/*.pem {{ ansible_env.HOME }}/tmp/ && chmod 400 {{ ansible_env.HOME }}/tmp/*.pem
 
