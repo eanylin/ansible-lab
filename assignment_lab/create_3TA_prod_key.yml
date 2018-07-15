@@ -4,6 +4,10 @@
   become: yes
 
   tasks:
+  - name: Wait for another 10 mins for Production Environment to be provisioned
+    wait_for_connection:
+      timeout: 600
+
   - name: Install python-pip
     yum:
      name: python-pip
