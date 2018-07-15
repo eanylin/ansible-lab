@@ -1,18 +1,18 @@
-##Background
+## Background ##
 
 MitziCom, a telecommunications company, provides hosting and cloud services to a variety of clients, from medium-sized companies to enterprise giants.
 
 MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpose of the POC is to determine the feasibility of using Ansible Tower as a CI/CD tool for automating continuous deployment of an internal three-tier application on QA and production environments.
 
 
-##Environment
+## Environment ##
 
 - OpenStack Platform Workstation: `workstation-7655.rhpds.opentlc.com`
 - Production Bastion/Jump-Server: `Created During Workflow Execution`
 - Ansible Tower (Cluster): [Tower 1](https://tower1.ffe9.example.opentlc.com), [Tower 2](https://tower2.ffe9.example.opentlc.com), [Tower 3](https://tower3.ffe9.example.opentlc.com)
 
 
-##Ansible Tower Setup/Workflow
+## Ansible Tower Setup/Workflow ##
 
 1. Add [public key](http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub) to *authorized_keys* of the `cloud-user` on the OpenStack Platform Workstation
 
@@ -137,7 +137,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
     ![workflow](images/workflow.png)
 
 
-##Workflow Execution and Result Verification
+## Workflow Execution and Result Verification ##
 
 1. Execute workflow
 
