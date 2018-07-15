@@ -1,8 +1,8 @@
 ---
 # Reverse 3 Tier App Deployment
 #
-#   Remove all repos
-#   Remove the base 3 tier app packages (haproxy, tomcat etc)
+# Remove all repos
+# Remove the 3 Tier App Base Packages (haproxy, tomcat etc)
 
 - name: Clean up Front Ends
   hosts: tag_AnsibleGroup_frontends

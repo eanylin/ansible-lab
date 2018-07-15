@@ -8,11 +8,11 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 ## Environment ##
 
 - OpenStack Platform Workstation: `workstation-7655.rhpds.opentlc.com`
-- Production Bastion/Jump-Server: `Created During Workflow Execution`
+- Production Bastion/Jump-Server: *Created During Workflow Execution*
 - Ansible Tower (Cluster): [Tower 1](https://tower1.ffe9.example.opentlc.com), [Tower 2](https://tower2.ffe9.example.opentlc.com), [Tower 3](https://tower3.ffe9.example.opentlc.com)
 
 
-## Ansible Tower Setup/Workflow ##
+## Ansible Tower Setup ##
 
 1. Add [public key](http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub) to *authorized_keys* of the `cloud-user` on the OpenStack Platform Workstation
 
@@ -61,6 +61,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 9. Create new credential type, i.e. **OpenTLC**
     - Go to `SETTINGS / CREDENTIAL TYPES`
     - The Input Configuration will be
+
       ```
       fields:
         - type: string
@@ -75,6 +76,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
         - password
       ```
     - The Injector Configuration will be
+
       ```
       extra_vars:
         opentlc_password: '{{ password }}'
@@ -104,7 +106,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 14. Create a new credential, **prod_bastion_key** with following parameters (note that the SSH key will be the private key that you are using to connect with OpenTLC nodes)
     - Credential Type: `Machine`
     - Username: *OpenTLC Username*
-    - SSH Private Key: *Your Private Key that is used for connecting to bastion/jumpbox*
+    - SSH Private Key: *OpenTLC Private Key*
 
 15. Create the **Three_Tier_Prod_Key** Credential with a dummy private key (the key will get replaced with the correct one once the production environment is built and once the `Create_3_Tier_Prod_Key` template gets executed during the workflow). Set the following parameters:
     - Credential Type: `Machine`
