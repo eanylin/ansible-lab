@@ -130,3 +130,4 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
     - Verbosity: 2
 
 19. Create a new workflow job template, i.e. Ansible_CICD and update the workflow editor as follows:
+    ![workflow](images/workflow.png)
