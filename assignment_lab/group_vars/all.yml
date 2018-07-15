@@ -3,6 +3,6 @@ admin_project_password: r3dh4t1!
 three_tier_user: ec2-user
 tower_domain_path: example.opentlc.com
 tower_guid: ffe9
-tower_node: tower3
+tower_node: tower1
 tower_password: r3dh4t1!
 tower_username: admin
