@@ -39,7 +39,6 @@
   - name: Deploy production environment in AWS
     shell: "source {{ ansible_env.HOME }}/credential.rc && {{ ansible_env.HOME }}/order_svc.sh -c 'OPENTLC Automation' -i 'Three Tier Application' -t 1 -y"
 
-  - name: Sleep for 15 mins to wait for prod environment to be provisioned in AWS before ending play
-    wait_for:
-      timeout: 900
-    delegate_to: localhost
+  - name: Pause for 15 mins to wait for prod environment to be provisioned in AWS before ending play
+    pause:
+      minutes: 15
