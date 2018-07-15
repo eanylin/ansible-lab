@@ -24,7 +24,7 @@
     src: prod_haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     mode: 0644
-  when: ansible_hostname != "frontend"
+  when: ansible_hostname == "frontend1"
 
 - name: Start {{ payload }}
   service:
