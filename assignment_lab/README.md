@@ -145,6 +145,6 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 
    ![workflow](images/templates.png)
 
-2. Check that you are able to access the Frontend URL via HTTP
+2. Check that you are able to access the Frontend HTTP URL upon completion of the workflow
 
     ![workflow](images/frontend.png)
