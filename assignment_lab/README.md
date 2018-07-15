@@ -8,7 +8,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 **Environment**
 
 - OpenStack Platform Workstation: workstation-7655.rhpds.opentlc.com
-- Production Bastion/Jump-Server: *<Created During Workflow Execution>*
+- Production Bastion/Jump-Server: `Created During Workflow Execution`
 - Ansible Tower (Cluster): [Tower 1](https://tower1.ffe9.example.opentlc.com), [Tower 2](https://tower2.ffe9.example.opentlc.com), [Tower 3](https://tower3.ffe9.example.opentlc.com)
 
 
@@ -102,13 +102,13 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 
 14. Create a new credential, `prod_bastion_key` with following parameters (note that SSH key will be the private key that user is using to connect with OpenTLC nodes)
     - Credential Type: `Machine`
-    - Username: <OpenTLC Username>
-    - SSH Private Key: <Your Private Key that is used for connecting to bastion/jumpbox>
+    - Username: `OpenTLC Username`
+    - SSH Private Key: `Your Private Key that is used for connecting to bastion/jumpbox`
 
 15. Create the `Three_Tier_Prod_Key` Credential with a dummy private key (the key will get replaced with the correct one once the production environment is built and once the `Create_3_Tier_Prod_Key template gets executed during the workflow). Set the following parameters:
     - Credential Type: `Machine`
     - Username: `ec2-user`
-    - SSH Private Key: <Dummy Private Key>
+    - SSH Private Key: `Dummy Private Key`
 
 16. Create new Job Template, i.e.`Create_3_Tier_Prod_Key` with the following settings:
     - Inventory: `Advanced_Ansible_Lab`
