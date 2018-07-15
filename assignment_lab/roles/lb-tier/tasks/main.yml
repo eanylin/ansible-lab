@@ -9,11 +9,22 @@
     name: "{{ payload }}"
     enabled: yes
 
-- name: configure haproxy to load balance over app servers
+- debug:
+    msg: "{{ hostvars[inventory_hostname] }}"
+
+- name: configure haproxy to load balance over OpenStack app servers
   template:
-    src: haproxy.cfg.j2
+    src: osp_haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     mode: 0644
+  when: {{ hostvars[inventory_hostname] }} == 'frontend'
+
+- name: configure haproxy to load balance over Production app servers
+  template:
+    src: prod_haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+  when: {{ hostvars[inventory_hostname] }} != 'frontend'
 
 - name: start {{ payload }}
   service:

@@ -100,8 +100,8 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 
 14. Create a new credential, `prod_bastion_key` with following parameters (note that SSH key will be the private key that user is using to connect with OpenTLC nodes)
     - Credential Type: `Machine`
-    - Username: *OpenTLC Username*
-    - SSH Private Key: *Private Key that is used for connecting to bastion/jumpbox*
+    - Username: *<OpenTLC Username>*
+    - SSH Private Key: *<Your Private Key that is used for connecting to bastion/jumpbox>*
 
 15. Create the `Three_Tier_Prod_Key` Credential with a dummy private key (the key will get replaced with the correct one once the production environment is built and once the `Create_3_Tier_Prod_Key template gets executed during the workflow). Set the following parameters:
     - Credential Type: `Machine`
@@ -119,14 +119,14 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
     - Inventory: `Advanced_Ansible_Lab`
     - Project: `Advanced_Ansible_Lab_Assignment`
     - Playbook: `assignment_lab/configure_3TA_AWS.yml`
-    - Credential: `aws`
+    - Credential: `Three_Tier_Prod_Key`
     - Verbosity: 2
 
 18. Create new Job Template, i.e. `Clean_Up_3_Tier_App_Prod` with the following settings:
     - Inventory: `Advanced_Ansible_Lab`
     - Project: `Advanced_Ansible_Lab_Assignment`
     - Playbook: `assignment_lab/cleanup_3TA.yml`
-    - Credential: `aws`
+    - Credential: `Three_Tier_Prod_Key`
     - Verbosity: 2
 
 19. Create a new workflow job template, i.e. Ansible_CICD and update the workflow editor as follows:
