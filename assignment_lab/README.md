@@ -133,3 +133,12 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 
 19. Create a new workflow job template, i.e. Ansible_CICD and update the workflow editor as follows:
     ![workflow](images/workflow.png)
+
+
+**Workflow Execution and Result Verification**
+
+1. Execute workflow
+   ![workflow](images/templates.png)
+
+2. Check that you are able to access the Frontend URL via HTTP
+    ![workflow](images/frontend.png)
