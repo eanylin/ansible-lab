@@ -7,7 +7,7 @@ MitziCom has requested a proof-of-concept using Red Hat Ansible Tower. The purpo
 
 **Environment**
 
-- OpenStack Platform Workstation: workstation-7655.rhpds.opentlc.com
+- OpenStack Platform Workstation: `workstation-7655.rhpds.opentlc.com`
 - Production Bastion/Jump-Server: `Created During Workflow Execution`
 - Ansible Tower (Cluster): [Tower 1](https://tower1.ffe9.example.opentlc.com), [Tower 2](https://tower2.ffe9.example.opentlc.com), [Tower 3](https://tower3.ffe9.example.opentlc.com)
 
