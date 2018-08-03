@@ -1,0 +1,10 @@
+---
+- name: Fortinet Firewall
+  hosts: "{{ firewall_node }}"
+  gather_facts: true
+
+  tasks:
+  - name: Update Firewall Rule
+    include_role:
+      name: update_rule
+      vars_from: "password.yml"

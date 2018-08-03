@@ -1,0 +1,15 @@
+---
+- name: Update Firewall Rule
+  fortios_ipv4_policy:
+    host: "{{ firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    id: "{{ firewall_rule_id }}"
+    src_addr: "{{ source_address }}"
+    src_intf: "{{ source_port }}"
+    dst_addr: "{{ destination_address }}"
+    dst_intf: "{{ destination_port }}"
+    service:  "{{ service_type }}"
+    nat: "{{ nat_allowed }}"
+    state: "{{ firewall_rule_state }}"
+    policy_action: "{{ policy_action }}"

@@ -1,0 +1,9 @@
+---
+- name: Backup
+  fortios_config:
+    host: "{{ firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    backup: yes
+    backup_filename: backup_firewall_config
+    backup_path: /tmp/fortigate_backup

@@ -1,0 +1,7 @@
+[fortinet]
+fortinet1 ansible_host=1.2.3.4
+
+[fortinet:vars]
+ansible_user="{{ fortinet_username }}"
+ansible_password="{{ fortinet_password }}"
+ansible_connection=local

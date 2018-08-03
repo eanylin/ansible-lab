@@ -1,0 +1,11 @@
+---
+- name: Register new address
+  fortios_address:
+    host: "{{ firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    state: present
+    name: "{{ target_server }}"
+    type: ipmask
+    value: "{{ target_server_ip }}"
+    comment: "Register {{ target_server }}"
