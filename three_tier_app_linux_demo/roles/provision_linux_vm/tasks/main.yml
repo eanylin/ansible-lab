@@ -31,11 +31,11 @@
   wait_for_connection:
     timeout: 300
 
-- name: Sending notification email to NOC
+- name: Sending notification email
   mail:
     host: localhost
     port: 25
-    to: Network Operating Center <anthony.lin.test@gmail.com>
+    to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: Ansible-report
     body: "{{ vm_hostname }} has been successfully provisioned"
   delegate_to: localhost
