@@ -3,7 +3,7 @@
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: False
-    folder: "/Demo/vm"
+    folder: "/{{ vm_datacenter }}/vm"
     name: "{{ vm_prefix }}-{{ item.name }}"
     state: poweredoff
     template: "{{ vm_template }}"
@@ -18,7 +18,7 @@
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: False
-    folder: "/Demo/vm"
+    folder: "/{{ vm_datacenter }}/vm"
     name: "{{ vm_prefix }}-{{ item.name }}"
     state: absent
     template: "{{ vm_template }}"
