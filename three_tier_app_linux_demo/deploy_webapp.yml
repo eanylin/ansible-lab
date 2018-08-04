@@ -1,0 +1,8 @@
+---
+- name: Setup app tier
+  hosts: apps
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base_config, tags: base-config}
+    - {name: app_tier, tags: [apps, tomcat]}

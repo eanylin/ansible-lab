@@ -1,0 +1,9 @@
+[frontends]
+frontend1
+
+[apps]
+app1
+app2
+
+[appdbs]
+appdb1

@@ -1,0 +1,23 @@
+---
+# Reverse 3 Tier App Deployment
+#
+# Remove all repos
+# Remove the 3 Tier App Base Packages (haproxy, tomcat etc)
+# 
+- name: Clean up Front Ends
+  hosts: frontends
+  become: true
+  roles:
+    - clean-three-tier
+
+- name: Clean up App
+  hosts: apps
+  become: true
+  roles:
+    - clean-three-tier
+
+- name: Clean up App DBs
+  hosts: appdbs
+  become: true
+  roles:
+    - clean-three-tier

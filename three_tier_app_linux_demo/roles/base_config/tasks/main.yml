@@ -1,0 +1,16 @@
+---
+# Initial, common, system setup steps
+- name: Enable sudo without tty for some ansible commands
+  replace:
+    path: /etc/sudoers
+    regexp: '^Defaults\s*requiretty'
+    replace: 'Defaults  !requiretty'
+    backup: yes
+ 
+- name: Install base tools and packages
+  yum:
+    name: "{{ item }}" 
+    state: latest
+  with_items:
+    - httpie
+    - python-pip

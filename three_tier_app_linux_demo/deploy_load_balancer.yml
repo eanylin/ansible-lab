@@ -1,0 +1,8 @@
+---
+- name: Setup load-balancer tier
+  hosts: frontends
+  become: yes
+  gather_facts: true
+  roles:
+    - {name: base_config, tags: base-config}
+    - {name: lb_tier, tags: [lbs, haproxy]}

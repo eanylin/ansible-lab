@@ -1,0 +1,34 @@
+---
+- name: Install {{ payload }}
+  yum:
+    name: "{{ payload }}"
+    state: latest
+
+- name: Enable {{ payload }} at boot
+  service:
+    name: "{{ payload }}"
+    enabled: yes
+
+- name: Create tomcat default web directory
+  file:
+    path: "{{ tomcat_web_root }}"
+    state: directory
+
+- name: Copy static index.html to tomcat webroot
+  template:
+    src: index.html.j2
+    dest: "{{ tomcat_web_root }}/index.html"
+    mode: 0644
+
+- name: Restart tomcat
+  service:
+    name: "{{ payload }}"
+    state: restarted
+
+- name: Enable port 8080 iptables
+  iptables:
+    chain: IN_public_allow
+    protocol: tcp
+    destination_port: 8080
+    jump: ACCEPT
+    rule_num: 1

@@ -1,0 +1,32 @@
+---
+- name: Install {{ payload }}
+  yum:
+    name: "{{ payload }}"
+    state: latest
+
+- name: Enable {{ payload }} at boot
+  service:
+    name: "{{ payload }}"
+    enabled: yes
+
+- name: Configure haproxy to load balance
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+
+- name: Start {{ payload }}
+  service:
+    name: "{{ payload }}"
+    state: restarted
+
+- name: Update iptables
+  iptables:
+    chain: IN_public_allow
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    rule_num: 1
+  loop:
+    - 9000
+    - 80

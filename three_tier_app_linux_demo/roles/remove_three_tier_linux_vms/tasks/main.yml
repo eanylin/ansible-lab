@@ -1,0 +1,39 @@
+---
+- name: Shut Down Three Tier App VMs
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: False
+    folder: "/Demo/vm"
+    name: "{{ vm_prefix }}-{{ item.name }}"
+    state: poweredoff
+    template: "{{ vm_template }}"
+  loop:
+    - { name: 'frontend1', ip: '172.16.100.61' }
+    - { name: 'webapp1', ip: '172.16.100.62' }
+    - { name: 'webapp2', ip: '172.16.100.63' }
+    - { name: 'appdb1', ip: '172.16.100.64' }
+  delegate_to: localhost
+
+- name: Clean Up Three Tier App VMs
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: False
+    folder: "/Demo/vm"
+    name: "{{ vm_prefix }}-{{ item.name }}"
+    state: absent
+    template: "{{ vm_template }}"
+  loop:
+    - { name: 'frontend1', ip: '172.16.100.61' }
+    - { name: 'webapp1', ip: '172.16.100.62' }
+    - { name: 'webapp2', ip: '172.16.100.63' }
+    - { name: 'appdb1', ip: '172.16.100.64' }
+  delegate_to: localhost
+
+- name: Send notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "{{ vm_prefix }}-Three-Tier-App VMs have been successfully removed"
+  delegate_to: localhost

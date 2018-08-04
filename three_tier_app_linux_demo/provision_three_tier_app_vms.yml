@@ -1,0 +1,7 @@
+---
+- name: Install Three Tier App VMs
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - provision_three_tier_linux_vms

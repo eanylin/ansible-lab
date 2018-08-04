@@ -1,0 +1,7 @@
+---
+- name: Install Linux VM
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - provision_linux_vm

@@ -1,0 +1,15 @@
+[linux]
+frontend1 ansible_host=172.16.100.61 ansible_user=rhel ansible_password=rhel123 ansible_connection=ssh ansible_sudo_pass=rhel123
+app1 ansible_host=172.16.100.62 ansible_user=rhel ansible_password=rhel123 ansible_connection=ssh ansible_sudo_pass=rhel123
+app2 ansible_host=172.16.100.63 ansible_user=rhel ansible_password=rhel123 ansible_connection=ssh ansible_sudo_pass=rhel123
+appdb1 ansible_host=172.16.100.64 ansible_user=rhel ansible_password=rhel123 ansible_connection=ssh ansible_sudo_pass=rhel123
+
+[frontends]
+frontend1
+
+[apps]
+app1
+app2
+
+[appdbs]
+appdb1

@@ -1,0 +1,44 @@
+---
+- name: Create Three Tier App group in Ansible Tower
+  tower_group:
+    name: "{{ item }}"
+    description: "Three Tier App Tower Group"
+    inventory: "{{ tower_inventory_name }}"
+    state: present
+  loop:
+    - frontends
+    - apps
+    - appdbs
+
+- name: Add Three Tier App VMs to Tower Inventory
+  tower_host:
+    name: "{{ vm_prefix }}-{{ item.name }}"
+    description: "Add VM to Tower Inventory"
+    inventory: "{{ tower_inventory_name }}"
+    state: present
+    tower_verify_ssl: no
+    variables: |+
+      ---
+      ansible_host: "{{ item.ip }}"
+  loop:
+    - { name: 'frontend1', ip: '172.16.100.61' }
+    - { name: 'webapp1', ip: '172.16.100.62' }
+    - { name: 'webapp2', ip: '172.16.100.63' }
+    - { name: 'appdb1', ip: '172.16.100.64' }
+
+- name: Add hosts to group
+  command: tower-cli host associate --host "{{ vm_prefix }}-{{ item.name }}" --group "{{ item.group }}"
+  loop:
+    - { name: 'frontend1', group: 'frontends' }
+    - { name: 'webapp1', group: 'apps' }
+    - { name: 'webapp2', group: 'apps' }
+    - { name: 'appdb1', group: 'appdbs' }
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "{{ vm_prefix}}-Three-Tier-App VMs added to Tower Inventory"
+  delegate_to: localhost

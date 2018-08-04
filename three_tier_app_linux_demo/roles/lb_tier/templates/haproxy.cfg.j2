@@ -1,0 +1,50 @@
+global
+  log /dev/log  local0
+  log /dev/log  local1 notice
+  stats socket /var/lib/haproxy/stats level admin
+  chroot /var/lib/haproxy
+  user haproxy
+  group haproxy
+  daemon
+
+defaults
+  log global
+  mode http
+  option httplog
+  option dontlognull
+        timeout connect 5000
+        timeout client 50000
+        timeout server 50000
+
+frontend hafrontend
+    bind *:80
+    mode http
+    default_backend app-servers
+
+backend app-servers
+    mode http
+    balance roundrobin
+    option forwardfor
+{% for host in groups['apps'] %}
+    server {{ host }} {{ hostvars[host].ansible_host }}:8080 cookie app{{ loop.index }} check
+{% endfor %}
+
+listen stats 0.0.0.0:9000       #Listen on all IP's on port 9000
+    mode http
+    balance
+    timeout client 5000
+    timeout connect 4000
+    timeout server 30000
+
+    #This is the virtual URL to access the stats page
+    stats uri /haproxy_stats
+
+    #Authentication realm. This can be set to anything. Escape space characters with a backslash.
+    stats realm HAProxy\ Statistics
+
+    #The user/pass you want to use. Change this password!
+    stats auth admin:password
+
+    #This allows you to take down and bring up back end servers.
+    #This will produce an error on older versions of HAProxy.
+    stats admin if TRUE

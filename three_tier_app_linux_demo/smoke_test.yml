@@ -1,0 +1,22 @@
+---
+- name: Smoke test
+  hosts: frontends
+  tasks:
+  - name: Smoke test
+    uri:
+      url: http://127.0.0.1 
+      return_content: yes
+    register: frontend_result
+    failed_when: "'Ansible Deployed Tomcat' not in frontend_result.content" 
+
+- name: Send notification email
+  hosts: localhost
+  tasks:
+  - name: Sending notification email
+    mail:
+      host: localhost
+      port: 25
+      to: Anthony Lin <anthony.lin.test@gmail.com>
+      subject: Ansible-report
+      body: "Three Tier App were deployed successfully"
+    delegate_to: localhost

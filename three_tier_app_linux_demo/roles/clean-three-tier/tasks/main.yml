@@ -1,0 +1,21 @@
+---
+- name: Remove base tools and three tier app packages
+  yum:
+    name: "{{ item }}" 
+    state: absent
+  with_items:
+    - httpie
+    - python-pip
+    - haproxy
+    - tomcat
+    - postgresql-server
+
+- name: Delete tomcat webapps directory - removing index.html etc
+  file:
+    path: /usr/share/tomcat/webapps
+    state: absent
+
+- name: Delete haproxy.cfg from /etc/haproxy
+  file:
+    path: /etc/haproxy/haproxy.cfg
+    state: absent

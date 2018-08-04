@@ -1,0 +1,42 @@
+---
+- name: Create Three Tier App VMs
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: False
+    folder: "/Demo/vm"
+    name: "{{ vm_prefix }}-{{ item.name }}"
+    state: poweredon
+    template: "{{ vm_template }}"
+    disk:
+    - size_gb: "{{ vm_disk_size }}"
+      type: "{{ vm_disk_type }}"
+      datastore: "{{ vm_datastore }}"
+    hardware:
+      memory_mb: "{{ vm_ram }}"
+      num_cpus: "{{ vm_cpu }}"
+    networks:
+    - name: "{{ vm_network }}"
+      ip: "{{ item.ip }}"
+      netmask: "{{ netmask }}"
+      gateway: "{{ gateway_ip }}"
+    wait_for_ip_address: yes
+    customization:
+      domain: "{{ vm_domain }}"
+      dns_servers:
+      - "{{ vm_dns_server }}"
+      hostname: "{{ vm_prefix }}-{{ item.name }}"
+  loop:
+    - { name: 'frontend1', ip: '172.16.100.61' }
+    - { name: 'webapp1', ip: '172.16.100.62' }
+    - { name: 'webapp2', ip: '172.16.100.63' }
+    - { name: 'appdb1', ip: '172.16.100.64' }
+  delegate_to: localhost
+
+- name: Send notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "Three-Tier-App VMs have been successfully provisioned"
+  delegate_to: localhost

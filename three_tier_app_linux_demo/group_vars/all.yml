@@ -1,0 +1,13 @@
+---
+gateway_ip: '172.16.100.1'
+netmask: '255.255.255.0'
+vm_network: 'VM Network'
+vm_dns_server: '172.16.100.131'
+vm_domain: 'domain.com'
+vm_template: 'centos7'
+vm_datacenter: 'Demo'
+vm_datastore: 'datastore1'
+vm_disk_size: 16
+vm_disk_type: 'thin'
+vm_ram: 4096
+vm_cpu: 1
