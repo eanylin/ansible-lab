@@ -1,7 +1,0 @@
-- hosts: windows
-  vars_files:
-   - ./ssh_var.yml
-  roles:
-    - win_package_install
-    - win_service_manage
-    - win_firewall

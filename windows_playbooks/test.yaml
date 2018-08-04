@@ -1,3 +1,0 @@
-- hosts: windows
-  roles:
-  - win_ad_user
