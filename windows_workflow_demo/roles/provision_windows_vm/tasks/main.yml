@@ -32,7 +32,7 @@
   delegate_to: localhost
 
 - name: Wait for VM to be ready
-  wait_for: timeout=180
+  wait_for: timeout=300
   delegate_to: localhost
 
 - name: Sending notification email
