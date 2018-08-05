@@ -1,0 +1,10 @@
+---
+- name: Update Fortinet Firewall Rule
+  hosts: "{{ fortinet_firewall_node }}"
+  gather_facts: True
+
+  tasks:
+  - name: Update ACL
+    include_role:
+      name: fortinet_update_firewall_rule
+      vars_from: "password.yml"

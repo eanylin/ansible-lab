@@ -1,0 +1,7 @@
+---
+- name: Cisco CSR 1000v Add Route
+  hosts: "{{ cisco_router_name }}"
+  gather_facts: True
+
+  roles:
+    - cisco_add_route 

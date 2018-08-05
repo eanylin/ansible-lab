@@ -1,0 +1,26 @@
+---
+- name: Get current time
+  command: date "+%Y-%m-%d-%H:%M:%S"
+  register: timestamp
+
+- name: Backup Fortinet Configuration
+  fortios_config:
+    host: "{{ fortinet_firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    backup: yes
+    backup_filename: "running-config-{{ timestamp.stdout }}"
+    backup_path: "{{ fortinet_config_backup_path }}"
+  register: backup
+
+- debug:
+    msg: "{{ backup.running_config }}"
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible-report for {{ fortinet_firewall_node }}"
+    body: "The running-configuration has been backed up"
+  delegate_to: localhost

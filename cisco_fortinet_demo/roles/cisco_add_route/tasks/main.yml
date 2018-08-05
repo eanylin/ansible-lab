@@ -1,0 +1,19 @@
+---
+- name: Backup current config and add route
+  ios_config:
+    lines:
+      - "ip route {{ target_server_ip }} 255.255.255.255 {{ fortinet_firewall_ip }}"
+    backup: yes
+
+- name: Save running to startup when modified
+  ios_config:
+    save_when: modified
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible-report for {{ cisco_router_name }}"
+    body: "Executed 'ip route {{ target_server_ip }} 255.255.255.255 {{ fortinet_firewall_ip }}'"
+  delegate_to: localhost

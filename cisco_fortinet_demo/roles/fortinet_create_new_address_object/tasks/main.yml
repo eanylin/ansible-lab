@@ -1,0 +1,20 @@
+---
+- name: Register new address
+  fortios_address:
+    host: "{{ fortinet_firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    state: present
+    name: "{{ target_server }}"
+    type: ipmask
+    value: "{{ target_server_ip }}"
+    comment: "Register {{ target_server }}"
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible-report for {{ fortinet_firewall_node }}"
+    body: "{{ target_server_ip }} address object created"
+  delegate_to: localhost

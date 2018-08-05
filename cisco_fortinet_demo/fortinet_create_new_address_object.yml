@@ -1,0 +1,10 @@
+---
+- name: Create new address object in Fortinet Firewall
+  hosts: "{{ fortinet_firewall_node }}"
+  gather_facts: True
+
+  tasks:
+  - name: Register New Address
+    include_role:
+      name: fortinet_create_new_address_object
+      vars_from: "password.yml"

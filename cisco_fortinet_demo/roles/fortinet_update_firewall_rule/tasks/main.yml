@@ -1,0 +1,25 @@
+---
+- name: Update Fortinet Firewall Rule
+  fortios_ipv4_policy:
+    host: "{{ fortinet_firewall_node }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    id: "{{ firewall_rule_id }}"
+    src_addr: "{{ source_address }}"
+    dst_addr: "{{ destination_address }}"
+    service:
+      - "{{ service_type }}"
+      - "ALL_ICMP"
+      - "SSH"
+    state: "{{ firewall_rule_state }}"
+    policy_action: "{{ policy_action }}"
+  register: result
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible-report for {{ fortinet_firewall_node }}"
+    body: "{{ result.change_string }}"
+  delegate_to: localhost

@@ -1,0 +1,10 @@
+---
+- name: Backup Fortinet Firewall Configurations
+  hosts: "{{ fortinet_firewall_node }}"
+  gather_facts: True
+
+  tasks:
+  - name: Backup Fortinet Config
+    include_role:
+      name: fortinet_backup_config
+      vars_from: "password.yml"
