@@ -1,0 +1,8 @@
+---
+- name: Add Windows VM to Ansible Tower Inventory
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  roles:
+    - add_host_to_tower_inventory

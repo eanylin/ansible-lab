@@ -1,0 +1,10 @@
+---
+- name: Windows Join Domain
+  hosts: "{{ windows_vm_hostname }}"
+  gather_facts: false
+
+  tasks:
+  - name: Join Windows Domain
+    include_role:
+      name: windows_join_domain
+      vars_from: "password.yml"

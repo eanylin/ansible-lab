@@ -1,0 +1,21 @@
+---
+- name: Install IIS Web-Server with sub features and management tools
+  win_feature:
+    name: Web-Server
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+  register: win_feature
+
+- name: reboot if installing Web-Server feature requires it
+  win_reboot:
+  when: win_feature.reboot_required
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "IIS has been successfully installed on {{ windows_vm_hostname }}"
+  delegate_to: localhost

@@ -1,0 +1,24 @@
+---
+- name: Add Windows 2012r2 VM to Tower Inventory
+  tower_host:
+    name: "{{ windows_vm_hostname }}"
+    description: "Add VM to Tower Inventory"
+    inventory: "{{ tower_inventory_name }}"
+    state: present
+    tower_verify_ssl: no
+    variables: |+
+      ---
+      ansible_host: "{{ windows_vm_ip }}"
+      ansible_connection: winrm
+      ansible_port: 5986
+      ansible_winrm_server_cert_validation: ignore
+      ansible_winrm_transport: credssp
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "{{ windows_vm_hostname }} has been added to Ansible Tower Inventory"
+  delegate_to: localhost

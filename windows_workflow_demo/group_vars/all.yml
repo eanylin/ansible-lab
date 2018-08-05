@@ -1,0 +1,14 @@
+---
+domain_user: 'administrator@DOMAIN.COM'
+gateway_ip: '172.16.100.1'
+netmask: '255.255.255.0'
+vm_cpu: 1
+vm_datacenter: 'Demo'
+vm_datastore: 'datastore1'
+vm_disk_size: 40
+vm_disk_type: 'thin'
+vm_dns_server: '172.16.100.131'
+vm_domain: 'domain.com'
+vm_network: 'VM Network'
+vm_ram: 4096
+vm_template: 'windows'

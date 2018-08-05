@@ -1,0 +1,25 @@
+---
+- win_domain_membership:
+    dns_domain_name: "{{ vm_domain }}"
+    hostname: "{{ windows_vm_hostname }}"
+    domain_admin_user: "{{ domain_user }}"
+    domain_admin_password: "{{ domain_password }}"
+    state: domain
+  register: domain_state
+
+- win_reboot:
+  when: domain_state.reboot_required
+
+- name: Wait 300 seconds. Start checking after 30 seconds.
+  wait_for_connection:
+    delay: 30
+    timeout: 300
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "{{ windows_vm_hostname }} has been successfully joined the {{ vm_domain }} domain"
+  delegate_to: localhost

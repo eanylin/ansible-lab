@@ -1,0 +1,10 @@
+[windows_vm]
+win2k12r2 ansible_host=172.16.100.151
+
+[windows_vm:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_user=administrator
+ansible_password=mypassword
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport=credssp

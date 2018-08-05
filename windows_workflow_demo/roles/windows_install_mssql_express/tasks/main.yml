@@ -1,0 +1,58 @@
+---
+- name: Create a directory for installer download
+  win_file:
+     path: c:\sql
+     state: directory
+
+- name: Create a directory for installer extraction
+  win_file:
+     path: c:\sql\installer
+     state: directory
+
+- name: Create the configuration file
+  win_template:
+    src: templates/sql_conf.ini.j2
+    dest: c:\sql\sql_conf.ini
+
+- name: A pre-requisite of sql net-framework-35
+  win_feature:
+     name: NET-Framework-Core
+     state: present
+
+- name: Check downloaded file exists
+  win_stat:
+     path: c:\sql\sql_installer.exe
+  register: installer_file
+
+- name: Get the installer
+  win_get_url:
+       url: 'http://download.microsoft.com/download/E/A/E/EAE6F7FC-767A-4038-A954-49B8B05D04EB/ExpressAndTools%2064BIT/SQLEXPRWT_x64_ENU.exe'
+       dest: 'c:\sql\sql_installer.exe'
+  when: not installer_file.stat.exists
+
+- name: Extract the installer
+  win_command: c:\sql\sql_installer.exe /q /x:c:\sql\installer
+  args:
+   chdir: c:\sql
+   creates: c:\sql\installer\setup.exe
+
+- name: Install the database
+  win_command: c:\sql\installer\setup.exe /configurationfile=c:\sql\sql_conf.ini
+  args:
+   chdir: c:\sql
+
+- name: Add or update registry for ip port
+  win_regedit:
+    path: 'HKLM:\Software\Microsoft\Microsoft SQL Server\MSSQL12.{{ sql_instance_name }}\MSSQLServer\SuperSocketNetLib\Tcp\IPAll'
+    name: TcpPort
+    data: 1433
+  register: win_reg
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "MS SQL 2014 Express has been successfully installed on {{ windows_vm_hostname }}"
+  delegate_to: localhost

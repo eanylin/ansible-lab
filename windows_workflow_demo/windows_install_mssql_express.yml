@@ -1,0 +1,11 @@
+---
+- name: Install MS SQL 2014 Express
+  hosts: "{{ windows_vm_hostname }}"
+  gather_facts: True
+  vars:
+   sql_instance_name: MSSQLSERVER
+
+  tasks:
+  - name: Install MS SQL Express
+    include_role:
+      name: windows_install_mssql_express

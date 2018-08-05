@@ -1,0 +1,10 @@
+---
+- name: Create Windows 2012r2 VM
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Provision Windows 2012r2 VM
+    include_role:
+      name: provision_windows_vm
+      vars_from: "password.yml"
