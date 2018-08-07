@@ -7,12 +7,12 @@
     id: "{{ firewall_rule_id }}"
     src_addr: "{{ source_address }}"
     dst_addr: "{{ destination_address }}"
-    service:
-      - "{{ service_type }}"
-      - "ALL_ICMP"
-      - "SSH"
+    service: "{{ item }}"
     state: "{{ firewall_rule_state }}"
     policy_action: "{{ policy_action }}"
+    loop:
+    - "{{ service_type.split(',') }}"
+
   register: result
 
 - name: Sending notification email
