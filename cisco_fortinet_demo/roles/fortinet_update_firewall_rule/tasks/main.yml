@@ -10,8 +10,8 @@
     service: "{{ item }}"
     state: "{{ firewall_rule_state }}"
     policy_action: "{{ policy_action }}"
-    loop:
-    - "{{ service_type.split(',') }}"
+  loop:
+  - "{{ service_type.split(',') }}"
 
   register: result
 
