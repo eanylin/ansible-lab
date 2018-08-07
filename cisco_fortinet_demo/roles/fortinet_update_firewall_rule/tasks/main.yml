@@ -14,14 +14,11 @@
   - "{{ service_type.split(',') }}"
   register: result
 
-- debug:
-    msg: "{{ result }}"
-
 - name: Sending notification email
   mail:
     host: localhost
     port: 25
     to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: "Ansible-report for {{ fortinet_firewall_node }}"
-    body: "{{ result.change_string }}"
+    body: "{{ result.results }}"
   delegate_to: localhost
