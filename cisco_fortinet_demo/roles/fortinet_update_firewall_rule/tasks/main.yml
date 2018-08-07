@@ -12,7 +12,6 @@
     policy_action: "{{ policy_action }}"
   loop:
   - "{{ service_type.split(',') }}"
-
   register: result
 
 - name: Sending notification email
