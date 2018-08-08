@@ -5,7 +5,7 @@
     validate_certs: False
     folder: "/{{ vm_datacenter }}/vm"
     name: "{{ windows_vm_hostname }}"
-    state: poweron
+    state: poweredon
     template: "{{ vm_template }}"
     disk:
     - size_gb: "{{ vm_disk_size }}"
