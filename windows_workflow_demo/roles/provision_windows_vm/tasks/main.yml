@@ -5,7 +5,7 @@
     validate_certs: False
     folder: "/{{ vm_datacenter }}/vm"
     name: "{{ windows_vm_hostname }}"
-    state: poweredon
+    state: present
     template: "{{ vm_template }}"
     disk:
     - size_gb: "{{ vm_disk_size }}"
@@ -14,6 +14,21 @@
     hardware:
       memory_mb: "{{ vm_ram }}"
       num_cpus: "{{ vm_cpu }}"
+    networks:
+    - name: "{{ vm_network }}"
+      ip: "{{ windows_vm_ip }}"
+      netmask: "{{ netmask }}"
+      gateway: "{{ gateway_ip }}"
+      dns_servers:
+      - "{{ vm_dns_server }}"
+    wait_for_ip_address: yes
+    customization:
+      autologon: yes
+      domain: "{{ vm_domain }}"
+      dns_servers:
+      - "{{ vm_dns_server }}"
+      hostname: "{{ windows_vm_hostname }}"
+      password: "{{ win_vm_password }}"
   delegate_to: localhost
 
 - name: Wait for VM to be ready
