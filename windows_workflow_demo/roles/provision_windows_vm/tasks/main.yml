@@ -11,6 +11,9 @@
     - size_gb: "{{ vm_disk_size }}"
       type: "{{ vm_disk_type }}"
       datastore: "{{ vm_datastore }}"
+    - size_gb: 10
+      type: "{{ vm_disk_type }}"
+      datastore: "{{ vm_datastore }}"
     hardware:
       memory_mb: "{{ vm_ram }}"
       num_cpus: "{{ vm_cpu }}"
