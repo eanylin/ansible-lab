@@ -4,8 +4,6 @@
     lines:
       - "permit ip {{ source_ip_segment }} {{ source_ip_segment_mask }} {{ destination_ip_segment }} {{ destination_ip_mask }}"
     parents: "ip access-list extended {{ ip_access_list }}"
-    before: "no ip access-list extended {{ ip_access_list }}"
-    match: exact
     backup: yes
 
 - name: Apply Management ACL

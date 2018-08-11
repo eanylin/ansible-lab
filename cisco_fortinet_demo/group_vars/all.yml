@@ -1,3 +1,4 @@
 ---
-fortinet_username: admin
 fortinet_config_backup_path: /tmp/forti_backup/
+fortinet_username: admin
+ip_access_list: acl_mgmt
