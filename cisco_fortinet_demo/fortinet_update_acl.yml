@@ -1,6 +1,6 @@
 ---
 - name: Update Fortinet Firewall Rule
-  hosts: "{{ fortinet_firewall_node }}"
+  hosts: "{{ fortinet_firewall_ip }}"
   gather_facts: True
 
   tasks:

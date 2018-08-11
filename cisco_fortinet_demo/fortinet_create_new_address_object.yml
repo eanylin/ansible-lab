@@ -1,6 +1,6 @@
 ---
 - name: Create new address object in Fortinet Firewall
-  hosts: "{{ fortinet_firewall_node }}"
+  hosts: "{{ fortinet_firewall_ip }}"
   gather_facts: True
 
   tasks:

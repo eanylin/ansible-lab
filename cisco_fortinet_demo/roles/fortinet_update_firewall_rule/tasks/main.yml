@@ -1,7 +1,7 @@
 ---
 - name: Update Fortinet Firewall Rule
   fortios_ipv4_policy:
-    host: "{{ fortinet_firewall_node }}"
+    host: "{{ fortinet_firewall_ip }}"
     username: "{{ fortinet_username }}"
     password: "{{ fortinet_password }}"
     id: "{{ firewall_rule_id }}"
@@ -19,6 +19,6 @@
     host: localhost
     port: 25
     to: Anthony Lin <anthony.lin.test@gmail.com>
-    subject: "Ansible-report for {{ fortinet_firewall_node }}"
+    subject: "Ansible-report for {{ fortinet_firewall_ip }}"
     body: "{{ result.results }}"
   delegate_to: localhost
