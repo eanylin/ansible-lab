@@ -7,7 +7,7 @@
     backup: yes
   loop:
   - "{{ source_ip_segment.split(',') }}"
-  - "{{ source_ip_mask.split(',') }}"
+  - "{{ source_ip_segment_mask.split(',') }}"
   - "{{ destination_ip_segment.split(',') }}"
   - "{{ destination_ip_mask.split(',') }}"
 
