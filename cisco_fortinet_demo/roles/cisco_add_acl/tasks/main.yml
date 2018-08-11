@@ -2,16 +2,16 @@
 - name: Backup current config and Create ACL
   ios_config:
     lines:
-      - "permit ip {{ source_ip_segment }} {{ source_ip_segment_mask }} {{ destination_ip_segment }}"
-    parents: ip access-list extended acl_mgmt
-    before: no ip access-list extended acl_mgmt
+      - "permit ip {{ source_ip_segment }} {{ source_ip_segment_mask }} {{ destination_ip_segment }} {{ destination_ip_mask }}"
+    parents: "ip access-list extended {{ ip_access_list }}"
+    before: "no ip access-list extended {{ ip_access_list }}"
     match: exact
     backup: yes
 
 - name: Apply Management ACL
   ios_config:
     lines:
-      - "ip access-group acl_mgmt in"
+      - "ip access-group {{ ip_access_list }} in"
     parents: interface GigabitEthernet1
 
 - name: Save running to startup when modified
