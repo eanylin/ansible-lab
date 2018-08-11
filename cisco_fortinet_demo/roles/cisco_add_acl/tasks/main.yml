@@ -5,12 +5,11 @@
       - "permit ip {{ source_ip_segment }} {{ source_ip_segment_mask }} {{ destination_ip_segment }} {{ destination_ip_mask }}"
     parents: "ip access-list extended {{ ip_access_list }}"
     backup: yes
-
-- name: Apply Management ACL
-  ios_config:
-    lines:
-      - "ip access-group {{ ip_access_list }} in"
-    parents: interface GigabitEthernet1
+  loop:
+  - "{{ source_ip_segment.split(',') }}"
+  - "{{ source_ip_mask.split(',') }}"
+  - "{{ destination_ip_segment.split(',') }}"
+  - "{{ destination_ip_mask.split(',') }}"
 
 - name: Save running to startup when modified
   ios_config:
