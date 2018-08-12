@@ -20,7 +20,7 @@
     host: "{{ fortinet_firewall_ip }}"
     username: "{{ fortinet_username }}"
     password: "{{ fortinet_password }}"
-    id: "{{ random_id | int + 1 }}"
+    id: "{{ random_id }}"
     src_addr: "{{ address_object.dest_ip_address[item|int -1] }}"
     dst_addr: "{{ address_object.src_ip_address[item|int -1] }}"
     service: "{{ service_types }}"
