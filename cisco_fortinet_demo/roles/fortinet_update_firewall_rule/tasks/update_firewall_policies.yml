@@ -1,15 +1,15 @@
 ---
 - name: Update Fortinet Firewall Rule
   fortios_ipv4_policy:
-  host: "{{ fortinet_firewall_ip }}"
-  username: "{{ fortinet_username }}"
-  password: "{{ fortinet_password }}"
-  id: "{{ firewall_rule_id }}"
-  src_addr: "{{ address_object.src_ip_address[item|int -1] }}"
-  dst_addr: "{{ address_object.dest_ip_address[item|int -1] }}"
-  service: "{{ service_types }}"
-  state: "{{ firewall_rule_state }}"
-  policy_action: "{{ policy_action }}"
+    host: "{{ fortinet_firewall_ip }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    id: "{{ firewall_rule_id }}"
+    src_addr: "{{ address_object.src_ip_address[item|int -1] }}"
+    dst_addr: "{{ address_object.dest_ip_address[item|int -1] }}"
+    service: "{{ service_types }}"
+    state: "{{ firewall_rule_state }}"
+    policy_action: "{{ policy_action }}"
   loop:
   - { src_ip_address: "{{ source_address.split(',') }}", dest_ip_address: "{{ destination_address.split(',') }}" }
   loop_control:
