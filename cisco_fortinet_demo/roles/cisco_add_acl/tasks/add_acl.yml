@@ -1,0 +1,11 @@
+---
+- name: Backup current config and Create ACL
+  ios_config:
+    lines:
+      - "permit ip {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }} {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }}"
+    parents: "ip access-list extended {{ ip_access_list }}"
+    backup: yes
+  loop:
+  - { src_ip: "{{ source_ip_segment.split(',') }}", src_mask: "{{ source_ip_segment_mask.split(',') }}", dest_ip: "{{ destination_ip_segment.split(',') }}", dest_mask: "{{ destination_ip_segment_mask.split(',') }}" }
+  loop_control:
+    loop_var: ip_mask

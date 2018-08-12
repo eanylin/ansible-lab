@@ -1,16 +1,7 @@
 ---
-- name: Backup current config and Create ACL
-  ios_config:
-    lines:
-      - "permit ip {{ source_ip_segment }} {{ source_ip_segment_mask }} {{ destination_ip_segment }} {{ destination_ip_mask }}"
-    parents: "ip access-list extended {{ ip_access_list }}"
-    backup: yes
-  loop:
-  - "{{ source_ip_segment.split(',') }}"
-  - "{{ source_ip_segment_mask.split(',') }}"
-  - "{{ destination_ip_segment.split(',') }}"
-  - "{{ destination_ip_mask.split(',') }}"
+- include_tasks: add_acl.yml
+  with_sequence: start=1 end={{ number_of_ip_segments }}
 
-- name: Save running to startup when modified
+- name: Save running config to startup when modified
   ios_config:
     save_when: modified
