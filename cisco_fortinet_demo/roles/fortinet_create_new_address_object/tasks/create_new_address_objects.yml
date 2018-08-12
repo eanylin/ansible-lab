@@ -10,6 +10,6 @@
     value: "{{ address_item.address_object_ip_segment_subnet[item|int -1] }}"
     comment: "Register {{ address_item.address_object[item|int -1] }}"
   loop:
-  - { address_object: "{{ ip_segment_server.split(',') }}", address_object_ip_segment_subnet: "{{ destination_ip_segment.split(',') }}" }
+  - { address_object: "{{ ip_segment_server.split(',') }}", address_object_ip_segment_subnet: "{{ ip_segment_server_subnet.split(',') }}" }
   loop_control:
     loop_var: address_item
