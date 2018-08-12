@@ -1,7 +1,9 @@
 ---
-- name: Create new address object in Fortinet Firewall
+- name: Create new address objects in Fortinet Firewall
   hosts: "{{ fortinet_firewall_ip }}"
   gather_facts: True
+  vars:
+    number_of_ip_segments: "{{ ip_segment_server.split(',') | length }}"
 
   tasks:
   - name: Register New Address

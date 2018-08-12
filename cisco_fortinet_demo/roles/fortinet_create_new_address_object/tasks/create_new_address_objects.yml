@@ -1,0 +1,15 @@
+---
+- name: Register new address
+  fortios_address:
+    host: "{{ fortinet_firewall_ip }}"
+    username: "{{ fortinet_username }}"
+    password: "{{ fortinet_password }}"
+    state: present
+    name: "{{ address_item.address_object[item|int -1] }}"
+    type: ipmask
+    value: "{{ address_item.address_object_ip_segment_subnet[item|int -1] }}"
+    comment: "Register {{ address_item.address_object[item|int -1] }}"
+  loop:
+  - { address_object: "{{ ip_segment_server.split(',') }}", address_object_ip_segment_subnet: "{{ destination_ip_segment.split(',') }}" }
+  loop_control:
+    loop_var: address_item

@@ -2,6 +2,8 @@
 - name: Update Fortinet Firewall Rule
   hosts: "{{ fortinet_firewall_ip }}"
   gather_facts: True
+  vars:
+    number_of_ip_segments: "{{ source_ip_segment.split(',') | length }}"
 
   tasks:
   - name: Update ACL

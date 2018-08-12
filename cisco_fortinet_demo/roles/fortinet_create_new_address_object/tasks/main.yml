@@ -1,20 +1,3 @@
 ---
-- name: Register new address
-  fortios_address:
-    host: "{{ fortinet_firewall_ip }}"
-    username: "{{ fortinet_username }}"
-    password: "{{ fortinet_password }}"
-    state: present
-    name: "{{ ip_segment_server }}"
-    type: ipmask
-    value: "{{ ip_segment_server_subnet }}"
-    comment: "Register {{ ip_segment_server }}"
-
-- name: Sending notification email
-  mail:
-    host: localhost
-    port: 25
-    to: Anthony Lin <anthony.lin.test@gmail.com>
-    subject: "Ansible-report for {{ fortinet_firewall_ip }}"
-    body: "{{ ip_segment_server }} address object created"
-  delegate_to: localhost
+- include_tasks: create_new_address_objects.yml
+  with_sequence: start=1 end={{ number_of_ip_segments }}
