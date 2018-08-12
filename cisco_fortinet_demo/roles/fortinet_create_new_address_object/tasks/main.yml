@@ -5,10 +5,10 @@
     username: "{{ fortinet_username }}"
     password: "{{ fortinet_password }}"
     state: present
-    name: "{{ target_server }}"
+    name: "{{ ip_segment_server }}"
     type: ipmask
-    value: "{{ target_server_ip }}"
-    comment: "Register {{ target_server }}"
+    value: "{{ ip_segment_server_subnet }}"
+    comment: "Register {{ ip_segment_server }}"
 
 - name: Sending notification email
   mail:
@@ -16,5 +16,5 @@
     port: 25
     to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: "Ansible-report for {{ fortinet_firewall_ip }}"
-    body: "{{ target_server_ip }} address object created"
+    body: "{{ ip_segment_server }} address object created"
   delegate_to: localhost
