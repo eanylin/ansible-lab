@@ -3,7 +3,7 @@
   hosts: "{{ fortinet_firewall_ip }}"
   gather_facts: True
   vars:
-    number_of_ip_segments: "{{ source_ip_segment.split(',') | length }}"
+    number_of_ip_segments: "{{ source_address.split(',') | length }}"
 
   tasks:
   - name: Update ACL
