@@ -4,7 +4,7 @@
   gather_facts: True
   vars:
     number_of_address_segments: "{{ source_address.split(',') | length }}"
-    random_id: "{{ 10240 | random }}"
+    random_id: "{{ 1000 | random }}"
 
   tasks:
   - name: Update ACL
