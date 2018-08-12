@@ -1,4 +1,8 @@
 ---
+- name: Backup current running config
+  ios_config:
+    backup: yes
+
 - include_tasks: add_acl.yml
   with_sequence: start=1 end={{ number_of_ip_segments }}
 
