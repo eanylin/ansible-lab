@@ -9,7 +9,7 @@
 - name: Apply ACL to interface
   ios_config:
     lines:
-      - "ip access-group {{ ip_access_list }] in"
+      - "ip access-group {{ ip_access_list }} in"
     parents: "interface {{ router_ip_interface }}"
   when: router_ip_interface is defined
 
