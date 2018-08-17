@@ -6,6 +6,13 @@
 - include_tasks: add_acl.yml
   with_sequence: start=1 end={{ number_of_ip_segments }}
 
+- name: Apply ACL to interface
+  ios_config:
+    lines:
+      - "ip access-group {{ ip_access_list }] in"
+    parents: "interface {{ router_ip_interface }}"
+  when: router_ip_interface is defined
+
 - name: Save running config to startup when modified
   ios_config:
     save_when: modified
