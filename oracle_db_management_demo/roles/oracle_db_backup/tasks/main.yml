@@ -3,7 +3,9 @@
   file:
     path: "{{ db_backup_directory }}"
     state: directory
-    mode: 0755
+    owner: oracle
+    group: dba
+    mode: 0644
 
 - name: Backup Oracle DB
   shell:
