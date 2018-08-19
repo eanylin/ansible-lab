@@ -27,4 +27,4 @@
 
 - name: Print Table Query Output
   debug:
-    msg: "{{ query_output.stdout_lines }}"
+    msg: "{{ query_output }}"
