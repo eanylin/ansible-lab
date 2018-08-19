@@ -31,7 +31,7 @@
     cmd: |
       sqlplus -s /nolog << EOF
       connect {{ db_user }}/{{ db_password }}
-      {{ db_action }} {{ db_table }} set {{ update_entry }} where {{ target_entry }};
+      {{ db_action }} {{ db_table }} set {{ update_column_values }} where {{ required_conditions }};
       quit
       EOF
   register: update_entry_output
@@ -57,7 +57,7 @@
     cmd: |
       sqlplus -s /nolog << EOF
       connect {{ db_user }}/{{ db_password }}
-      {{ db_action }} from {{ db_table }} where {{ target_entry }};
+      {{ db_action }} from {{ db_table }} where {{ required_conditions }};
       quit
       EOF
   register: delete_entry_output

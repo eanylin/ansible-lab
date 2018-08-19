@@ -1,6 +1,6 @@
 ---
 - name: Oracle Database 11g Express 11.2.0.2.0 SQL Script Execution
-  hosts: oracle_xe_db
+  hosts: "{{ oracle_db }}"
   gather_facts: True
   environment:
     ORACLE_HOME: "{{ db_home }}"

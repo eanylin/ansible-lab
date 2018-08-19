@@ -7,10 +7,22 @@
       set linesize 10000
       set tab off
       set wrap off
-      select {{ db_columns }} from {{ db_table }};
+      {{ db_action }} {{ db_columns }} from {{ db_table }};
       quit
       EOF
   register: query_output
+  when: db_action == "select"
+
+- name: Describe Table
+  shell:
+    cmd: |
+      sqlplus -s /nolog << EOF
+      connect {{ db_user }}/{{ db_password }}
+      {{ db_action }} {{ db_table }};
+      quit
+      EOF
+  register: query_output
+  when: db_action == "describe"
 
 - name: Print Table Query Output
   debug:
