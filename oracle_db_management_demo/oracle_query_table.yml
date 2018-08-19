@@ -1,0 +1,14 @@
+---
+- name: Oracle Database 11g Express 11.2.0.2.0 Query
+  hosts: oracle_xe_db
+  gather_facts: True
+  environment:
+    ORACLE_HOME: "{{ db_home }}"
+    PATH: "{{ db_path }}"
+    ORACLE_SID: "{{ db_sid }}"
+
+  tasks:
+  - name: Query Table
+    include_role:
+      name: oracle_query_table
+      vars_from: "password.yml"

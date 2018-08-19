@@ -1,0 +1,6 @@
+[oracle_db]
+oracle_xe_db ansible_host=172.16.100.11
+
+[oracle_db:vars]
+ansible_password=mypassword
+ansible_user=oracle

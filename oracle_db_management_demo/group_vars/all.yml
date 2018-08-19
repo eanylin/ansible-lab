@@ -1,0 +1,16 @@
+---
+db_action: update
+db_columns: 'EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department'
+db_column_value: "7, 'Jonny', 'Yang', 'Male', 'Chief Technology Officer', 'Technology'"
+db_home: /u01/app/oracle/product/11.2.0/xe
+db_password: mypassword
+db_path: /u01/app/oracle/product/11.2.0/xe/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+db_sid: XE
+db_table: employees
+db_user: anthony
+dest_path: /tmp/create_employees_table.sql
+src_template: templates/create_employees_table.sql.j2
+sys_password: mypassword
+sys_user: sys
+target_entry: "emp_id=6"
+update_entry: "JOB_TITLE='Engineer', DEPARTMENT='Technology'"

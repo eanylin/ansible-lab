@@ -1,0 +1,17 @@
+---
+- name: Query Table
+  shell:
+    cmd: |
+      sqlplus -s /nolog << EOF
+      connect {{ db_user }}/{{ db_password }}
+      set linesize 10000
+      set tab off
+      set wrap off
+      select {{ db_columns }} from {{ db_table }};
+      quit
+      EOF
+  register: query_output
+
+- name: Print Table Query Output
+  debug:
+    msg: "{{ query_output.stdout_lines }}"

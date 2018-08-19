@@ -1,0 +1,42 @@
+--Drop existing employees table, if it exists
+drop table employees;
+
+--Create employees table
+create table employees
+(
+  EMP_ID int not null,
+  First_Name varchar(15),
+  Last_Name varchar(15),
+  Gender varchar(10),
+  Job_Title varchar(35),
+  Department varchar(25),
+  primary key(EMP_ID)
+);
+
+--Create initial set of data
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (1, 'Martin', 'Taylor', 'Male', 'Chief Executive Officer', 'CEO');
+
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (2, 'Ron', 'Norman', 'Male', 'Marketing Manager', 'Marketing');
+
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (3, 'Mike', 'Copperfield', 'Male', 'Chief Financial Officer', 'Finance');
+
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (4, 'Linda', 'Hunter', 'Female', 'Chief Information Officer', 'Technology');
+
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (5, 'Alice', 'Sumpson', 'Female', 'Accounts Manager', 'Sales');
+
+insert into employees (EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department)
+values (6, 'Ron', 'Smith', 'Male', 'Engineer', 'Engineering');
+
+--Set format
+set linesize 10000
+set tab off
+set wrap off
+
+--Query employees table
+select * from employees;
+exit;

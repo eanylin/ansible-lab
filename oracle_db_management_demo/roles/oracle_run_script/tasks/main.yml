@@ -1,0 +1,13 @@
+---
+- name: Copy script to Oracle DB node
+  template:
+    src: "{{ src_template }}"
+    dest: "{{ dest_path }}"
+
+- name: Execute Script
+  command: "sqlplus -s {{ db_user }}/{{ db_password }} @{{ dest_path }}"
+  register: run_script_output
+
+- name: Print Execute Script Output
+  debug:
+    msg: "{{ run_script_output.stdout_lines }}"

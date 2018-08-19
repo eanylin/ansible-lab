@@ -1,0 +1,14 @@
+---
+- name: Oracle Database 11g Express 11.2.0.2.0 SQL Script Execution
+  hosts: oracle_xe_db
+  gather_facts: True
+  environment:
+    ORACLE_HOME: "{{ db_home }}"
+    PATH: "{{ db_path }}"
+    ORACLE_SID: "{{ db_sid }}"
+
+  tasks:
+  - name: SQL Script Execution
+    include_role:
+      name: oracle_run_script
+      vars_from: "password.yml"

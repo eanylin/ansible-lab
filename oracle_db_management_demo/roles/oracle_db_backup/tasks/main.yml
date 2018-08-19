@@ -1,0 +1,15 @@
+---
+- name: Backup Oracle DB
+  shell:
+    cmd: |
+      rman << EOF
+      connect target {{ sys_user }}/{{ sys_password }}@{{ db_sid }}
+      run {
+      backup database plus archivelog;
+      }
+      quit
+      EOF
+  register: oracle_backup_result
+
+- debug:
+    msg: "{{ oracle_backup_result.stdout_lines }}"

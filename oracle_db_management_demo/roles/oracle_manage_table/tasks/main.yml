@@ -1,0 +1,79 @@
+---
+- name: Insert Entry into Table
+  shell:
+    cmd: |
+      sqlplus -s /nolog << EOF
+      connect {{ db_user }}/{{ db_password }}
+      {{ db_action }} into {{ db_table }} ({{ db_columns }})
+      values ({{ db_column_value }});
+      quit
+      EOF
+  register: insert_entry_output
+  when: db_action == "insert"
+
+- name: Check Insert Entry Result
+  block:
+    - name: Row created successfully
+      debug:
+        msg: "New Entry Created Successfully"
+      when:
+        - insert_entry_output.stdout == "\n1 row created."
+
+    - name: Row creation failed
+      fail:
+        msg: "Entry Creation Failed with ERROR - {{ insert_entry_output.stdout }}"
+      when:
+        - insert_entry_output.stdout != "\n1 row created."
+  when: db_action == "insert"
+
+- name: Update Table Entry
+  shell:
+    cmd: |
+      sqlplus -s /nolog << EOF
+      connect {{ db_user }}/{{ db_password }}
+      {{ db_action }} {{ db_table }} set {{ update_entry }} where {{ target_entry }};
+      quit
+      EOF
+  register: update_entry_output
+  when: db_action == "update"
+
+- name: Check Update Entry Result
+  block:
+    - name: Entry updated successfully
+      debug:
+        msg: "Entry Updated Successfully"
+      when:
+        - update_entry_output.stdout == "\n1 row updated."
+
+    - name: Row update failed
+      fail:
+        msg: "Entry Update Failed with ERROR - {{ update_entry_output.stdout }}"
+      when:
+        - update_entry_output.stdout != "\n1 row updated."
+  when: db_action == "update"
+
+- name: Delete Entry from Table
+  shell:
+    cmd: |
+      sqlplus -s /nolog << EOF
+      connect {{ db_user }}/{{ db_password }}
+      {{ db_action }} from {{ db_table }} where {{ target_entry }};
+      quit
+      EOF
+  register: delete_entry_output
+  when: db_action == "delete"
+
+- name: Check Delete Entry Result
+  block:
+    - name: Row deleted successfully
+      debug:
+        msg: "Entry Deleted Successfully"
+      when:
+        - delete_entry_output.stdout == "\n1 row deleted."
+
+    - name: Row deletion failed
+      fail:
+        msg: "Entry Deletion Failed with ERROR - {{ delete_entry_output.stdout }}"
+      when:
+        - delete_entry_output.stdout != "\n1 row deleted."
+  when: db_action == "delete"
