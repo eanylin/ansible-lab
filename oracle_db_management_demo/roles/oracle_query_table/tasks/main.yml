@@ -28,7 +28,7 @@
 - name: Fails Playbook if Error Detected
   fail:
     msg: "Following Errors Detected - {{ query_output.stdout_lines }}"
-  when: "ERROR:" in query_output.stdout_lines
+  when: '"ERROR:" in query_output.stdout_lines'
 
 - name: Print Table Query Output
   debug:
