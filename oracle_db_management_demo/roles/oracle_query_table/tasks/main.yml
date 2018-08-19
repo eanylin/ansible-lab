@@ -18,6 +18,7 @@
     cmd: |
       sqlplus -s /nolog << EOF
       connect {{ db_user }}/{{ db_password }}
+      set tab off
       {{ db_action }} {{ db_table }};
       quit
       EOF
