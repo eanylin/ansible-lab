@@ -1,30 +1,36 @@
 ---
 - name: Query Table
-  shell:
-    cmd: |
-      sqlplus -s /nolog << EOF
-      connect {{ db_user }}/{{ db_password }}
-      set linesize 10000
-      set tab off
-      set wrap off
-      {{ db_action }} {{ db_columns }} from {{ db_table }};
-      quit
-      EOF
-  register: query_output
+  block:
+    - shell:
+        cmd: |
+          sqlplus -s /nolog << EOF
+          connect {{ db_user }}/{{ db_password }}
+          set linesize 10000
+          set tab off
+          set wrap off
+          {{ db_action }} {{ db_columns }} from {{ db_table }};
+          quit
+          EOF
+      register: query_output
+
+    - name: Print Table Query Output
+      debug:
+        msg: "{{ query_output.stdout_lines }}"
   when: db_action == "select"
 
 - name: Describe Table
-  shell:
-    cmd: |
-      sqlplus -s /nolog << EOF
-      connect {{ db_user }}/{{ db_password }}
-      set tab off
-      {{ db_action }} {{ db_table }};
-      quit
-      EOF
-  register: query_output
-  when: db_action == "describe"
+  block:
+    - shell:
+        cmd: |
+          sqlplus -s /nolog << EOF
+          connect {{ db_user }}/{{ db_password }}
+          set tab off
+          {{ db_action }} {{ db_table }};
+          quit
+          EOF
+      register: describe_output
 
-- name: Print Table Query Output
-  debug:
-    msg: "{{ query_output }}"
+    - name: Print Describe Table Output
+      debug:
+        msg: "{{ describe_output.stdout_lines }}"
+  when: db_action == "describe"
