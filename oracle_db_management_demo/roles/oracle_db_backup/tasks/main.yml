@@ -1,4 +1,10 @@
 ---
+- name: Create Oracle DB Backup Directory if it does not exists
+  file:
+    path: "{{ db_backup_directory }}"
+    state: directory
+    mode: 0755
+
 - name: Backup Oracle DB
   shell:
     cmd: |

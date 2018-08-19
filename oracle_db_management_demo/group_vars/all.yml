@@ -1,5 +1,6 @@
 ---
 db_action: update
+db_backup_directory: /home/oracle/oracle_instance_backup
 db_columns: 'EMP_ID, First_Name, Last_Name, Gender, Job_Title, Department'
 db_column_value: "7, 'Jonny', 'Yang', 'Male', 'Chief Technology Officer', 'Technology'"
 db_home: /u01/app/oracle/product/11.2.0/xe
