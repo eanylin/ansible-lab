@@ -14,4 +14,4 @@ required_conditions: "emp_id=6"
 src_template: templates/create_employees_table.sql.j2
 sys_password: mypassword
 sys_user: sys
-update_column_values: "JOB_TITLE='Engineer', DEPARTMENT='Technology'"
+update_column_values: "JOB_TITLE='Senior Engineer', DEPARTMENT='Technology'"

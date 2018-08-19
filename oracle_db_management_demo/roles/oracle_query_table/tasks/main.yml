@@ -13,6 +13,11 @@
           EOF
       register: query_output
 
+    - name: Fail if Error
+      fail:
+        msg: "Error Detected - {{ query_output.stdout_lines }}"
+      when: '"ERROR" in query_output.stdout_lines'
+
     - name: Print Table Query Output
       debug:
         msg: "{{ query_output.stdout_lines }}"
@@ -31,6 +36,11 @@
           quit
           EOF
       register: query_output
+
+    - name: Fail if Error
+      fail:
+        msg: "Error Detected - {{ query_output.stdout_lines }}"
+      when: '"ERROR" in query_output.stdout_lines'
 
     - name: Print Table Query Output
       debug:
@@ -52,7 +62,7 @@
     - name: Fail if Error
       fail:
         msg: "Error Detected - {{ describe_output.stdout_lines }}"
-      when: '"ERROR:" in describe_output.stdout_lines'
+      when: '"ERROR" in describe_output.stdout_lines'
 
     - name: Print Describe Table Output
       debug:
