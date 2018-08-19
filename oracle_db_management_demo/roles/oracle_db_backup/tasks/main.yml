@@ -5,7 +5,7 @@
     state: directory
     owner: oracle
     group: dba
-    mode: 0644
+    mode: 0777
 
 - name: Backup Oracle DB
   shell:
