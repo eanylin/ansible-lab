@@ -49,6 +49,10 @@
           EOF
       register: describe_output
 
+    - name: Fail if Error
+      fail:
+        when: '"ERROR:" in describe_output.stdout_lines'
+
     - name: Print Describe Table Output
       debug:
         msg: "{{ describe_output.stdout_lines }}"
