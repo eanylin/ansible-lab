@@ -51,7 +51,7 @@
 
     - name: Fail if Error
       fail:
-        mdg: "Error Detected - {{ describe_output.stdout_lines }}"
+        msg: "Error Detected - {{ describe_output.stdout_lines }}"
       when: '"ERROR:" in describe_output.stdout_lines'
 
     - name: Print Describe Table Output
