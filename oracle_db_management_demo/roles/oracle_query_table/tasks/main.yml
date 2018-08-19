@@ -18,6 +18,25 @@
         msg: "{{ query_output.stdout_lines }}"
   when: db_action == "select"
 
+- name: Query Table - Order By
+  block:
+    - shell:
+        cmd: |
+          sqlplus -s /nolog << EOF
+          connect {{ db_user }}/{{ db_password }}
+          set linesize 10000
+          set tab off
+          set wrap off
+          {{ db_action }} {{ db_columns }} from {{ db_table }} order by {{ column_ordering }};
+          quit
+          EOF
+      register: query_output
+
+    - name: Print Table Query Output
+      debug:
+        msg: "{{ query_output.stdout_lines }}"
+  when: db_action == "select" and column_ordering is defined
+
 - name: Describe Table
   block:
     - shell:
