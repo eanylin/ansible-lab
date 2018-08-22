@@ -4,7 +4,7 @@
 # Note that 'password_expired' has been set to yes in the playbook
 # so that user will have to change their password on next login
 user_info:
-  - { name: 'james', firstname: 'James', surname: 'Jockey', password: 'password', group_name: 'dev', group_scope: 'domainlocal'}
-  - { name: 'jack', firstname: 'Jack', surname: 'Lin', password: 'password', group_name: 'dev', group_scope: 'domainlocal'}
-  - { name: 'mickey', firstname: 'Mickey', surname: 'Mouse', password: 'password', group_name: 'qa', group_scope: 'domainlocal'}
-  - { name: 'donald', firstname: 'Donald', surname: 'Duck', password: 'password', group_name: 'qa', group_scope: 'domainlocal'}
+  - { name: 'james', firstname: 'James', surname: 'Jockey', password: '@Supersecret123', group_name: 'dev', group_scope: 'domainlocal'}
+  - { name: 'jack', firstname: 'Jack', surname: 'Lin', password: '@Supersecret123', group_name: 'dev', group_scope: 'domainlocal'}
+  - { name: 'mickey', firstname: 'Mickey', surname: 'Mouse', password: '@Supersecret123', group_name: 'qa', group_scope: 'domainlocal'}
+  - { name: 'donald', firstname: 'Donald', surname: 'Duck', password: '@Supersecret123', group_name: 'qa', group_scope: 'domainlocal'}
