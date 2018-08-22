@@ -1,0 +1,7 @@
+---
+- name: Add Multiple Windows Users
+  hosts: "{{ windows_ad }}"
+  gather_facts: False
+
+  roles:
+    - add_multiple_win_users

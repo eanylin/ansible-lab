@@ -1,0 +1,7 @@
+---
+- name: Add Windows User
+  hosts: "{{ windows_ad }}"
+  gather_facts: False
+
+  roles:
+    - add_single_win_user

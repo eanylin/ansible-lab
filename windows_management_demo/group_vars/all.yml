@@ -1,0 +1,13 @@
+---
+automatic_reboot_after_update: yes
+check_win_updates_log_path: 'C:\ansible_win_updates.txt'
+win_update_blacklist: 
+  - Windows Malicious Software Removal Tool for Windows
+  - \d{4}-\d{2} Cumulative Update for Windows Server 2016
+win_update_category:
+  - SecurityUpdates
+  - CriticalUpdates
+  - UpdateRollups
+win_update_whitelist:
+  - KB4056892
+  - KB4073117

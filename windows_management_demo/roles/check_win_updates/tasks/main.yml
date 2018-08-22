@@ -1,0 +1,6 @@
+---
+- name: "Search-only, return list of found updates (if any), log to {{ check_win_updates_log_path }}"
+  win_updates:
+    category_names: "{{ win_update_category }}"
+    state: searched
+    log_path: "{{ check_win_updates_log_path }}"

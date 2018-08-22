@@ -1,0 +1,22 @@
+[windows_ad]
+windows_ad1 ansible_host=windows-ad.domain.com
+
+[windows_ad:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_user=Administrator@DOMAIN.COM
+ansible_password=mypassword
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport=kerberos
+ansible_become=false
+
+[windows_vm]
+win_vm ansible_host=172.16.100.51
+
+[windows_vm:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_user=administrator
+ansible_password=mypassword
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport=credssp

@@ -1,0 +1,15 @@
+---
+- name: Create Windows Domain Group if it does not exists
+  win_domain_group:
+    name: "{{ win_group_name }}"
+    scope: "{{ win_group_scope }}"
+    state: present
+
+- name: Create AD User
+  win_domain_user:
+    name: "{{ win_user_name }}"
+    firstname: "{{ win_user_firstname }}"
+    surname: "{{ win_user_surname }}"
+    password: "{{ win_user_password }}"
+    state: present
+    email: "{{ win_user_email }}"
