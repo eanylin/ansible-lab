@@ -6,4 +6,4 @@
     number_of_ip_segments: "{{ source_ip_segment.split(',') | length }}"
 
   roles:
-    - cisco_add_acl 
+    - cisco_add_acl
