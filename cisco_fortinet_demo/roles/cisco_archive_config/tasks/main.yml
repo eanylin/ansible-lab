@@ -1,0 +1,8 @@
+---
+- name: Archive Config
+  ios_command:
+    commands: archive config
+
+- name: Print list of config archives
+  ios_command:
+    commands: show archive
