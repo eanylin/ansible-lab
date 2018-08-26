@@ -1,11 +1,10 @@
 ---
 - name: Create ACL (Bi-directional)
   ios_config:
-    lines: "{% for i in range(3) %}permit {{ ip_protocol[i] }} {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }} {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }},{% endfor %}"
-#      - "permit ip {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }} {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }}"
-#      - "permit ip {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }} {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }}"
+    lines:
+      - "permit ip {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }} {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }}"
+      - "permit ip {{ ip_mask.dest_ip[item|int -1] }} {{ ip_mask.dest_mask[item|int -1] }} {{ ip_mask.src_ip[item|int -1] }} {{ ip_mask.src_mask[item|int -1] }}"
     parents: "ip access-list extended {{ ip_access_list }}"
-    multiline_delimiter: ','
   loop:
   - { src_ip: "{{ source_ip_segment.split(',') }}", src_mask: "{{ source_ip_segment_mask.split(',') }}", dest_ip: "{{ destination_ip_segment.split(',') }}", dest_mask: "{{ destination_ip_segment_mask.split(',') }}" }
   loop_control:
