@@ -1,3 +1,3 @@
 ---
 - include_tasks: update_firewall_policies.yml
-  with_sequence: start=1 end={{ number_of_address_segments }}
+  loop: "{{ range(0, number_of_address_segments|int) | list }}"
