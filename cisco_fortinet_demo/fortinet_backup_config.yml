@@ -11,6 +11,4 @@
   - name: Backup Fortinet Config
     include_role:
       name: fortinet_backup_config
-      vars_from:
-        - "fortinet_connection.yml"
-        - "password.yml"
+      vars_from: "fortinet_connection.yml"
