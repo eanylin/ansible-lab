@@ -1,10 +1,14 @@
 ---
 - name: Backup Fortinet Firewall Configurations
   hosts: "{{ fortinet_firewall_ip }}"
-  gather_facts: True
+  gather_facts: False
 
   tasks:
+  - name: Get current time
+    command: date "+%Y-%m-%d-%H:%M:%S"
+    register: timestamp
+
   - name: Backup Fortinet Config
     include_role:
       name: fortinet_backup_config
-      vars_from: "password.yml"
+      vars_from: "fortinet_connection.yml"
