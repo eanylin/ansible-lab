@@ -1,0 +1,20 @@
+---
+- name: Create MSSQL New User Powershell Script
+  win_template:
+    src: templates/mssql_create_user.ps1.j2
+    dest: C:\mssql_create_user.ps1
+
+- name: Create New MSSQL User and Assign Role
+  win_shell: C:\mssql_create_user.ps1
+
+- name: Get logins and types
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    $SqlServer = {{ sql_server }}
+    $SqlServer = New-Object Microsoft.SqlServer.Management.Smo.Server($SqlServer)
+    $SqlServer.Logins | Select-Object Name, LoginType, Parent
+  register: get_logins_types
+
+- name: Print Logins after Adding User
+  debug:
+    msg: "{{ get_logins_types.stdout_lines }}"

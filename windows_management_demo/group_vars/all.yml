@@ -1,7 +1,14 @@
 ---
 automatic_reboot_after_update: yes
 check_win_updates_log_path: 'C:\ansible_win_updates.txt'
-win_update_blacklist: 
+db_query: Name,Value,Date,ExpiryDate
+db_table: Test_Table
+sql_db_name: Test_Database
+sql_db_role: db_datareader
+sql_new_login_user: Johnny
+sql_new_login_user_password: 'mypassword'
+sql_server: 'WINDOWS2012R2'
+win_update_blacklist:
   - Windows Malicious Software Removal Tool for Windows
   - \d{4}-\d{2} Cumulative Update for Windows Server 2016
 win_update_category:

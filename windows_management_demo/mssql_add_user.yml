@@ -1,7 +1,7 @@
 ---
-- name: Check Windows Update
+- name: MS-SQL Add User
   hosts: "{{ win_vm }}"
   gather_facts: False
 
   roles:
-    - check_win_updates
+    - mssql_add_user

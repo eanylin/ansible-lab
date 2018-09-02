@@ -1,0 +1,15 @@
+---
+- name: Query MS-SQL Table
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    Invoke-Sqlcmd -Database {{ sql_db_name }} -Query "SELECT {{ db_query }} from {{ db_table }}"
+  register: query_mssql_table
+
+- name: Print Query Results
+  debug:
+    msg: "{{ query_mssql_table.stdout_lines }}"
+
+- name: Insert New Entry
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    Invoke-Sqlcmd -Database "Test_Database" -Query "INSERT INTO Test_Database.dbo.Test_Table(Name,value,Date,ExpiryDate) VALUES ('Bill','1650','8/27/2018','8/27/2019')"

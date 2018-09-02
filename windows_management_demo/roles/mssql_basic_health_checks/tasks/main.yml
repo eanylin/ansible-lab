@@ -1,0 +1,49 @@
+---
+- name: Get the list of Running SQL Service
+  win_shell: Get-service *SQL* | Where-Object {$_.status -eq "Running"}
+  register: running_sql_service
+
+- name: Print SQL Services that are running
+  debug:
+    msg: "{{ running_sql_service.stdout_lines }}"
+
+- name: Get the list of Stopped SQL Service
+  win_shell: Get-service *SQL* | Where-Object {$_.status -eq "Stopped"}
+  register: stopped_sql_service
+
+- name: Print SQL Services that are in Stopped State
+  debug:
+    msg: "{{ stopped_sql_service.stdout_lines }}"
+
+- name: Query MSSQL Version
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    Invoke-Sqlcmd -Query "SELECT @@VERSION;"
+  register: mssql_version
+
+- name: Print MSSQL Version
+  debug:
+    msg: "{{ mssql_version.stdout_lines }}"
+
+- name: Query Time
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    Invoke-Sqlcmd -Query "SELECT GETDATE();"
+  register: mssql_date
+
+- name: Print Current Date/Time
+  debug:
+    msg: "{{ mssql_date.stdout_lines }}"
+
+- name: Query Free Disk Space
+  win_shell: |
+    Import-Module "sqlps" -DisableNameChecking
+    Get-WmiObject win32_volume | `
+    where {$_.drivetype -eq 3} | `
+    Sort-Object name | `
+    Format-Table name, label,@{l="size(GB)";e={($_.capacity/1gb).ToString("F2")}},@{l="Free Space(GB)";e={($_.FreeSpace/1gb).ToString("F2")}},@{l="% Free";e={($_.FreeSpace/$_.capacity*100).ToString("F2")}}
+  register: free_disk_space
+
+- name: Print Free Disk Space
+  debug:
+    msg: "{{ free_disk_space.stdout_lines }}"

@@ -1,0 +1,19 @@
+Import-Module "sqlps" -DisableNameChecking
+$SqlServer = "{{ sql_server }}"
+$SqlDBName = "{{ sql_db_name }}"
+$NewLoginUser = "{{ sql_new_login_user }}"
+$NewLoginUserPassword = "{{ sql_new_login_user_password }}"
+$DBUserRole = "{{ sql_db_role }}"
+
+$SqlServer = New-Object Microsoft.SqlServer.Management.Smo.Server($SqlServer)
+
+# Create New Login
+$NewLogin = New-Object Microsoft.SqlServer.Management.Smo.Login($SqlServer, $NewLoginUser)
+$NewLogin.LoginType = [Microsoft.SqlServer.Management.Smo.LoginType]::SqlLogin
+$NewLogin.Create($NewLoginUserPassword)
+
+# Create DB User and Attach Role
+$NewUser = New-Object Microsoft.SqlServer.Management.Smo.User($SqlServer.Databases[$SqlDBName], $NewLoginUser)
+$NewUser.Login = $NewLoginUser
+$NewUser.Create()
+$NewUser.AddToRole($DBUserRole)

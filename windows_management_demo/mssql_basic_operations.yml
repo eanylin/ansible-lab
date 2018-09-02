@@ -1,0 +1,7 @@
+---
+- name: MS-SQL Basic Operations
+  hosts: "{{ win_vm }}"
+  gather_facts: False
+
+  roles:
+    - mssql_basic_health_operations

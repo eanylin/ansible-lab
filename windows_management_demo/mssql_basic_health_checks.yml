@@ -1,0 +1,7 @@
+---
+- name: MS-SQL Basic Health Checks
+  hosts: "{{ win_vm }}"
+  gather_facts: False
+
+  roles:
+    - mssql_basic_health_checks
