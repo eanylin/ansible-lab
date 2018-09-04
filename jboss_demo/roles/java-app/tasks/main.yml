@@ -10,7 +10,7 @@
     deploy_path: /usr/share/jboss-as/standalone/deployments/
     src: "/tmp/{{ war_file }}"
     state: present
-  when: upgrade == False
+  when: upgrade == 'False'
 
 - name: Upgrade Application
   jboss:
@@ -18,7 +18,7 @@
     deploy_path: /usr/share/jboss-as/standalone/deployments/
     src: "/tmp/{{ war_file }}"
     state: present
-  when: upgrade == True
+  when: upgrade == 'True'
 
 - name: Sending notification email for App deployment
   mail:
@@ -28,7 +28,7 @@
     subject: Ansible Report for App Deployment
     body: "{{ app_name }} has been successfully deployed with {{ war_file }}"
   delegate_to: localhost
-  when: upgrade == False
+  when: upgrade == 'False'
 
 - name: Sending notification email for App upgrade
   mail:
@@ -38,4 +38,4 @@
     subject: Ansible Report for App Upgrade
     body: "{{ app_name }} has been successfully upgraded with {{ war_file }}"
   delegate_to: localhost
-  when: upgrade == True
+  when: upgrade == 'True'
