@@ -105,4 +105,3 @@
     subject: Ansible Report
     body: "JBoss Application Server Set Up Successfully"
   delegate_to: localhost
-  when: upgrade == True
