@@ -1,0 +1,8 @@
+---
+# This playbook deploys simple applications to JBoss server
+- name: Deploy Simple Application to JBoss Server
+  hosts: "{{ jboss_server }}"
+  gather_facts: False
+
+  roles:
+    - java-app
