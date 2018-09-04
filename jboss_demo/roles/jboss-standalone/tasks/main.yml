@@ -96,3 +96,13 @@
   with_items:
   - "{{ http_port }}/tcp"
   - "{{ https_port }}/tcp"
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible Report
+    body: "JBoss Application Server Set Up Successfully"
+  delegate_to: localhost
+  when: upgrade == True
