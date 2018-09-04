@@ -6,7 +6,7 @@
 
 - name: Deployment of new application to JBoss
   jboss:
-    deployment: "{{ app_name }}"
+    deployment: "{{ app_name }}.war"
     deploy_path: /usr/share/jboss-as/standalone/deployments/
     src: "/tmp/{{ war_file }}"
     state: present
@@ -14,7 +14,7 @@
 
 - name: Upgrade Application
   jboss:
-    deployment: "{{ app_name }}"
+    deployment: "{{ app_name }}.war"
     deploy_path: /usr/share/jboss-as/standalone/deployments/
     src: "/tmp/{{ war_file }}"
     state: present
