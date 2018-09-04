@@ -97,6 +97,17 @@
   - "{{ http_port }}/tcp"
   - "{{ https_port }}/tcp"
 
+- name: Update iptables
+  iptables:
+    chain: IN_public_allow
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    rule_num: 1
+  loop:
+    - 8080
+    - 8443
+
 - name: Sending notification email
   mail:
     host: localhost
