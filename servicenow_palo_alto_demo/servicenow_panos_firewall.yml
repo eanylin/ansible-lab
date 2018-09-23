@@ -1,10 +1,10 @@
 ---
-- name: Palo Alto Firewall
+- name: ServiceNow and Palo Alto
   hosts: "{{ firewall_node }}"
   gather_facts: False
 
   tasks:
-  - name: Update Firewall Rule
+  - name: ServiceNow and Palo Alto
     include_role:
-      name: update_panos_rule
+      name: servicenow_panos_firewall
       vars_from: "password.yml"
