@@ -1,0 +1,12 @@
+---
+- name: Update ServiceNow Ticket
+  hosts: localhost
+  gather_facts: False
+  environment:
+    PYTHONHTTPSVERIFY: 0
+
+  tasks:
+  - name: Update ServiceNow Ticket
+    include_role:
+      name: update_snow_ticket
+      vars_from: "password.yml"

@@ -1,0 +1,7 @@
+[paloalto]
+paloalto1 ansible_host=1.2.3.4
+
+[paloalto:vars]
+ansible_user="{{ palo_alto_username }}"
+ansible_password="{{ palo_alto_password }}"
+ansible_connection=local

@@ -1,0 +1,30 @@
+---
+- name: check if Palo Alto Firewall is ready
+  panos_check:
+    ip_address: "{{ firewall_node }}"
+    password: "{{ paloalto_password }}"
+
+- name: Update Security Rule
+  panos_security_rule:
+    ip_address: "{{ firewall_node }}"
+    username: "{{ paloalto_username }}"
+    password: "{{ paloalto_password }}"
+    operation: "{{ firewall_operation }}"
+    source_ip: "{{ src_ip }}"
+    source_user: 'any'
+    destination_ip: "{{ dest_ip }}"
+    category: 'any'
+    application: "{{ app }}"
+    service: "{{ service_type }}"
+    hip_profiles: 'any'
+    action: "{{ firewall_action }}"
+    devicegroup: "{{ device_group }}"
+
+- name: Sending notification email
+  mail:
+    host: localhost
+    port: 25
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: Ansible-report
+    body: "{{ change_request_id }} has been successfully implemented on {{ firewall_node }}"
+  delegate_to: localhost
