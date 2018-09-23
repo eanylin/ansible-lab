@@ -1,5 +1,5 @@
 ---
-- name: check if Palo Alto Firewall is ready
+- name: Check if Palo Alto Firewall is ready
   panos_check:
     ip_address: "{{ firewall_node }}"
     password: "{{ paloalto_password }}"

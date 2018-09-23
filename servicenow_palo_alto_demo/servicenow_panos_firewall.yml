@@ -2,6 +2,8 @@
 - name: ServiceNow and Palo Alto
   hosts: "{{ firewall_node }}"
   gather_facts: False
+  environment:
+    PYTHONHTTPSVERIFY: 0
 
   tasks:
   - name: ServiceNow and Palo Alto

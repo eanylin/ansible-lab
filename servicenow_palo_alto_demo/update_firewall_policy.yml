@@ -2,6 +2,8 @@
 - name: Palo Alto Firewall
   hosts: "{{ firewall_node }}"
   gather_facts: False
+  environment:
+    PYTHONHTTPSVERIFY: 0
 
   tasks:
   - name: Update Firewall Rule

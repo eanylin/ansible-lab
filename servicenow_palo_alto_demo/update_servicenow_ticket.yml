@@ -2,8 +2,6 @@
 - name: Update ServiceNow Ticket
   hosts: localhost
   gather_facts: False
-  environment:
-    PYTHONHTTPSVERIFY: 0
 
   tasks:
   - name: Update ServiceNow Ticket
