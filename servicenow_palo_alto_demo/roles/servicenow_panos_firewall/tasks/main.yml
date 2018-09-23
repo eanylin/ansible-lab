@@ -10,6 +10,7 @@
     username: "{{ paloalto_username }}"
     password: "{{ paloalto_password }}"
     operation: "{{ firewall_operation }}"
+    rule_name: "{{ firewall_rule_name }}"
     source_ip: "{{ src_ip }}"
     source_user: 'any'
     destination_ip: "{{ dest_ip }}"
