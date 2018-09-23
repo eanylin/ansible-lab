@@ -1,5 +1,5 @@
 ---
-- name: Update Work Notes of Change Request
+- name: Update State (to Review) and Work Notes of Change Request
   snow_record:
     username: "{{ servicenow_username }}"
     password: "{{ servicenow_password }}"
@@ -8,4 +8,6 @@
     number: "{{ change_request_id }}"
     table: "{{ servicenow_table }}"
     data:
+      state: 0
       work_notes : "{{ change_request_id }} has been successfully implemented by Ansible"
+  delegate_to: localhost
