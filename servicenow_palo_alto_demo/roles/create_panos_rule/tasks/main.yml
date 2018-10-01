@@ -15,7 +15,6 @@
   copy:
     content: "{{ original_config }}"
     dest: /tmp/palo_alto_original_config.xml
-  delegate_to: localhost
 
 - name: Create Security Rule
   panos_security_rule:
@@ -45,11 +44,9 @@
   copy:
     content: "{{ new_config }}"
     dest: /tmp/palo_alto_new_config.xml
-  delegate_to: localhost
 
 - name: Show Differences
   shell: diff <(xmllint --c14n /tmp/palo_alto_original_config.xml) <(xmllint --c14n /tmp/palo_alto_new_config.xml)
-  delegate_to: localhost
 
 # Make use of https://github.com/cytopia/ansible-modules
 - name: Show changes in configurations
