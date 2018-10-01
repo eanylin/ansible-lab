@@ -11,9 +11,9 @@
     return_content: yes
   register: original_config
 
-#- debug:
-#    msg: "{{ original_config.content }}"
-#
+- debug:
+    msg: "{{ original_config.content | parse_xml('/tmp/palo_alto_original_config.xml') }}"
+
 - name: Write Original Config
   copy:
     content: "{{ original_config }}"
