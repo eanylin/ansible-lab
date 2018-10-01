@@ -35,8 +35,14 @@
 
 # Make use of https://github.com/cytopia/ansible-modules
 - name: Show changes in configurations
-  diff:
+  gen_diff:
     source: "{{ original_config }}"
     target: "{{ new_config }}"
     source_type: string
     target_type: string
+  register: config_diff
+
+- name: Print Differences, if any
+  debug:
+    msg: "{{ config_diff.diff.unified_diff }}"
+  when: config_diff.changed

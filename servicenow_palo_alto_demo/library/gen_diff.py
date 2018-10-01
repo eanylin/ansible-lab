@@ -232,6 +232,7 @@ def main():
     diff = {
         'before': target,
         'after': source,
+        'unified_diff': '\n'.join(difflib.unified_diff(target.split('\n'), source.split('\n'), lineterm=''))
     }
     # Did we have any changes?
     changed = (source != target)
