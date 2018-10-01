@@ -1,0 +1,12 @@
+---
+- name: Palo Alto Firewall
+  hosts: "{{ firewall_node }}"
+  gather_facts: False
+  environment:
+    PYTHONHTTPSVERIFY: 0
+
+  tasks:
+  - name: Create Firewall Rule
+    include_role:
+      name: create_panos_rule
+      vars_from: "password.yml"
