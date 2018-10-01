@@ -12,7 +12,7 @@
   register: original_config
 
 - debug:
-    msg: original_config.content
+    msg: "{{ original_config.content }}"
 
 - name: Write Original Config
   copy:
