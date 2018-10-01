@@ -46,21 +46,24 @@
     dest: /tmp/palo_alto_new_config.xml
 
 - name: Show Differences
-  shell: |
-    xmllint --c14n /tmp/palo_alto_original_config.xml > /tmp/palo_alto_original_config_sorted.xml
-    xmllint --c14n /tmp/palo_alto_new_config.xml > /tmp/palo_alto_new_config_sorted.xml
-    diff /tmp/palo_alto_original_config_sorted.xml /tmp/palo_alto_new_config_sorted.xml
+  shell:
+    cmd: |
+      cat <<EOF
+      xmllint --c14n /tmp/palo_alto_original_config.xml > /tmp/palo_alto_original_config_sorted.xml
+      xmllint --c14n /tmp/palo_alto_new_config.xml > /tmp/palo_alto_new_config_sorted.xml
+      diff /tmp/palo_alto_original_config_sorted.xml /tmp/palo_alto_new_config_sorted.xml
+      EOF
 
 # Make use of https://github.com/cytopia/ansible-modules
-- name: Show changes in configurations
-  gen_diff:
-    source: "{{ original_config.content }}"
-    target: "{{ new_config.content }}"
-    source_type: string
-    target_type: string
-  register: config_diff
-
-- name: Print Differences, if any
-  debug:
-    msg: "{{ config_diff.diff.unified_diff }}"
-  when: config_diff.changed
+#- name: Show changes in configurations
+#  gen_diff:
+#    source: "{{ original_config.content }}"
+#    target: "{{ new_config.content }}"
+#    source_type: string
+#    target_type: string
+#  register: config_diff
+#
+#- name: Print Differences, if any
+#  debug:
+#    msg: "{{ config_diff.diff.unified_diff }}"
+#  when: config_diff.changed
