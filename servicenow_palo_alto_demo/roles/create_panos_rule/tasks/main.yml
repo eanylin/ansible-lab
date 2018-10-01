@@ -14,7 +14,7 @@
 - name: Write Original Config
   copy:
     content: "{{ original_config.content }}"
-    dest: /var/lib/awx/palo_alto_original_config.xml
+    dest: /tmp/palo_alto_original_config.xml
   delegate_to: localhost
 
 - name: Create Security Rule
@@ -44,31 +44,9 @@
 - name: Write Updated Config
   copy:
     content: "{{ new_config.content }}"
-    dest: /var/lib/awx/palo_alto_new_config.xml
+    dest: /tmp/palo_alto_new_config.xml
   delegate_to: localhost
 
-#- name: Show Differences
-#  shell: |
-#    xmllint --format /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
-#    xmllint --format /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
-#    diff /var/lib/awx/palo_alto_original_config_sorted.xml /var/lib/awx/palo_alto_new_config_sorted.xml
-#  delegate_to: localhost
-
-- name: Show Differences
-  shell: xmldiff /var/lib/awx/palo_alto_original_config.xml /var/lib/awx/palo_alto_new_config.xml
+- name: Show Differences in configurations, if any
+  shell: xmldiff -p /tmp/palo_alto_original_config.xml /tmp/palo_alto_new_config.xml
   delegate_to: localhost
-
-# Make use of https://github.com/cytopia/ansible-modules
-#- name: Show changes in configurations
-#  gen_diff:
-#    source: "{{ original_config.content }}"
-#    target: "{{ new_config.content }}"
-#    source_type: string
-#    target_type: string
-#  register: config_diff
-#
-#- name: Print Differences, if any
-#  debug:
-#    msg: "{{ config_diff.diff.unified_diff }}"
-#  when: config_diff.changed
-#
