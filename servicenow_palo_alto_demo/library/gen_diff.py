@@ -17,7 +17,7 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-ANSIBLE_METADATA = {'metadata_version': '1.0',
+ANSIBLE_METADATA = {'metadata_version': '2.0',
                     'supported_by': 'community',
                     'status': ['preview']}
 
@@ -26,11 +26,11 @@ DOCUMENTATION = '''
 module: diff
 author: cytopia (@cytopia)
 
-short_description: Diff compare strings, files or command outputs
+short_description: Diff compare strings, files or command outputs in raw or file specific normalized version.
 description:
     - Diff compare a string, file or command output against a string file or command output.
     - Check mode is only supported when diffing strings or files, commands will only be executed in actual run.
-    - More examples at U(https://github.com/cytopia/ansible-modules)
+    - More examples at U(https://github.com/cytopia/ansible-module-diff)
 version_added: "2.4"
 options:
     source:
@@ -50,17 +50,34 @@ options:
     source_type:
         description:
             - Specify the input type of I(source).
-        required: true
+        required: false
         default: string
-        choices: [ string, file, command ]
+        choices: [string, file, command]
         aliases: []
 
-    target:
+    target_type:
         description:
             - Specify the input type of I(target).
-        required: true
+        required: false
         default: string
-        choices: [ string, file, command ]
+        choices: [string, file, command]
+        aliases: []
+
+    diff:
+        description:
+            - Specify the diff type.
+            - Currently only raw and yaml are supported.
+            - In case of yaml, both inputs are normalized, comments removed and their keys are sorted.
+        required: false
+        default: raw
+        choices: [raw, yaml]
+        aliases: []
+
+    diff_yaml_ignore:
+        description:
+            - List of keys to ignore for yaml diff
+        required: false
+        default: []
         aliases: []
 '''
 
@@ -92,6 +109,18 @@ EXAMPLES = '''
     target: "hostname"
     source_type: file
     target_type: command
+
+# Diff compare two normalized yaml files (sorted keys and comments stripped),
+# but additionally ignore the yaml keys: 'creationTimestamp' and 'metadata'
+- diff:
+    source: /tmp/file-1.yml
+    target: /tmp/file-2.yml
+    source_type: file
+    target_type: file
+    diff: yaml
+    diff_yaml_ignore:
+      - creationTimestamp
+      - metadata
 '''
 
 RETURN = '''
@@ -105,7 +134,10 @@ diff:
 # Python default imports
 import os
 import time
+import re
 import subprocess
+import yaml
+import difflib
 
 # Python Ansible imports
 from ansible.module_utils.basic import AnsibleModule
@@ -132,7 +164,118 @@ def shell_exec(command):
     return_code = cpt.returncode
 
     # Return code and output
-    return return_code, output
+    return return_code, ''.join(output)
+
+
+def pop_recursive(dictionary, keys):
+    '''
+    Pop keys in a nested dictionary.
+    '''
+    # Return immediately on empty dicts or keys
+    if not dictionary or not keys:
+        return dictionary
+
+    # make sure the_keys is a set to get O(1) lookups
+    #if type(keys) is not set:
+    #    keys = set(keys)
+    for key, val in dictionary.items():
+        if key in keys:
+            del dictionary[key]
+        if isinstance(val, dict):
+            pop_recursive(val, keys)
+
+    return dictionary
+
+
+def normalize_yaml(string, ignore):
+    '''
+    Convert string to yaml, normalize and sort it and convert it back to string.
+    Additionally if 'ignore' is specified, all keys matching the specified keys are removed
+    in order for them to not appread in the diff output.
+    This function also works with a single yaml file that has multiple --- separators.
+    '''
+
+    # Loop over yaml '---' separators
+    sections = ""
+    for section in re.split("^---$", string, flags=re.MULTILINE):
+        try:
+            # Load string into object
+            data = yaml.load(section)
+
+            # We have a valid dictionary
+            if isinstance(data, dict):
+                data = pop_recursive(data, ignore)
+                data = yaml.dump(data, default_flow_style=False, allow_unicode=True)
+            # Convert None object to empty string
+            elif data is None:
+                data = ''
+
+            # Append sections
+            sections = sections + "\n\n" + data
+        except yaml.YAMLError as exc:
+            return (False, exc)
+
+    return (True, sections)
+
+
+def normalize_input(input_data, input_data_name, module):
+    '''
+    Normalize input to specified diff_type.
+    input_data: value of 'source' or 'target'
+    input_data_name: 'source' or 'target'
+    '''
+
+    # Get chosen diff type
+    diff_type = module.params.get('diff')
+
+    # Normalize yaml
+    if diff_type == 'yaml':
+        ignore = module.params.get('diff_yaml_ignore')
+        succ, input_data = normalize_yaml(input_data, ignore)
+        if not succ:
+            module.fail_json(msg="Convert to yaml failed on %s: %s" % (input_data_name, input_data))
+
+    return input_data
+
+
+def retrieve_input(direction, module):
+    '''
+    Retrieve and evaluate Ansible module input arguments.
+    direction can either be 'source' or 'target'.
+    Input arguments:
+      * target
+      * target_name
+      * source
+      * source_name
+    '''
+    input_data_name = direction
+    input_type_name = direction + '_type'
+
+    input_data = module.params.get(input_data_name)
+    input_type = module.params.get(input_type_name)
+
+    # Input is a file
+    if input_type == 'file':
+        with open(input_data, 'rt') as fpt:
+            input_data = fpt.read().decode("UTF-8")
+    # Input is a command
+    elif input_type == 'command':
+        if module.check_mode:
+            result = dict(
+                changed=False,
+                msg="This module does not support check mode when " +
+                input_type_name + " is 'command'.",
+                skipped=True
+            )
+            module.exit_json(**result)
+        else:
+            command = input_data
+            ret, input_data = shell_exec(command)
+            if ret != 0:
+                module.fail_json(msg="%s command failed: %s" % (input_data_name, input_data))
+
+    # Return evaluated input
+    return input_data
 
 
 def diff_module_validation(module):
@@ -167,66 +310,59 @@ def diff_module_validation(module):
     return module
 
 
-def main():
+def init_ansible_module():
     '''
-    Main function
+    Initialize Ansible Module.
     '''
-    module = AnsibleModule(
+    return AnsibleModule(
         argument_spec=dict(
-            source=dict(required=True, default=None, type='str'),
-            target=dict(required=True, default=None, type='str'),
-            source_type=dict(required=True, default='string',
-                             choices=['string', 'file', 'command']),
-            target_type=dict(required=True, default='string',
-                             choices=['string', 'file', 'command']),
+            source=dict(type='str', required=True, default=None),
+            target=dict(type='str', required=True, default=None),
+            source_type=dict(
+                type='str',
+                required=False,
+                default='string',
+                choices=['string', 'file', 'command']
+            ),
+            target_type=dict(
+                type='str',
+                required=False,
+                default='string',
+                choices=['string', 'file', 'command']
+            ),
+            diff=dict(
+                type='str',
+                required=False,
+                default='raw',
+                choices=['raw', 'yaml']
+            ),
+            diff_yaml_ignore=dict(
+                type='list',
+                required=False,
+                default=[],
+            )
         ),
         supports_check_mode=True
     )
 
+
+def main():
+    '''
+    Main entry point
+    '''
+    # Initialize module
+    module = init_ansible_module()
+
     # Validate module
     module = diff_module_validation(module)
 
-    # Get ansible arguments
-    source = module.params.get('source')
-    target = module.params.get('target')
-    source_type = module.params.get('source_type')
-    target_type = module.params.get('target_type')
+    # Retrieve converted module input
+    source = retrieve_input('source', module)
+    target = retrieve_input('target', module)
 
-    # Source file to string
-    if source_type == 'file':
-        with open(source, 'rt') as fpt:
-            source = fpt.read().decode("UTF-8")
-    # Source command to string
-    elif source_type == 'command':
-        if module.check_mode:
-            result = dict(
-                changed=False,
-                msg="This module does not support check mode when source_type is 'command'.",
-                skipped=True
-            )
-            module.exit_json(**result)
-        else:
-            ret, source = shell_exec(source)
-            if ret != 0:
-                module.fail_json(msg="source command failed: %s" % (source))
-
-    # Targe file to string
-    if target_type == 'file':
-        with open(target, 'rt') as fpt:
-            target = fpt.read().decode("UTF-8")
-    # Target command to string
-    elif target_type == 'command':
-        if module.check_mode:
-            result = dict(
-                changed=False,
-                msg="This module does not support check mode when target_type is 'command'.",
-                skipped=True
-            )
-            module.exit_json(**result)
-        else:
-            ret, target = shell_exec(target)
-            if ret != 0:
-                module.fail_json(msg="target command failed: %s" % (target))
+    # Normalize input
+    source = normalize_input(source, 'source', module)
+    target = normalize_input(target, 'target', module)
 
     # Ansible diff output
     diff = {
@@ -234,6 +370,7 @@ def main():
         'after': source,
         'unified_diff': '\n'.join(difflib.unified_diff(target.split('\n'), source.split('\n'), lineterm=''))
     }
+
     # Did we have any changes?
     changed = (source != target)
 
