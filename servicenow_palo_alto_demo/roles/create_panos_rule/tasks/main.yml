@@ -14,11 +14,11 @@
 #- debug:
 #    msg: "{{ original_config.content }}"
 #
-#- name: Write Original Config
-#  copy:
-#    content: "{{ original_config }}"
-#    dest: /var/lib/awx/palo_alto_original_config.xml
-#  delegate_to: localhost
+- name: Write Original Config
+  copy:
+    content: "{{ original_config }}"
+    dest: /var/lib/awx/palo_alto_original_config.xml
+  delegate_to: localhost
 
 - name: Create Security Rule
   panos_security_rule:
@@ -44,11 +44,11 @@
     return_content: yes
   register: new_config
 
-#- name: Write Updated Config
-#  copy:
-#    content: "{{ new_config }}"
-#    dest: /var/lib/awx/palo_alto_new_config.xml
-#  delegate_to: localhost
+- name: Write Updated Config
+  copy:
+    content: "{{ new_config }}"
+    dest: /var/lib/awx/palo_alto_new_config.xml
+  delegate_to: localhost
 
 #- name: Show Differences
 #  shell: |
@@ -58,7 +58,7 @@
 #  delegate_to: localhost
 
 - name: Show Differences
-  shell: "xmldiff {{ original_config.content }} {{ new_config.content }}"
+  shell: xmldiff /var/lib/awx/palo_alto_original_config.xml /var/lib/awx/palo_alto_new_config.xml
   delegate_to: localhost
 
 # Make use of https://github.com/cytopia/ansible-modules
