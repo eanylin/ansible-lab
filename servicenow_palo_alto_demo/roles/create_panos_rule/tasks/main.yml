@@ -14,7 +14,8 @@
 - name: Write Original Config
   copy:
     content: "{{ original_config }}"
-    dest: /tmp/palo_alto_original_config.xml
+    dest: /var/lib/awx/palo_alto_original_config.xml
+  delegate: localhost
 
 - name: Create Security Rule
   panos_security_rule:
@@ -43,13 +44,15 @@
 - name: Write Updated Config
   copy:
     content: "{{ new_config }}"
-    dest: /tmp/palo_alto_new_config.xml
+    dest: /var/lib/awx/palo_alto_new_config.xml
+  delegate: localhost
 
 - name: Show Differences
   shell: |
-    xmllint --c14n /tmp/palo_alto_original_config.xml >> /tmp/palo_alto_original_config_sorted.xml
-    xmllint --c14n /tmp/palo_alto_new_config.xml >> /tmp/palo_alto_new_config_sorted.xml
-    diff /tmp/palo_alto_original_config_sorted.xml /tmp/palo_alto_new_config_sorted.xml
+    xmllint --c14n /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
+    xmllint --c14n /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
+    diff /var/lib/awx/palo_alto_original_config_sorted.xml /var/lib/awx/palo_alto_new_config_sorted.xml
+  delegate: localhost
 
 # Make use of https://github.com/cytopia/ansible-modules
 #- name: Show changes in configurations
