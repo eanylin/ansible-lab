@@ -11,6 +11,12 @@
     return_content: yes
   register: original_config
 
+- name: Write Original Config
+  copy:
+    content: "{{ original_config }}"
+    dest: /tmp/palo_alto_original_config.xml
+  delegate_to: localhost
+
 - name: Create Security Rule
   panos_security_rule:
     ip_address: "{{ firewall_node }}"
@@ -35,11 +41,15 @@
     return_content: yes
   register: new_config
 
+- name: Write Updated Config
+  copy:
+    content: "{{ new_config }}"
+    dest: /tmp/palo_alto_new_config.xml
+  delegate_to: localhost
+
 - name: Show Differences
-  shell: |
-    xmllint --c14n {{ original_config }} > /tmp/original.xml
-    xmllint --c14n {{ new_config }} > /tmp/new.xml
-    diff /tmp/original.xml /tmp/new.xml
+  shell: diff <(xmllint --c14n /tmp/palo_alto_original_config.xml) <(xmllint --c14n /tmp/palo_alto_new_config.xml)
+  delegate_to: localhost
 
 # Make use of https://github.com/cytopia/ansible-modules
 - name: Show changes in configurations
