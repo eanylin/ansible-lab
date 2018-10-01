@@ -11,14 +11,14 @@
     return_content: yes
   register: original_config
 
-- debug:
-    msg: "{{ original_config.content }}"
-
-- name: Write Original Config
-  copy:
-    content: "{{ original_config }}"
-    dest: /var/lib/awx/palo_alto_original_config.xml
-  delegate_to: localhost
+#- debug:
+#    msg: "{{ original_config.content }}"
+#
+#- name: Write Original Config
+#  copy:
+#    content: "{{ original_config }}"
+#    dest: /var/lib/awx/palo_alto_original_config.xml
+#  delegate_to: localhost
 
 - name: Create Security Rule
   panos_security_rule:
@@ -44,17 +44,21 @@
     return_content: yes
   register: new_config
 
-- name: Write Updated Config
-  copy:
-    content: "{{ new_config }}"
-    dest: /var/lib/awx/palo_alto_new_config.xml
-  delegate_to: localhost
+#- name: Write Updated Config
+#  copy:
+#    content: "{{ new_config }}"
+#    dest: /var/lib/awx/palo_alto_new_config.xml
+#  delegate_to: localhost
+
+#- name: Show Differences
+#  shell: |
+#    xmllint --format /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
+#    xmllint --format /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
+#    diff /var/lib/awx/palo_alto_original_config_sorted.xml /var/lib/awx/palo_alto_new_config_sorted.xml
+#  delegate_to: localhost
 
 - name: Show Differences
-  shell: |
-    xmllint --format /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
-    xmllint --format /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
-    diff /var/lib/awx/palo_alto_original_config_sorted.xml /var/lib/awx/palo_alto_new_config_sorted.xml
+  shell: "xmldiff {{ original_config.content }} {{ new_config.content }}"
   delegate_to: localhost
 
 # Make use of https://github.com/cytopia/ansible-modules
@@ -70,3 +74,4 @@
 #  debug:
 #    msg: "{{ config_diff.diff.unified_diff }}"
 #  when: config_diff.changed
+#
