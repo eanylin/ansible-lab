@@ -46,13 +46,10 @@
     dest: /tmp/palo_alto_new_config.xml
 
 - name: Show Differences
-  shell:
-    cmd: |
-      cat <<EOF
-      xmllint --c14n /tmp/palo_alto_original_config.xml > /tmp/palo_alto_original_config_sorted.xml
-      xmllint --c14n /tmp/palo_alto_new_config.xml > /tmp/palo_alto_new_config_sorted.xml
-      diff /tmp/palo_alto_original_config_sorted.xml /tmp/palo_alto_new_config_sorted.xml
-      EOF
+  shell: |
+    xmllint --c14n /tmp/palo_alto_original_config.xml >> /tmp/palo_alto_original_config_sorted.xml
+    xmllint --c14n /tmp/palo_alto_new_config.xml >> /tmp/palo_alto_new_config_sorted.xml
+    diff /tmp/palo_alto_original_config_sorted.xml /tmp/palo_alto_new_config_sorted.xml
 
 # Make use of https://github.com/cytopia/ansible-modules
 #- name: Show changes in configurations
