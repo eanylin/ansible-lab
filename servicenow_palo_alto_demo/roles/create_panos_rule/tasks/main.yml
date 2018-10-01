@@ -33,6 +33,7 @@
     return_content: yes
   register: new_config
 
+# Make use of https://github.com/cytopia/ansible-modules
 - name: Show changes in configurations
   diff:
     source: "{{ original_config }}"
