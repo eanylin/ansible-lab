@@ -47,6 +47,7 @@
     dest: /tmp/palo_alto_new_config.xml
   delegate_to: localhost
 
+# Makes use of xmldiff
 - name: Show Differences in configurations, if any
   shell: xmldiff -p /tmp/palo_alto_original_config.xml /tmp/palo_alto_new_config.xml
   delegate_to: localhost
