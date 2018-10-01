@@ -52,8 +52,8 @@
 
 - name: Show Differences
   shell: |
-    xmllint --c14n /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
-    xmllint --c14n /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
+    xmllint --format /var/lib/awx/palo_alto_original_config.xml >> /var/lib/awx/palo_alto_original_config_sorted.xml
+    xmllint --format /var/lib/awx/palo_alto_new_config.xml >> /var/lib/awx/palo_alto_new_config_sorted.xml
     diff /var/lib/awx/palo_alto_original_config_sorted.xml /var/lib/awx/palo_alto_new_config_sorted.xml
   delegate_to: localhost
 
