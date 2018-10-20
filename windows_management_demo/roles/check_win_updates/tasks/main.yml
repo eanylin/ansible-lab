@@ -8,5 +8,5 @@
 
 - name: List updates
   debug:
-    msg: "{{ item }}"
-  loop: "{{ list_of_updates.updates }}"
+    msg: "{{ item.key }} - {{ item.value }}"
+  loop: "{{ list_of_updates.updates | dict2items }}"
