@@ -15,4 +15,4 @@
   debug:
     msg: "KB{{ item.value.title }} is not installed!"
   loop: "{{ list_of_updates.updates | dict2items }}"
-  when: item.value.kb == win_update_whitelist
+  when: item.value.kb == {{ win_update_whitelist }}
