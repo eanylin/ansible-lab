@@ -8,4 +8,5 @@
 
 - name: List updates
   debug:
-    msg: "{{ list_of_updates.updates }}"
+    msg: "{{ item }}"
+  loop: "{{ list_of_updates.updates }}"
