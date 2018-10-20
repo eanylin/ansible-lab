@@ -4,3 +4,8 @@
     category_names: "{{ win_update_category }}"
     state: searched
     log_path: "{{ check_win_updates_log_path }}"
+  register: "{{ list_of_updates }}"
+
+- name: List updates
+  debug:
+    msg: "{{ list_of_updates.updates }}"
