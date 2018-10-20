@@ -6,7 +6,13 @@
     log_path: "{{ check_win_updates_log_path }}"
   register: list_of_updates
 
-- name: List updates
+- name: List Remaining Updates
   debug:
-    msg: "{{ item.value.title }} - KB{{ item.value.kb }}"
+    msg: "{{ item.value.title }}"
   loop: "{{ list_of_updates.updates | dict2items }}"
+
+- name: Flag if Required Update is not installed. Skip if update has been installed.
+  debug:
+    msg: "KB{{ item.value.title }} is not installed!"
+  loop: "{{ list_of_updates.updates | dict2items }}"
+  when: item.value.kb == win_update_whitelist
