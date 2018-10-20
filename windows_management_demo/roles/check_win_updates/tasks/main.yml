@@ -11,10 +11,10 @@
     msg: "{{ item.value.title }}"
   loop: "{{ list_of_updates.updates | dict2items }}"
 
-- name: Flag if Required Update is not installed. Skip if update has been installed.
+- name: Flag if Required Update is not installed. Skip if required update has been installed.
   debug:
     msg: "KB{{ item.value.title }} is not installed!"
   loop: "{{ list_of_updates.updates | dict2items }}"
   vars:
-    windows_update_kb: "{{ win_update_whitelist }}"
-  when: item.value.kb == windows_update_kb
+    required_win_update: "{{ win_update_whitelist }}"
+  when: item.value.kb == required_win_update
