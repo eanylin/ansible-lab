@@ -4,5 +4,5 @@
 
 - name: Expand Windows Hard Disk
   win_shell: |
-    $size = Get-PartitionSupportedSize -DriveLetter E
-    Resize-Partition -DriveLetter E -Size $size.SizeMax
+    $size = Get-PartitionSupportedSize -DriveLetter {{ win_drive }}
+    Resize-Partition -DriveLetter {{ win_drive }} -Size $size.SizeMax
