@@ -1,0 +1,7 @@
+---
+- name: Expand Windows Hard Disk
+  hosts: "{{ win_vm }}"
+  gather_facts: False
+
+  roles:
+    - win_expand_disk
