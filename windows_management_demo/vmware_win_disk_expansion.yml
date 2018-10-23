@@ -3,5 +3,8 @@
   hosts: "{{ windows_vm_hostname }}"
   gather_facts: False
 
-  roles:
-    - vmware_win_disk_expansion
+  tasks:
+  - name: Expand Windows 2012r2 VM Hard Disk
+    include_role:
+      name: vmware_win_disk_expansion
+      vars_from: "password.yml"
