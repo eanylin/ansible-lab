@@ -32,4 +32,3 @@
       - "{{ vm_dns_server }}"
       hostname: "{{ windows_vm_hostname }}"
       password: "{{ win_vm_password }}"
-    delegate_to: localhost

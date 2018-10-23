@@ -1,6 +1,6 @@
 ---
 - name: Expand Hard Disk
-  hosts: "{{ windows_vm_hostname }}"
+  hosts: localhost
   gather_facts: False
 
   tasks:
