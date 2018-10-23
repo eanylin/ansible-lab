@@ -1,5 +1,5 @@
 ---
-- name: Expand Disk
+- name: Expand VM Disk
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: False
