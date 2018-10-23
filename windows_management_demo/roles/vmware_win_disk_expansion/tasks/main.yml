@@ -8,7 +8,10 @@
     state: present
     template: "{{ vm_template }}"
     disk:
-    - size_gb: "{{ vm_disk_size }}"
+    - size_gb: "{{ vm_disk1_size }}"
+      type: "{{ vm_disk_type }}"
+      datastore: "{{ vm_datastore }}"
+    - size_gb: "{{ vm_disk2_size }}"
       type: "{{ vm_disk_type }}"
       datastore: "{{ vm_datastore }}"
     hardware:
