@@ -1,4 +1,7 @@
 ---
+- name: Rescan Current Status of Storage
+  win_shell: Update-HostStorageCache
+
 - name: Expand Windows Hard Disk
   win_shell: |
     $size = Get-PartitionSupportedSize -DriveLetter E
