@@ -23,7 +23,8 @@ netmask: '255.255.255.0'
 vm_cpu: 1
 vm_datacenter: 'Demo'
 vm_datastore: 'datastore1'
-vm_disk_size: 40
+vm_disk1_size: 40
+vm_disk2_size: 20
 vm_disk_type: 'thin'
 vm_dns_server: '172.16.100.131'
 vm_domain: 'domain.com'
