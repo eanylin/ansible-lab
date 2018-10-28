@@ -3,5 +3,8 @@
   hosts: "{{ win_vm }}"
   gather_facts: False
 
-  roles:
-    - check_win_updates
+  tasks:
+  - name: Check Windows Update
+    include_role:
+      name: check_win_updates
+      vars_from: "passwd.yml"
