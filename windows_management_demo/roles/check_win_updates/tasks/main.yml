@@ -17,6 +17,7 @@
   template:
     src: win_updates_report.j2
     dest: "/tmp/reports_{{ inventory_hostname }}"
+  loop: "{{ list_of_updates.updates | dict2items }}"
   delegate_to: localhost
 
 #- name: List Remaining Updates
