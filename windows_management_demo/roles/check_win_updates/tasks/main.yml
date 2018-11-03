@@ -10,13 +10,13 @@
   file:
     path: reports
     state: directory
-    mode: 0777
+    mode: 0755
   delegate_to: localhost
 
 - name: Template Rendering
   template:
     src: win_updates_report.j2
-    dest: "reports/report_{{ inventory_hostname }}"
+    dest: "reports/{{ inventory_hostname }}_{{ item }}"
   loop: "{{ list_of_updates.updates | dict2items }}"
   delegate_to: localhost
 
