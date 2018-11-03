@@ -20,6 +20,13 @@
   loop: "{{ list_of_updates.updates | dict2items }}"
   delegate_to: localhost
 
+- name: Consolidate Report
+  assemble:
+    src: reports/
+    dest: reports/{{ inventory_hostname }}_report
+  delegate_to: localhost
+  run_once: yes
+
 #- name: List Remaining Updates
 #  debug:
 #    msg: "{{ item.value.title }}"
