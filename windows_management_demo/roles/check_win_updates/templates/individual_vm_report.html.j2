@@ -1,8 +1,10 @@
          <tr>
             <td>{{ inventory_hostname }}</td>
             <td>
+               <ul>
 {% for win_update in list_of_updates.updates | dict2items %}
-                    {{ win_update.value.title }} <br>
+                  <li>{{ win_update.value.title }}</li>
 {% endfor %}
+               </ul>
             </td>
          </tr>
