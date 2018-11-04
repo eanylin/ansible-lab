@@ -1,5 +1,5 @@
 ---
-- name: "Search-only, return list of found updates (if any), log to {{ check_win_updates_log_path }}"
+- name: "Search and return list of found updates (if any)"
   win_updates:
     category_names: "{{ win_update_category }}"
     state: searched
@@ -64,15 +64,14 @@
   delegate_to: localhost
   run_once: yes
 
-#- name: Flag if Required Update is not installed. Skip if required update has been installed.
-#  debug:
-#    msg: "KB{{ item.value.title }} is not installed!"
-#  loop: "{{ list_of_updates.updates | dict2items }}"
-#  vars:
-#    required_win_update: "{{ win_update_whitelist }}"
-#  when: item.value.kb == required_win_update
+- name: Final Clean Up
+  file:
+    path: reports/consolidated_vms_report_last_block.html
+    state: absent
+  delegate_to: localhost
+  run_once: yes
 
-- name: Send Email
+- name: Send Email with Report
   mail:
     host: smtp.gmail.com
     port: 587
