@@ -52,6 +52,6 @@
     subject: "Ansible Report"
     body: "The list of required Windows Update for the Windows VMs can be found in the attached file"
     attach:
-     - reports/list_of_required_windows_updates_for_all_vm.yml
+     - reports/consolidated_vms_report.yml
   delegate_to: localhost
   run_once: yes
