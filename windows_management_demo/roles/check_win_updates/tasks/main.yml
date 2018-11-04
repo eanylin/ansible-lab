@@ -22,7 +22,7 @@
 - name: Consolidate List of Required Windows Updates
   assemble:
     src: reports/
-    dest: list_of_required_windows_updates_for_all_vm.yml
+    dest: reports/list_of_required_windows_updates_for_all_vm.yml
   delegate_to: localhost
   run_once: yes
 
