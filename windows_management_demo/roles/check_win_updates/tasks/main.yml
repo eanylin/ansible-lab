@@ -1,7 +1,7 @@
 ---
 - name: Print update categories
   debug:
-    name: "{{ win_update_category }}"
+    msg: "{{ win_update_category }}"
 
 #- name: "Search and return list of found updates (if any)"
 #  win_updates:
