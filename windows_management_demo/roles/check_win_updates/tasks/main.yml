@@ -17,7 +17,7 @@
 - name: Template Rendering
   template:
     src: individual_vm_report.html.j2
-    dest: "reports/{{ inventory_hostname }}_interim_report"
+    dest: "reports/{{ inventory_hostname }}_interim_report.html"
   delegate_to: localhost
 
 - name: Create Interim Report
@@ -41,6 +41,27 @@
   delegate_to: localhost
   run_once: yes
 
+- name: Get the List of Interim Reports
+  find:
+    paths: reports/
+    patterns: *_interim_report.html
+  register: interim_reports_to_delete
+  run_once: yes
+
+- name: Clean Up Interim Reports
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ interim_reports_to_delete.files }}"
+  run_once: yes
+
+- name: Consolidate Final Report
+  assemble:
+    src: reports/
+    dest: reports/consolidated_vms_report.html
+  delegate_to: localhost
+  run_once: yes
+
 #- name: Flag if Required Update is not installed. Skip if required update has been installed.
 #  debug:
 #    msg: "KB{{ item.value.title }} is not installed!"
@@ -59,6 +80,6 @@
     subject: "Ansible Report"
     body: "The list of required Windows Update for the Windows VMs can be found in the attached file"
     attach:
-     - reports/consolidated_vms_report.yml
+     - reports/consolidated_vms_report.html
   delegate_to: localhost
   run_once: yes
