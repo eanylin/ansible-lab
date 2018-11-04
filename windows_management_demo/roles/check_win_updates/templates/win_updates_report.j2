@@ -1,1 +1,4 @@
+{{ inventory_hostname }}
+{% for update in list_of_updates.updates | dict2items %}
 {{ item.value.title }}
+{% endfor %}
