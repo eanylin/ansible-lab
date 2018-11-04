@@ -33,15 +33,16 @@
 #  vars:
 #    required_win_update: "{{ win_update_whitelist }}"
 #  when: item.value.kb == required_win_update
-#
-#- name: Send Email
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: "{{ gmail_account }}"
-#    password: "{{ gmail_account_password }}"
-#    to: Anthony Lin <anthony.lin.test@gmail.com>
-#    subject: "Ansible Report"
-#    body: "{{ item.value.title }}"
-#  loop: "{{ list_of_updates.updates | dict2items }}"
-#  delegate_to: localhost
+
+- name: Send Email
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "{{ gmail_account }}"
+    password: "{{ gmail_account_password }}"
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible Report"
+    body: "The list of required Windows Update for the Windows VMs can be found in the attached file"
+    attach:
+     - reports/list_of_required_windows_updates_for_all_vm.yml
+  delegate_to: localhost
