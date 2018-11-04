@@ -5,6 +5,13 @@
     state: searched
   register: list_of_updates
 
+- name: Clean Up Reports Directory if it exists
+  file:
+    path: reports
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+
 - name: Create Reports Directory
   file:
     path: reports
