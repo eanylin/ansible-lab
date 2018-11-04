@@ -46,3 +46,4 @@
     attach:
      - reports/list_of_required_windows_updates_for_all_vm.yml
   delegate_to: localhost
+  run_once: yes
