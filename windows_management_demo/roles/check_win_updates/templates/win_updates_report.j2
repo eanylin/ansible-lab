@@ -1,4 +1,5 @@
-{{ inventory_hostname }}
+Windows VM Missing Packages:
+  {{ inventory_hostname }}:
 {% for win_update in list_of_updates.updates | dict2items %}
-{{ win_update.value.title }}
+    {{ win_update.value.title }}
 {% endfor %}
