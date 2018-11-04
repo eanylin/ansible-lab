@@ -44,7 +44,7 @@
 - name: Get the List of Interim Reports
   find:
     paths: reports/
-    patterns: *_interim_report.html
+    patterns: "*_interim_report.html"
   register: interim_reports_to_delete
   run_once: yes
 
