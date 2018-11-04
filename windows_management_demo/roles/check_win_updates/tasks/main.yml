@@ -16,21 +16,28 @@
 
 - name: Template Rendering
   template:
-    src: individual_vm_report.j2
-    dest: "reports/{{ inventory_hostname }}_report"
+    src: individual_vm_report.html.j2
+    dest: "reports/{{ inventory_hostname }}_interim_report"
   delegate_to: localhost
 
-- name: Create consolidated_vms_report.yml
+- name: Create Interim Report
   template:
-    src: consolidated_vms_report.yml.j2
-    dest: "reports/consolidated_vms_report.yml"
+    src: consolidated_vms_report.html.j2
+    dest: "reports/consolidated_vms_report.html"
   delegate_to: localhost
   run_once: yes
 
-- name: Consolidate List of Required Windows Updates
+- name: Consolidate Interim Report
   assemble:
     src: reports/
-    dest: reports/consolidated_vms_report.yml
+    dest: reports/consolidated_vms_report.html
+  delegate_to: localhost
+  run_once: yes
+
+- name: Generate Remaining Portion of Report
+  template:
+    src: consolidated_vms_report_last_block.html.j2
+    dest: "reports/consolidated_vms_report_last_block.html"
   delegate_to: localhost
   run_once: yes
 
