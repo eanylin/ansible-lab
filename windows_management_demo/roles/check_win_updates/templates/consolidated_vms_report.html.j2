@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Report Table for Windows VMs</title>
+   </head>
+
+   <body>
+      <table border = "1" cellpadding = "5" cellspacing = "5">
+         <tr>
+            <th>Windows VM</th>
+            <th>List of Required Updates/Packages</th>
+         </tr>
+{% for vm in windows_vms %}
+         <tr>
+            <td>{{ inventory_hostname }}</td>
+            <td>
+{% for package in vm %}
+                    {{ package }} <br>
+{% endfor %}
+            </td>
+         </tr>
+{% endfor %}
+      </table>
+   </body>
+</html>
