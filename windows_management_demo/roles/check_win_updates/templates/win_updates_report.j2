@@ -1,4 +1,4 @@
 {{ inventory_hostname }}
-{% for update in list_of_updates.updates | dict2items %}
-{{ item.value.title }}
+{% for win_update in list_of_updates.updates | dict2items %}
+{{ win_update.value.title }}
 {% endfor %}
