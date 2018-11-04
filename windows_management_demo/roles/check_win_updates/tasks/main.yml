@@ -23,14 +23,14 @@
 - name: Create Interim Report
   template:
     src: consolidated_vms_report.html.j2
-    dest: "reports/consolidated_vms_report.html"
+    dest: "reports/Consolidated_VMs_Report.html"
   delegate_to: localhost
   run_once: yes
 
 - name: Consolidate Interim Report
   assemble:
     src: reports/
-    dest: reports/consolidated_vms_report.html
+    dest: reports/Consolidated_VMs_Report.html
   delegate_to: localhost
   run_once: yes
 
@@ -60,7 +60,7 @@
 - name: Consolidate Final Report
   assemble:
     src: reports/
-    dest: reports/consolidated_vms_report.html
+    dest: reports/Consolidated_VMs_Report.html
   delegate_to: localhost
   run_once: yes
 
@@ -81,6 +81,6 @@
     subject: "Ansible Report"
     body: "The list of required Windows Update for the Windows VMs can be found in the attached file"
     attach:
-     - reports/consolidated_vms_report.html
+     - reports/Consolidated_VMs_Report.html
   delegate_to: localhost
   run_once: yes
