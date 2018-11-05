@@ -1,8 +1,11 @@
 ---
 - name: Compare the running-config against Golden config
   ios_config:
-    diff_against: running
+    diff_against: intended
     intended_config: "{{ lookup('file', 'files/golden.cfg') }}"
+    diff_ignore_lines:
+      - Building configuration...
+      - Current configuration*
   register: config_diff
 
 - name: Print Config Difference, if any
