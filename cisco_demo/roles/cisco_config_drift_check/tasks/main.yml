@@ -7,7 +7,8 @@
 - name: Copy running config to running.cfg
   copy:
     content: "{{ running_config.stdout_lines }}"
-    dest: running.cfg
+    dest: files/running.cfg
+  delegate_to: localhost
 
 - name: Get Config Drift, if any
   shell: 'diff running.cfg files/golden.cfg'
