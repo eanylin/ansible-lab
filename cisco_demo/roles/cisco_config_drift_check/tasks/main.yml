@@ -7,11 +7,11 @@
 - name: Copy running config to running.cfg
   copy:
     content: "{{ running_config.stdout_lines }}"
-    dest: files/running.cfg
+    dest: cisco_demo/roles/cisco_config_drift_check/files/running.cfg
   delegate_to: localhost
 
 - name: Get Config Drift, if any
-  shell: 'diff running.cfg files/golden.cfg'
+  shell: 'diff cisco_demo/roles/cisco_config_drift_check/files/running.cfg cisco_demo/roles/cisco_config_drift_check/files/golden.cfg'
   register: diff_config
   delegate_to: localhost
 
