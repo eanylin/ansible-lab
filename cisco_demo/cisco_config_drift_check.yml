@@ -1,0 +1,7 @@
+---
+- name: Check Config Drift
+  hosts: "{{ cisco_router_ip }}"
+  gather_facts: no
+
+  roles:
+    - cisco_config_drift_check

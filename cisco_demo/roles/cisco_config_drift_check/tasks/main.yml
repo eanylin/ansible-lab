@@ -1,0 +1,10 @@
+---
+- name: Check the running-config against Golden config
+  ios_config:
+    diff_against: intended
+    intended_config: "{{ lookup('file', 'golden.cfg') }}"
+  register: config_diff
+
+- name: Print Config Difference, if any
+  debug:
+    msg: "{{ config_diff }}"
