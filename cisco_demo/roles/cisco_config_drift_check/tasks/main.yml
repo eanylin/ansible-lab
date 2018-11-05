@@ -2,7 +2,7 @@
 - name: Check the running-config against Golden config
   ios_config:
     diff_against: intended
-    intended_config: "{{ lookup('file', 'golden.cfg') }}"
+    intended_config: "{{ lookup('file', 'files/golden.cfg') }}"
   register: config_diff
 
 - name: Print Config Difference, if any
