@@ -5,6 +5,10 @@
     intended_config: "{{ lookup('file', 'files/golden.cfg') }}"
   register: config_diff
 
+- name: Print golden.cfg
+  debug:
+    msg: "{{ lookup('file', 'files/golden.cfg') }}"
+
 - name: Print Config Difference, if any
   debug:
     msg: "{{ config_diff }}"
