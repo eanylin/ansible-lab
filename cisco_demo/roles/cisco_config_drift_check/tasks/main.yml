@@ -4,6 +4,15 @@
     commands: show running-config
   register: running_config
 
-- name: Print Running Config
+- name: Copy running config to running.cfg
+  copy:
+    content: "{{ running_config.stdout_lines }}"
+    dest: running.cfg
+
+- name: Get Config Drift, if any
+  shell: 'diff running.cfg files/golden.cfg'
+  register: diff_config
+
+- name: Print Config Drift, if any
   debug:
-    msg: "{{ running_config }}"
+    msg: "{{ diff_config }}"
