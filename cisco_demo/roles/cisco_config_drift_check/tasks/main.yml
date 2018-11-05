@@ -1,20 +1,29 @@
 ---
-- name: Get running config
-  ios_command:
-    commands: show running-config
-  register: running_config
+- name: check the running-config against master config
+  ios_config:
+    diff_against: intended
+    intended_config: "{{ lookup('file', 'golden.cfg') }}"
 
-- name: Copy running config to running.cfg
-  copy:
-    content: "{{ running_config.stdout_lines }}"
-    dest: cisco_demo/roles/cisco_config_drift_check/files/running.cfg
-  delegate_to: localhost
-
-- name: Get Config Drift, if any
-  shell: 'diff cisco_demo/roles/cisco_config_drift_check/files/running.cfg cisco_demo/roles/cisco_config_drift_check/files/golden.cfg'
-  register: diff_config
-  delegate_to: localhost
-
-- name: Print Config Drift, if any
+- name: Print intended config
   debug:
-    msg: "{{ diff_config }}"
+    msg: "{{ intended_config }}"
+
+#- name: Get running config
+#  ios_command:
+#    commands: show running-config
+#  register: running_config
+#
+#- name: Copy running config to running.cfg
+#  copy:
+#    content: "{{ running_config.stdout_lines }}"
+#    dest: cisco_demo/roles/cisco_config_drift_check/files/running.cfg
+#  delegate_to: localhost
+#
+#- name: Get Config Drift, if any
+#  shell: 'diff cisco_demo/roles/cisco_config_drift_check/files/running.cfg cisco_demo/roles/cisco_config_drift_check/files/golden.cfg'
+#  register: diff_config
+#  delegate_to: localhost
+#
+#- name: Print Config Drift, if any
+#  debug:
+#    msg: "{{ diff_config }}"
