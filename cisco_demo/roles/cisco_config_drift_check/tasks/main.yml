@@ -12,6 +12,7 @@
 - name: Get Config Drift, if any
   shell: 'diff running.cfg files/golden.cfg'
   register: diff_config
+  delegate_to: localhost
 
 - name: Print Config Drift, if any
   debug:
