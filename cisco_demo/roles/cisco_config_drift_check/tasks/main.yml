@@ -80,6 +80,13 @@
     regexp: '^ (.*)$'
   delegate_to: localhost
 
+- name: Remove Information on Config File Size from the report
+  lineinfile:
+    path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
+    state: absent
+    regexp: "^(.*)Current configuration :(.*)$"
+  delegate_to: localhost
+
 - name: Consolidate Final Report
   assemble:
     src: reports/
