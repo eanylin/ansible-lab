@@ -1,47 +1,49 @@
 ---
+# For some reasons, the config drift functionalities for ios_config module
+# did not work properly for my environment in ansible 2.7.1 (it always states
+# that there is no configuration changes even when there is). The ideal approach
+# should really be ito simply make use of the ios_config module, i.e.
+#
+#- name: check the running-config against master config
+#  ios_config:
+#    diff_against: intended
+#    intended_config: "{{ lookup('file', 'golden.cfg') }}"
+#  register: config_drift
+#
+# I had to make use of the diff module from https://github.com/cytopia/ansible-modules
+# to get similar results
+#
+#
 - name: Get running config
   ios_command:
     commands: show running-config
   register: current_running_config
 
-- gen_diff:
-    source: "{{ lookup('file', 'golden.cfg') }}"
-    target: "{{ current_running_config.stdout[0] }}"
+- name: Check for Configuration Drift
+  gen_diff:
+    source: "{{ current_running_config.stdout[0] }}"
+    target: "{{ lookup('file', 'golden.cfg') }}"
     source_type: string
     target_type: string
   register: config_drift
 
-- name: Print Config Drift, if any
-  debug:
-    msg: "{{ config_drift.diff.delta }}"
+- name: Clean Up Reports Directory if it exists
+  file:
+    path: reports
+    state: absent
+  delegate_to: localhost
+  run_once: yes
 
-#- name: check the running-config against master config
-#  ios_config:
-#    running_config: "{{ running }}"
-#    intended_config: "{{ lookup('file', 'golden.cfg') }}"
-#    diff_against: intended
-#  register: config_drift
-#
-#- name: Print Config Drift
-#  debug:
-#    msg: "{{ config_drift }}"
+- name: Create Reports Directory
+  file:
+    path: reports
+    state: directory
+    mode: 0755
+  delegate_to: localhost
+  run_once: yes
 
-#- name: Get running config
-#  ios_command:
-#    commands: show running-config
-#  register: running_config
-#
-#- name: Copy running config to running.cfg
-#  copy:
-#    content: "{{ running_config.stdout_lines }}"
-#    dest: cisco_demo/roles/cisco_config_drift_check/files/running.cfg
-#  delegate_to: localhost
-#
-#- name: Get Config Drift, if any
-#  shell: 'diff cisco_demo/roles/cisco_config_drift_check/files/running.cfg cisco_demo/roles/cisco_config_drift_check/files/golden.cfg'
-#  register: diff_config
-#  delegate_to: localhost
-#
-#- name: Print Config Drift, if any
-#  debug:
-#    msg: "{{ diff_config }}"
+- name: Render Template
+  template:
+    src: templates/config_drift_template.j2
+    dest: reports/config_drift
+  delegate_to: localhost
