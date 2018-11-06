@@ -1,23 +1,34 @@
 ---
-- name: Get running config
-  ios_command:
-    commands: show running-config
-  register: current_running_config
+- set_fact:
+    running: "interface TenGigabitEthernet0/1/0\n description test"
 
-- name: Set fact for running config
-  set_fact:
-    running: "{{ current_running_config.stdout_lines[0] }}"
+- set_fact:
+    intended: "interface GigabitEthernet0/1/0\n description test"
 
-- name: check the running-config against master config
-  ios_config:
-    running_config: "{{ running }}"
-    intended_config: "{{ lookup('file', 'golden.cfg') }}"
+- ios_config:
+    running_config: '{{ running }}'
+    intended_config: '{{ intended }}'
     diff_against: intended
-  register: config_drift
 
-- name: Print Config Drift
-  debug:
-    msg: "{{ config_drift }}"
+#- name: Get running config
+#  ios_command:
+#    commands: show running-config
+#  register: current_running_config
+#
+#- name: Set fact for running config
+#  set_fact:
+#    running: "{{ current_running_config.stdout_lines[0] }}"
+#
+#- name: check the running-config against master config
+#  ios_config:
+#    running_config: "{{ running }}"
+#    intended_config: "{{ lookup('file', 'golden.cfg') }}"
+#    diff_against: intended
+#  register: config_drift
+#
+#- name: Print Config Drift
+#  debug:
+#    msg: "{{ config_drift }}"
 
 #- name: Get running config
 #  ios_command:
