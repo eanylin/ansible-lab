@@ -20,7 +20,7 @@
 - name: Render Facts as Report
   template:
     src: individual_cisco_router_report.html.j2
-    dest: "reports/{{ inventory_hostname }}_interim_report.html"
+    dest: "reports/interim_report_{{ inventory_hostname }}.html"
   delegate_to: localhost
 
 - name: Create Interim Report
