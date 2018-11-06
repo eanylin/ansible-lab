@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <th>Router</th>
+    <th>Configuration Drift, if any</th>
+  </tr>
+  <tr>
+    <td>{{ inventory_hostname }}</td>
+    <td>{{ config_drift.diff.delta }}</td>
+  </tr>
+</table>

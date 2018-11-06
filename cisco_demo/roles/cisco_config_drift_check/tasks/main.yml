@@ -45,13 +45,13 @@
 
 - name: Render Template
   template:
-    src: templates/config_drift_template.j2
-    dest: reports/config_drift
+    src: templates/config_drift_template.html.j2
+    dest: reports/config_drift.html
   delegate_to: localhost
 
 - name: Remove special characters from the report
   lineinfile:
-    path: reports/config_drift
+    path: reports/config_drift.html
     state: absent
     regexp: '^@@(.*)$'
   delegate_to: localhost
@@ -59,7 +59,7 @@
                                   
 - name: Remove config that were not changed from the report
   lineinfile:
-    path: reports/config_drift
+    path: reports/config_drift.html
     state: absent
     regexp: '^ (.*)$'
   delegate_to: localhost
