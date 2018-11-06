@@ -6,11 +6,11 @@
 
 - name: Set fact for running config
   set_fact:
-    running: "{{ current_running_config }}"
+    running: "{{ current_running_config.stdout_lines }}"
 
 - name: check the running-config against master config
   ios_config:
-    running_config: "{{ current_running_config }}"
+    running_config: "{{ running }}"
     intended_config: "{{ lookup('file', 'golden.cfg') }}"
     diff_against: intended
   register: config_drift
