@@ -87,6 +87,13 @@
     regexp: "^(.*)Current configuration :(.*)$"
   delegate_to: localhost
 
+- name: Clean Up lines with less than 3 characters
+  lineinfile:
+    path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
+    state: absent
+    regexp: "^.{0,3}((\r?\n)|$)"
+  delegate_to: localhost
+
 - name: Consolidate Final Report
   assemble:
     src: reports/
