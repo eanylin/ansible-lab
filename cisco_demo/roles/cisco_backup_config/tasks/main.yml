@@ -6,18 +6,18 @@
 
 - name: Rename Backup Config File
   copy:
-    src: "{{config_output.backup_path}}"
-    dest: "./backup/{{inventory_hostname}}.config"
+    src: "{{ config_output.backup_path }}"
+    dest: "backup/{{ inventory_hostname }}.cfg"
 
 - name: Remove Non Config Lines
   lineinfile:
-    path: "./backup/{{ inventory_hostname }}.cfg"
+    path: "backup/{{ inventory_hostname }}.cfg"
     line: "Building configuration..."
     state: absent
 
 - name: Remove Non Config Lines using Regular Expression
   lineinfile:
-    path: "./backup/{{ inventory_hostname }}.cfg"
+    path: "backup/{{ inventory_hostname }}.cfg"
     regexp: 'Current configuration.*'
     state: absent
 
