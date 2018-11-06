@@ -15,6 +15,9 @@
 # like which lines were added/removed, similar to git status.
 #
 #
+- name: Gather Facts
+  ios_facts:
+
 - name: Get running config
   ios_command:
     commands: show running-config
@@ -22,7 +25,7 @@
 
 - name: Check for Configuration Drift
   vars:
-    intended_config: "{{ inventory_hostname}}_golden.cfg"
+    intended_config: "{{ inventory_hostname }}_golden.cfg"
   gen_diff:
     source: "{{ current_running_config.stdout[0] }}"
     target: "{{ lookup('file', intended_config) }}"
@@ -56,14 +59,20 @@
     dest: "reports/{{ inventory_hostname }}_config_drift_report.txt"
   delegate_to: localhost
 
-- name: Remove special characters from the report
+- name: Remove Non Config Lines from the report
+  lineinfile:
+    path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
+    line: "Building configuration..."
+    state: absent
+  
+- name: Remove Special Characters from the report
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
     state: absent
     regexp: '^@@(.*)$'
   delegate_to: localhost
                                   
-- name: Remove config that were not changed from the report
+- name: Remove Unchanged Configurations from the report
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
     state: absent
