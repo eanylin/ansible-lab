@@ -2,7 +2,6 @@
 - name: Check Config Drift
   hosts: "{{ cisco_router_ip }}"
   connection: network_cli
-  become: yes
   gather_facts: no
 
   roles:
