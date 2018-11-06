@@ -62,7 +62,7 @@
 - name: Remove Non Config Lines from the report
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
-    line: "\+Building configuration..."
+    line: "+Building configuration..."
     state: absent
   delegate_to: localhost
 
