@@ -62,7 +62,7 @@
 - name: Remove Non Config Lines from the report
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
-    line: "+Building configuration..."
+    line: '^(+Building configuration...|+!|-!|+|---|+++)(.*)$'
     state: absent
   delegate_to: localhost
 
@@ -85,13 +85,6 @@
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
     state: absent
     regexp: "^(.*)Current configuration :(.*)$"
-  delegate_to: localhost
-
-- name: Clean Up lines with less than 3 characters
-  lineinfile:
-    path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
-    state: absent
-    regexp: "^.{0,3}((\r?\n)|$)"
   delegate_to: localhost
 
 - name: Consolidate Final Report
