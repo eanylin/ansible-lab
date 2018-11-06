@@ -4,7 +4,7 @@
     commands: show running-config
   register: current_running_config
 
-- diff:
+- check_diff:
     source: "{{ lookup('file', 'golden.cfg') }}"
     target: "{{ current_running_config[0] }}"
     source_type: string
