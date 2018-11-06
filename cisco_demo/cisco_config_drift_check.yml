@@ -4,8 +4,8 @@
   connection: network_cli
   gather_facts: no
 
-  roles:
-    - name: Check Config Drift
-      include_role:
-        name: cisco_config_drift_check
-        vars_from: "secrets.yml"
+  tasks:
+  - name: Check Config Drift
+    include_role:
+      name: cisco_config_drift_check
+      vars_from: "secrets.yml"
