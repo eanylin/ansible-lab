@@ -44,10 +44,33 @@
   delegate_to: localhost
   run_once: yes
 
+- name: Get the List of Interim Reports
+  find:
+    paths: reports/
+    patterns: 'interim_report_*.html'
+  register: interim_reports_to_delete
+  delegate_to: localhost
+  run_once: yes
+
+- name: Clean Up Interim Reports
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ interim_reports_to_delete.files }}"
+  delegate_to: localhost
+  run_once: yes
+
 - name: Consolidate Final Report
   assemble:
     src: reports/
     dest: reports/Consolidated_Cisco_IOS_Report.html
+  delegate_to: localhost
+  run_once: yes
+
+- name: Final Clean Up
+  file:
+    path: reports/consolidated_ios_report_last_block.html
+    state: absent
   delegate_to: localhost
   run_once: yes
 
