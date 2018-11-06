@@ -63,7 +63,7 @@
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
     state: absent
-    regexp: '^(+Building configuration...|+!|-!|+|---|+++)(.*)$'
+    regexp: '^(+Building configuration...|+!|-!|+|---|+++)'
   delegate_to: localhost
 
 - name: Remove Special Characters from the report
