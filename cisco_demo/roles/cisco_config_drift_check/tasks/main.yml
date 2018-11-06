@@ -3,10 +3,11 @@
   ios_config:
     diff_against: intended
     intended_config: "{{ lookup('file', 'golden.cfg') }}"
+  register: config_drift
 
-- name: Print intended config
+- name: Print Config Drift
   debug:
-    msg: "{{ intended_config }}"
+    msg: "{{ config_drift }}"
 
 #- name: Get running config
 #  ios_command:
