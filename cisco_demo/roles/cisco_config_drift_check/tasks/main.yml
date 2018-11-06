@@ -62,8 +62,8 @@
 - name: Remove Non Config Lines from the report
   lineinfile:
     path: "reports/{{ inventory_hostname }}_config_drift_report.txt"
-    line: '^(+Building configuration...|+!|-!|+|---|+++)(.*)$'
     state: absent
+    regexp: '^(+Building configuration...|+!|-!|+|---|+++)(.*)$'
   delegate_to: localhost
 
 - name: Remove Special Characters from the report
