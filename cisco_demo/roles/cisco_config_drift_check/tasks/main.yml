@@ -72,6 +72,11 @@
   delegate_to: localhost
   run_once: yes
 
+- name: Gather facts of localhost to get current time/date
+  setup:
+    gather_subset: 'min'
+  delegate_to: localhost
+
 - name: Send Email with Report
   mail:
     host: smtp.gmail.com
