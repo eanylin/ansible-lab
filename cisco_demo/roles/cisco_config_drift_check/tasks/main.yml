@@ -9,6 +9,11 @@
     target: "{{ current_running_config.stdout[0] }}"
     source_type: string
     target_type: string
+  register: config_drift
+
+- name: Print Config Drift, if any
+  debug:
+    msg: "{{ config_drift.diff.delta }}"
 
 #- name: check the running-config against master config
 #  ios_config:
