@@ -1,3 +1,7 @@
-{{ inventory_hostname.upper() }}
+{{ inventory_hostname }}
 ---
-{{ ansible_net_serialnum }} : {{ ansible_net_version }}
+Hostname: {{ ansible_net_hostname }}
+Model Number: {{ ansible_net_model }}
+Serial Number: {{ ansible_net_serialnum }}
+Software Version: {{ ansible_net_version }}
+
