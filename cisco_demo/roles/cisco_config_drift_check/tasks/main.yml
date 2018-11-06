@@ -49,18 +49,18 @@
     dest: reports/config_drift.html
   delegate_to: localhost
 
-- name: Remove special characters from the report
-  lineinfile:
-    path: reports/config_drift.html
-    state: absent
-    regexp: '^@@(.*)$'
-  delegate_to: localhost
-  run_once: yes
-                                  
-- name: Remove config that were not changed from the report
-  lineinfile:
-    path: reports/config_drift.html
-    state: absent
-    regexp: '^ (.*)$'
-  delegate_to: localhost
-  run_once: yes
+#- name: Remove special characters from the report
+#  lineinfile:
+#    path: reports/config_drift.html
+#    state: absent
+#    regexp: '^@@(.*)$'
+#  delegate_to: localhost
+#  run_once: yes
+#                                  
+#- name: Remove config that were not changed from the report
+#  lineinfile:
+#    path: reports/config_drift.html
+#    state: absent
+#    regexp: '^ (.*)$'
+#  delegate_to: localhost
+#  run_once: yes
