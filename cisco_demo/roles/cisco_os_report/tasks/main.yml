@@ -19,14 +19,35 @@
 
 - name: Render Facts as Report
   template:
-    src: templates/cisco_ios_report.j2
-    dest: "reports/{{ inventory_hostname }}_ios_report.txt"
+    src: individual_cisco_router_report.html.j2
+    dest: "reports/{{ inventory_hostname }}_interim_report.html"
   delegate_to: localhost
+
+- name: Create Interim Report
+  template:
+    src: consolidated_ios_report.html.j2
+    dest: "reports/Consolidated_Cisco_IOS_Report.html"
+  delegate_to: localhost
+  run_once: yes
+
+- name: Consolidate Interim Report
+  assemble:
+    src: reports/
+    dest: reports/Consolidated_Cisco_IOS_Report.html
+  delegate_to: localhost
+  run_once: yes
+
+- name: Generate Remaining Portion of Report
+  template:
+    src: consolidated_ios_report_last_block.html.j2
+    dest: reports/consolidated_ios_report_last_block.html
+  delegate_to: localhost
+  run_once: yes
 
 - name: Consolidate Final Report
   assemble:
     src: reports/
-    dest: reports/Consolidated_Cisco_IOS_Report.txt
+    dest: reports/Consolidated_Cisco_IOS_Report.html
   delegate_to: localhost
   run_once: yes
 
@@ -40,6 +61,6 @@
     subject: "Ansible Report"
     body: "The consolidated report for the Cisco IOS Routers can be found in the attached file"
     attach:
-     - reports/Consolidated_Cisco_IOS_Report.txt
+     - reports/Consolidated_Cisco_IOS_Report.html
   delegate_to: localhost
   run_once: yes

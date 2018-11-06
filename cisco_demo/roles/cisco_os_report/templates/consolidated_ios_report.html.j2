@@ -1,0 +1,23 @@
+{{ inventory_hostname }}
+--------------
+Hostname: {{ ansible_net_hostname }}
+Model Number: {{ ansible_net_model }}
+Serial Number: {{ ansible_net_serialnum }}
+Software Version: {{ ansible_net_version }}
+
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Report Table for Cisco IOS Routers</title>
+   </head>
+
+   <body>
+      <table border = "1" cellpadding = "5" cellspacing = "5">
+         <tr>
+            <th>Cisco IOS Routers</th>
+            <th>Hostname</th>
+            <th>Model Number</th>
+            <th>Serial Number</th>
+            <th>Software Version</th>
+         </tr>
