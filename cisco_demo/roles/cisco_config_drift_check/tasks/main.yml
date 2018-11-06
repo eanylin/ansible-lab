@@ -6,7 +6,7 @@
 
 - name: Set fact for running config
   set_fact:
-    running: "{{ current_running_config.stdout_lines }}"
+    running: "{{ current_running_config.stdout_lines[0] }}"
 
 - name: check the running-config against master config
   ios_config:
