@@ -1,17 +1,18 @@
 ---
-- name: Get router facts
-  ios_facts:
+- name: Get running config
+  ios_command:
+    commands: show running-config
+  register: current_running_config
 
-- name: check the startup-config against the running-config
-  ios_config:
-    diff_against: startup
-    diff_ignore_lines:
-      - ntp clock .*
+- name: Set fact for running config
+  set_fact:
+    running: "{{ current_running_config }}"
 
 - name: check the running-config against master config
   ios_config:
-    diff_against: intended
+    running_config: "{{ current_running_config }}"
     intended_config: "{{ lookup('file', 'golden.cfg') }}"
+    diff_against: intended
   register: config_drift
 
 - name: Print Config Drift
