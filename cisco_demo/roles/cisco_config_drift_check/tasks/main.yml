@@ -2,6 +2,12 @@
 - name: Get router facts
   ios_facts:
 
+- name: check the startup-config against the running-config
+  ios_config:
+    diff_against: startup
+    diff_ignore_lines:
+      - ntp clock .*
+
 - name: check the running-config against master config
   ios_config:
     diff_against: intended
