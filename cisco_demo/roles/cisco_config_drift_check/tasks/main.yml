@@ -52,6 +52,6 @@
   lineinfile:
     path: reports/config_drift
     state: absent
-    regexp: ' *'
+    regexp: '^\ *'
   delegate_to: localhost
   run_once: yes
