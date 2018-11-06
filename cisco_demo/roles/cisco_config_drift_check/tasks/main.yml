@@ -6,7 +6,7 @@
 
 - check_diff:
     source: "{{ lookup('file', 'golden.cfg') }}"
-    target: "{{ current_running_config[0] }}"
+    target: "{{ current_running_config }}"
     source_type: string
     target_type: string
 
