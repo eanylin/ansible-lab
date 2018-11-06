@@ -21,9 +21,11 @@
   register: current_running_config
 
 - name: Check for Configuration Drift
+  vars:
+    intended_config: "{{ inventory_hostname}}_golden.cfg"
   gen_diff:
     source: "{{ current_running_config.stdout[0] }}"
-    target: "{{ lookup('file', 'golden.cfg') }}"
+    target: "{{ lookup('file', intended_config) }}"
     source_type: string
     target_type: string
   register: config_drift
