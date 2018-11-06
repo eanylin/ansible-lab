@@ -47,3 +47,9 @@
     src: templates/config_drift_template.j2
     dest: reports/config_drift
   delegate_to: localhost
+
+- name: Remove Empty Lines in Report
+  lineinfile:
+    path: reports/config_drift
+    state: absent
+    regexp: '!  *'
