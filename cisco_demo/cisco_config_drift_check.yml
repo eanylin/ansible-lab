@@ -1,8 +1,11 @@
 ---
-- name: Check Config Drift
-  hosts: "{{ cisco_router_ip }}"
+- name: Check Cisco Router Config Drift
+  hosts: "{{ cisco_router }}"
   connection: network_cli
   gather_facts: no
 
   roles:
-    - cisco_config_drift_check
+    - name: Check Config Drift
+      include_role:
+        name: cisco_config_drift_check
+        vars_from: "secrets.yml"
