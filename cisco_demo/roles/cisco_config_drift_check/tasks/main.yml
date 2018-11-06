@@ -4,9 +4,9 @@
     commands: show running-config
   register: current_running_config
 
-- check_diff:
+- gen_diff:
     source: "{{ lookup('file', 'golden.cfg') }}"
-    target: "{{ current_running_config }}"
+    target: "{{ current_running_config.stdout[0] }}"
     source_type: string
     target_type: string
 
