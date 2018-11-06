@@ -53,3 +53,5 @@
     path: reports/config_drift
     state: absent
     regexp: '!  *'
+  delegate_to: localhost
+  run_once: yes
