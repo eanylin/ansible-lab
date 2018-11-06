@@ -1,4 +1,7 @@
 ---
+- name: Get router facts
+  ios_facts:
+
 - name: check the running-config against master config
   ios_config:
     diff_against: intended
