@@ -62,7 +62,6 @@
     state: absent
     regexp: '^@@(.*)$'
   delegate_to: localhost
-  run_once: yes
                                   
 - name: Remove config that were not changed from the report
   lineinfile:
@@ -70,7 +69,6 @@
     state: absent
     regexp: '^ (.*)$'
   delegate_to: localhost
-  run_once: yes
 
 - name: Consolidate Final Report
   assemble:
