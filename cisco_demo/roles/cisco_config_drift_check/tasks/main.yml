@@ -48,6 +48,14 @@
     dest: reports/config_drift
   delegate_to: localhost
 
+- name: Remove Special Characters in Report
+  lineinfile:
+    path: reports/config_drift
+    state: absent
+    regexp: '^@@ (.*)$'
+  delegate_to: localhost
+  run_once: yes
+
 - name: Remove Empty Lines in Report
   lineinfile:
     path: reports/config_drift
