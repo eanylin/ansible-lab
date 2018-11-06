@@ -43,6 +43,11 @@
   delegate_to: localhost
   run_once: yes
 
+- name: Gather facts of localhost to get current time/date
+  setup:
+    gather_subset: 'min'
+  delegate_to: localhost
+
 - name: Render Template
   template:
     src: templates/config_drift_template.txt.j2
@@ -71,11 +76,6 @@
     dest: reports/Consolidated_Config_Drift_Report.txt
   delegate_to: localhost
   run_once: yes
-
-- name: Gather facts of localhost to get current time/date
-  setup:
-    gather_subset: 'min'
-  delegate_to: localhost
 
 - name: Send Email with Report
   mail:
