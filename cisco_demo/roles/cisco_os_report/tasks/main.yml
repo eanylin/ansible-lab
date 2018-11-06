@@ -1,0 +1,45 @@
+---
+- name: Gather Router Facts
+  ios_facts:
+
+- name: Clean Up Reports Directory if it exists
+  file:
+    path: reports
+    state: absent
+  delegate_to: localhost
+  run_once: yes
+
+- name: Create Reports Directory
+  file:
+    path: reports
+    state: directory
+    mode: 0755
+  delegate_to: localhost
+  run_once: yes
+
+- name: Render Facts as Report
+  template:
+    src: templates/cisco_ios_report.j2
+    dest: "reports/{{ inventory_hostname }}_ios_report.txt"
+  delegate_to: localhost
+
+- name: Consolidate Final Report
+  assemble:
+    src: reports/
+    dest: reports/Consolidated_Cisco_IOS_Report.txt
+  delegate_to: localhost
+  run_once: yes
+
+- name: Send Email with Report
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "{{ gmail_account }}"
+    password: "{{ gmail_account_password }}"
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible Report"
+    body: "The consolidated report for the Cisco IOS Routers can be found in the attached file"
+    attach:
+     - reports/Consolidated_Cisco_IOS_Report.txt
+  delegate_to: localhost
+  run_once: yes

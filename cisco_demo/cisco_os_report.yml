@@ -1,0 +1,11 @@
+---
+- name: Generate Cisco IOS OS Report
+  hosts: "{{ cisco_router }}"
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+  - name: Generate OS report
+    include_role:
+      name: cisco_os_report
+      vars_from: "secrets.yml"
