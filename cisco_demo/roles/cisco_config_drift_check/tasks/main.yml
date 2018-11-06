@@ -11,7 +11,8 @@
 #  register: config_drift
 #
 # I had to make use of the diff module from https://github.com/cytopia/ansible-modules
-# to get similar results
+# to get similar results. I think this module has the added benefits to present things
+# like which lines were added/removed, similar to git status.
 #
 #
 - name: Get running config
@@ -48,10 +49,18 @@
     dest: reports/config_drift
   delegate_to: localhost
 
-- name: Remove Empty Lines in Report
+- name: Remove special characters from the report
   lineinfile:
     path: reports/config_drift
     state: absent
-    regexp: '^ !(.*)$'
+    regexp: '^@@(.*)$'
+  delegate_to: localhost
+  run_once: yes
+                                  
+- name: Remove config that were not changed from the report
+  lineinfile:
+    path: reports/config_drift
+    state: absent
+    regexp: '^ (.*)$'
   delegate_to: localhost
   run_once: yes
