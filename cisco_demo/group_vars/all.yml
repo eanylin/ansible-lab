@@ -1,2 +1,2 @@
 ---
-command_timeout: 900
+timeout: '900'
