@@ -1,0 +1,15 @@
+---
+- name: TFTP New System Image to Boot Flash Memory
+  ios_command:
+    commands:
+      - command: 'copy tftp bootflash:'
+        prompt: 'Address or name of remote host []?'
+        answer: "{{ tftp_server_ip }}"
+        prompt: 'Source filename []?'
+        answer: "{{ new_system_image }}"
+        prompt: 'Destination filename'
+        answer: "{{ new_system_image }}"
+
+- name: Print list of all files and directories in bootflash memory 
+  ios_command:
+    commands: 'dir bootflash:'
