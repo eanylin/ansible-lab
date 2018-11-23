@@ -1,7 +1,7 @@
 ---
 - name: TFTP New System Image to Boot Flash Memory
   vars:
-    ansible_command_timeout: 10
+    ansible_command_timeout: 600
   ios_command:
     commands:
       - command: 'copy tftp://{{ tftp_server_ip }}/{{ new_system_image }} bootflash:'
