@@ -3,7 +3,7 @@
   ios_command:
     commands: 'copy tftp://{{ tftp_server_ip }}/{{ new_system_image }} bootflash:'
     interval: 10
-    retries: "{{ number_of_retries }}"
+    retries: "{{ number_of_retries | int }}"
     wait_for: result[0] contains OK
 
 - name: Print list of all files and directories in bootflash memory 
