@@ -2,7 +2,7 @@
 - name: TFTP New System Image to Boot Flash Memory
   ios_command:
     commands:
-      - command: "copy tftp\:\/\/{{ tftp_server_ip }}\/{{ new_system_image }} bootflash\:"
+      - command: 'copy tftp://{{ tftp_server_ip }}/{{ new_system_image }} bootflash:'
 
 - name: Print list of all files and directories in bootflash memory 
   ios_command:
