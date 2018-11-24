@@ -22,9 +22,5 @@
     commands: 'verify bootflash:/{{ new_system_image }}'
   register: image_verification_results
 
-- name: Set verification results
-  set_fact:
-    verification_results: "{{ image_verification_results.stdout_lines | list }}"
-
 - debug:
-    msg: "{{ verification_results[-1] }}"
+    msg: "{{ verification_results.stdout | regex_search(Digital signature) }}"
