@@ -1,0 +1,8 @@
+---
+- name: Cisco Pre-Upgrade Actions
+  hosts: "{{ cisco_router }}"
+  connection: network_cli
+  gather_facts: no
+
+  roles:
+    - cisco_pre_upgrade_actions
