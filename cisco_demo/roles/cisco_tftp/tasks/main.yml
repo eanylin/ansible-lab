@@ -22,5 +22,7 @@
     commands: 'verify bootflash:/{{ new_system_image }}'
   register: image_verification_results
 
-- debug:
-    msg: "{{ image_verification_results.stdout[0].split('\n')[-1] }}"
+- name: Fail if Image Fails Verification Test
+  fail:
+    msg:
+  when: "successfully verified" not in {{ image_verification_results.stdout[0].split('\n')[-1] }}
