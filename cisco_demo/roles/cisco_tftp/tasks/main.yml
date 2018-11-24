@@ -20,4 +20,7 @@
     ansible_command_timeout: 60
   ios_command:
     commands: 'verify bootflash:/{{ new_system_image }}'
-    wait_for: result[0] contains 'Digital signature successfully verified'
+  register: image_verification_results
+
+- debug:
+    msg: "{{ image_verification_results }}"
