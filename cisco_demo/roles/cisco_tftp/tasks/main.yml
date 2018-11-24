@@ -23,4 +23,4 @@
   register: image_verification_results
 
 - debug:
-    msg: "{{ image_verification_results.stdout_lines[-1] }}"
+    msg: "{{ image_verification_results.stdout_lines | list }}[-1]"
