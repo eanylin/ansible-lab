@@ -23,11 +23,11 @@
 
 - name: Copy startup Configuration file to TFTP Server
   ios_command:
-    commands: 'copy nvram:startup-config tftp://{{ tftp_server_ip }}/{{ startup_config_backup_file }}'
+    commands: 'copy start tftp://{{ tftp_server_ip }}/{{ startup_config_backup_file }}'
 
 - name: Copy running Configuration file to TFTP Server
   ios_command:
-    commands: 'copy nvram:running-config tftp://{{ tftp_server_ip }}/{{ running_config_backup_file }}'
+    commands: 'copy run tftp://{{ tftp_server_ip }}/{{ running_config_backup_file }}'
 
 - name: Disable Silent File Prompt
   ios_config:
