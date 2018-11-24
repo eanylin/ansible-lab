@@ -38,8 +38,13 @@
       - command: 'reload'
         prompt: 'Proceed with reload\? \[confirm\]'
         answer: 'y'
-  notify:
-    - wait_for_reboot
+
+- name: Wait for Reload to Complete
+  wait_for:
+    host: "{{ cisco_router }}"
+    port: "{{ ssh_port }}"
+    delay: "{{ wait_time_before_checking }}"
+    timeout: "{{ wait_time_after_reboot }}"
 
 - name: Gather Facts after reboot
   ios_facts:
