@@ -11,9 +11,13 @@
 #    retries: "{{ number_of_retries | int }}"
 #    wait_for: result[0] contains OK
 
-- name: Print list of all files and directories in bootflash memory 
+- name: Print List of all Files and Directories in bootflash Memory 
   ios_command:
     commands: 'dir bootflash:'
+
+- name: Initialize image_integrity_check to fail
+  set_fact:
+    image_integrity_check: "fail"
 
 - name: Verify Image File Integrity
   vars:
@@ -22,7 +26,10 @@
     commands: 'verify bootflash:/{{ new_system_image }}'
   register: image_verification_results
 
-- name: Fail if Image Fails Verification Test
-  fail:
-    msg:
-  when: "successfully verified" not in "{{ image_verification_results.stdout[0].split('\n')[-1] }}"
+- name: Set image_integrity_check to pass if image is verified to be good
+  set_fact:
+    image_integrity_check: "pass"
+  when: "successfully verified" in "{{ image_verification_results.stdout[0].split('\n')[-1] }}"
+
+- debug:
+    msg: "{{ image_verification_results }}"
