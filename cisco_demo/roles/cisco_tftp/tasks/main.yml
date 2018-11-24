@@ -33,7 +33,7 @@
     msg: "Image Integrity Check Fails. Please check the uploaded image!"
   when: image_integrity_check == 'fail'
 
-- name: Calculate MD5 Hash of Image File
+- name: Verify MD5 Hash of Image File
   vars:
     ansible_command_timeout: 60
   ios_command:
