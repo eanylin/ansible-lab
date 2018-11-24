@@ -29,7 +29,7 @@
 - name: Set image_integrity_check to pass if image is verified to be good
   set_fact:
     image_integrity_check: "pass"
-  when: "successfully verified" in {{ image_verification_results.stdout[0].split('\n')[-1] }}
+  when: 'successfully verified' in {{ image_verification_results.stdout[0].split('\n')[-1] }}
 
 - debug:
     msg: "{{ image_verification_results }}"
