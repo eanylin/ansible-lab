@@ -23,4 +23,4 @@
   register: image_verification_results
 
 - debug:
-    msg: "{{ image_verification_results.stdout.split('\n')[-1] }}"
+    msg: "{{ image_verification_results.stdout[0].split('\n')[-1] }}"
