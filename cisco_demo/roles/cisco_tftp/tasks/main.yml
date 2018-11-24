@@ -25,4 +25,4 @@
 - name: Fail if Image Fails Verification Test
   fail:
     msg:
-  when: "successfully verified" not in {{ image_verification_results.stdout[0].split('\n')[-1] }}
+  when: "successfully verified" not in "{{ image_verification_results.stdout[0].split('\n')[-1] }}"
