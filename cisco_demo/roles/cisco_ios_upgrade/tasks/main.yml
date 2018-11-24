@@ -45,7 +45,6 @@
     port: "{{ ssh_port }}"
     delay: "{{ wait_time_before_checking }}"
     timeout: "{{ wait_time_after_reboot }}"
-    search_regex: OpenSSH
   connection: network_cli
 
 - name: Gather Facts after reboot
