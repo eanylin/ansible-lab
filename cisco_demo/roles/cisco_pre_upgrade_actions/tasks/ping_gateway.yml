@@ -1,0 +1,14 @@
+---
+- name: Ping "{{ item }}"
+  ios_command:
+    commands: 'ping {{ item }}'
+  register: ping_test_results
+
+- name: Set ping_test_check to pass/fail
+  set_fact:
+    ping_test_check: "{{ 'pass' if 'Success rate is 100 percent' in ping_test_results.stdout[0].split('\n')[-1] else 'fail' }}"
+
+- name: Fail Task if Ping Test Fails
+  fail:
+    msg: "Ping Test to {{ item }} Fails. Please check network connectivity!"
+  when: ping_test_check == 'fail'
