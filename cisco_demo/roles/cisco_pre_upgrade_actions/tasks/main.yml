@@ -6,7 +6,6 @@
     commands:
       - show ip interface brief
       - show version
-      - show vlan
 
 - name: Ping Tests to Gateways
   vars:
