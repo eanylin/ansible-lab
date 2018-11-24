@@ -15,10 +15,6 @@
   ios_command:
     commands: 'dir bootflash:'
 
-- name: Initialize image_integrity_check to fail
-  set_fact:
-    image_integrity_check: "fail"
-
 - name: Verify Image File Integrity
   vars:
     ansible_command_timeout: 60
@@ -26,10 +22,9 @@
     commands: 'verify bootflash:/{{ new_system_image }}'
   register: image_verification_results
 
-- name: Set image_integrity_check to pass if image is verified to be good
+- name: Set image_integrity_check to pass/fail
   set_fact:
-    image_integrity_check: "pass"
-  when: successfully in image_verification_results.stdout[0].split('\n')[-1]
+    image_integrity_check: "{{ 'pass' if 'Digital signature successfully verified' in image_verification_results.stdout[0].split('\n')[-1] else 'fail' }}"
 
 - debug:
-    msg: "{{ image_verification_results }}"
+    msg: "{{ image_integrity_check }}"
