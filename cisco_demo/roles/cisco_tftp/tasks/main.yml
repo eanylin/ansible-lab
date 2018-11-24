@@ -26,5 +26,7 @@
   set_fact:
     image_integrity_check: "{{ 'pass' if 'Digital signature successfully verified' in image_verification_results.stdout[0].split('\n')[-1] else 'fail' }}"
 
-- debug:
-    msg: "{{ image_integrity_check }}"
+- name: Fail Task if Image Integrity Check Fails
+  fail:
+    msg: "Image Integrity Check Fails. Please check the uploaded image!"
+  when: image_integrity_check == 'fail'
