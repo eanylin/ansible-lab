@@ -23,4 +23,4 @@
   register: image_verification_results
 
 - debug:
-    msg: {{ 'foobar' | regex_search('(foo)') }}
+    msg: "{{ 'foobar' | regex_search('(foo)') }}"
