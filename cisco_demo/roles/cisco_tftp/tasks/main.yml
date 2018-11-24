@@ -32,3 +32,19 @@
   fail:
     msg: "Image Integrity Check Fails. Please check the uploaded image!"
   when: image_integrity_check == 'fail'
+
+- name: Calculate MD5 Hash of Image File
+  vars:
+    ansible_command_timeout: 60
+  ios_command:
+    commands: 'verify /md5 bootflash:/{{ new_system_image }} {{ md5_hash }}'
+  register: md5_hash_verification_results
+
+- name: Set md5_hash_verification to pass/fail
+  set_fact:
+    md5_hash_verification: "{{ 'pass' if 'Verified' in md5_hash_verification_results.stdout[0].split('\n')[-1] else 'fail' }}"
+
+- name: Fail Task if MD5 Hash Check Fails
+  fail:
+    msg: "MD5 Hash Check Fails. Please check the uploaded image!"
+  when: md5_hash_verification == 'fail'
