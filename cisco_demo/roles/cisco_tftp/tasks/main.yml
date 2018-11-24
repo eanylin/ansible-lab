@@ -23,7 +23,7 @@
   register: image_verification_results
 
 - set_fact:
-    myvalue: "{{ results.stdout | regex_search(regexp,'Digital') }}"
+    myvalue: "{{ image_verification_results.stdout | regex_search(regexp,'Digital') }}"
   vars:
     regexp: 'value=\"([^"]+)'
 
