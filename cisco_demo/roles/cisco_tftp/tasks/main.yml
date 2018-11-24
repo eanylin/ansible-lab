@@ -23,4 +23,4 @@
   register: image_verification_results
 
 - debug:
-    msg: "{{ image_verification_results.stdout | regex_search('Digital signature') }}"
+    msg: "{{ image_verification_results.stdout | regex_search('(Digital signature)') }}"
