@@ -1,15 +1,17 @@
 ---
-#- name: TFTP New System Image to Boot Flash Memory
-#  vars:
-#    ansible_command_timeout: 600
-#  ios_command:
-#    commands:
-#      - command: 'copy tftp://{{ tftp_server_ip }}/{{ new_system_image }} bootflash:'
-#        prompt: 'Destination filename \[{{ new_system_image }}\]'
-#        answer: "\r"
-#    interval: 10
-#    retries: "{{ number_of_retries | int }}"
-#    wait_for: result[0] contains OK
+# Refer to https://github.com/ansible/ansible/issues/42200 for more information
+# on how to set command_time per task
+- name: TFTP New System Image to Boot Flash Memory
+  vars:
+    ansible_command_timeout: 600
+  ios_command:
+    commands:
+      - command: 'copy tftp://{{ tftp_server_ip }}/{{ new_system_image }} bootflash:'
+        prompt: 'Destination filename \[{{ new_system_image }}\]'
+        answer: "\r"
+    interval: 10
+    retries: "{{ number_of_retries | int }}"
+    wait_for: result[0] contains OK
 
 - name: Print List of all Files and Directories in bootflash Memory 
   ios_command:
