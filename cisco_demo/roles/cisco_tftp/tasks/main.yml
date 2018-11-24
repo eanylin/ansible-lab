@@ -22,10 +22,5 @@
     commands: 'verify bootflash:/{{ new_system_image }}'
   register: image_verification_results
 
-- set_fact:
-    myvalue: "{{ image_verification_results.stdout | regex_search(regexp,'Digital') }}"
-  vars:
-    regexp: 'value=\"([^"]+)'
-
 - debug:
-    var: myvalue
+    msg: {{ 'foobar' | regex_search('(foo)') }}
