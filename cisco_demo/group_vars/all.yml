@@ -1,1 +1,3 @@
 ---
+ssh_port: 22
+wait_time_after_reboot: 900

@@ -1,0 +1,49 @@
+---
+# Refer to https://www.cisco.com/c/en/us/td/docs/routers/csr1000/software/configuration/b_CSR1000v_Configuration_Guide/b_CSR1000v_Configuration_Guide_chapter_01001.pdf
+# on how to perform upgrade on Cisco CSR 1000v Router
+- name: Print List of all Files and Directories in bootflash Memory 
+  ios_command:
+    commands: 'dir bootflash:'
+
+- name: Delete all Entries in Bootable Image list
+  ios_config:
+    lines: 'no boot system'
+
+- name: Set Upgrade Image as Boot image
+  ios_config:
+    lines: 'boot system bootflash:/{{ new_system_image }}'
+
+- name: Updates GRUB menu list of images available on the bootflash disk
+  ios_command:
+    commands: 'write memory'
+
+- name: Ensure router loads system image from boot system commands in startup config
+  ios_config:
+    lines: 'config-register 0x2102'
+
+- name: Copy Running Config to Startup Config
+  ios_command:
+    commands:
+      - command: 'copy running-config startup-config'
+        prompt: 'Destination filename \[startup-config\]'
+        answer: "\r"
+
+- name: Write Memory
+  ios_command:
+    commands: 'write memory'
+
+- name: Reload
+  ios_command:
+    commands:
+      - command: 'reload'
+        prompt: 'Proceed with reload\? \[confirm\]'
+        answer: 'y'
+  notify:
+    - wait_for_reboot
+
+- name: Gather Facts after reboot
+  ios_facts:
+
+- name: Print Image Version
+  debug:
+    msg: "The current image verison is {{ ansible_net_version }}"

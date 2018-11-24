@@ -1,0 +1,5 @@
+---
+- name: wait_for_reboot
+    host: "{{ cisco_router }}"
+    port: "{{ ssh_port }}"
+    timeout: "{{ wait_time_after_reboot }}"
