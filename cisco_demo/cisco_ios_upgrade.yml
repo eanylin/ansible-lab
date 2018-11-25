@@ -4,5 +4,8 @@
   connection: network_cli
   gather_facts: no
 
-  roles:
-    - cisco_ios_upgrade
+  tasks:
+  - name: Cisco IOS Upgrade
+    include_role:
+      name: cisco_ios_upgrade
+      vars_from: "secrets.yml"
