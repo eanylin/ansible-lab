@@ -1,4 +1,19 @@
 ---
+# Run ping tests twice as the first ping test after node reboot may only
+# give 80% success rate even when everything is working properly. Hence
+# we will only capture results in the second attempt.
+- name: Execute Test Ping After Device Reboot
+  debug:
+    msg: "Execute test ping"
+
+- name: Ping "{{ item }}"
+  ios_command:
+    commands: 'ping {{ item }}'
+
+- name: Execute Actual Ping Test
+  debug:
+    msg: "Execute actual ping test and capture result"
+
 - name: Ping "{{ item }}"
   ios_command:
     commands: 'ping {{ item }}'
