@@ -46,3 +46,15 @@
     delay: "{{ wait_time_before_checking }}"
     timeout: "{{ wait_time_after_reboot }}"
   connection: network_cli
+
+- name: Send Email with Report
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: "{{ gmail_account }}"
+    password: "{{ gmail_account_password }}"
+    to: Anthony Lin <anthony.lin.test@gmail.com>
+    subject: "Ansible Report"
+    body: "{{ inventory_hostname }} has been upgraded with new boot image {{ new_system_image }}"
+  delegate_to: localhost
+  run_once: yes
