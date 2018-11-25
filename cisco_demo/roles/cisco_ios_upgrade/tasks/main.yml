@@ -46,10 +46,3 @@
     delay: "{{ wait_time_before_checking }}"
     timeout: "{{ wait_time_after_reboot }}"
   connection: network_cli
-
-- name: Gather Facts after reboot
-  ios_facts:
-
-- name: Print Image Version
-  debug:
-    msg: "The current image verison is {{ ansible_net_version }}"

@@ -7,7 +7,7 @@
       - show ip interface brief
       - show version
 
-- name: Ping Tests to Gateways
+- name: Perform Pre-Upgrade Ping Tests to Gateways
   vars:
     ansible_command_timeout: 60
   include: ping_gateway.yml

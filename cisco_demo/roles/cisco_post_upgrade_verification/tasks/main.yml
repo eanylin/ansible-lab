@@ -1,0 +1,30 @@
+---
+- name: Gather Facts after IOS Upgrade
+  ios_facts:
+
+- name: Print Image Version
+  debug:
+    msg: "The current image verison is {{ ansible_net_version }}"
+
+- name: Set image_version_check to pass/fail
+  set_fact:
+    image_version_check: "{{ 'pass' if ansible_net_version == desired_image_version else 'fail' }}"
+
+- name: Fail Task if Image Version Check Fails
+  fail:
+    msg: "Incorrect Version Detected After Upgrade. Please Check!"
+  when: image_version_check == 'fail'
+
+- name: Print File System Information
+  debug:
+    msg: "{{ ansible_net_filesystems_info }}"
+
+- name: Print Information of all Interfaces
+  debug:
+    msg: "{{ ansible_net_interfaces }}"
+
+- name: Perform Post Upgrade Ping Tests to Gateways
+  vars:
+    ansible_command_timeout: 60
+  include: ping_gateway.yml
+  loop: "{{ list_of_gateways }}"
