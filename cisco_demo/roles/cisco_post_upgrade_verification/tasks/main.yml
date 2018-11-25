@@ -24,10 +24,10 @@
     msg: "The operation status {{ item.key }} is {{ item.value.operstatus}} and the interface is {{ item.value.lineprotocol }}"
   with_dict: "{{ ansible_net_interfaces }}"
 
-- name: Check for Interfaces that are Down
+- name: Check for Interfaces that are Not 'Administratively Down' but have Line Protocol that are 'Down'
   fail:
     msg: "Please check Interface {{ item.key }}!"
-  when: item.value.operstatus != 'up' and item.value.lineprotocol == 'down '
+  when: item.value.operstatus != 'administratively down' and item.value.lineprotocol == 'down '
   with_dict: "{{ ansible_net_interfaces }}"
 
 - name: Perform Post Upgrade Ping Tests to Gateways
