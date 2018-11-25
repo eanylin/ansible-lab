@@ -27,7 +27,7 @@
 - name: Check for Interfaces that are Down
   fail:
     msg: "Please check Interface {{ item.key }}!"
-  when: item.value.operstatus != 'administratively down' and item.value.lineprotocol == 'down'
+  when: item.value.operstatus != 'administratively down' or item.value.lineprotocol == 'down'
   with_dict: "{{ ansible_net_interfaces }}"
 
 - name: Perform Post Upgrade Ping Tests to Gateways
