@@ -25,7 +25,7 @@
 
 - name: Check Line Protocol of Each Interface
   debug:
-    msg: "{{ item.key }}" is "{{ item.value.lineprotocol }}"
+    msg: "{{ item.key }} is {{ item.value.lineprotocol }}"
   with_dict: "{{ ansible_net_interfaces }}"
 
 - name: Perform Post Upgrade Ping Tests to Gateways
