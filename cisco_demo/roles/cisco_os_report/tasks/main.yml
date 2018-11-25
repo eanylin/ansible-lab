@@ -77,7 +77,7 @@
 - name: Send Email with Report
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: "{{ gmail_account }}"
     password: "{{ gmail_account_password }}"
     to: Anthony Lin <anthony.lin.test@gmail.com>
