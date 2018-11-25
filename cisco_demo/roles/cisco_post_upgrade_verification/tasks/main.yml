@@ -23,6 +23,11 @@
   debug:
     msg: "{{ ansible_net_interfaces }}"
 
+- name: Check Line Protocol of Each Interface
+  debug:
+    msg: "{{ item.lineprotocol }}"
+  loop: "{{ ansible_net_interfaces }}"
+
 - name: Perform Post Upgrade Ping Tests to Gateways
   vars:
     ansible_command_timeout: 60
