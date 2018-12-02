@@ -10,15 +10,3 @@
     comment: "{{ a_record_comments }}"
     state: present
     provider: "{{ nios_provider }}"
-
-- name: Create PTR Record
-  nios_ptr_record:
-    ptrdname: "{{ a_record }}"
-    view: "{{ dns_view }}"
-    ipv4: "{{ ipv4_address }}"
-    ttl: 3600
-    extattrs:
-      Site: "{{ site_info }}"
-    comment: "{{ a_record_comments }}"
-    state: present
-    provider: "{{ nios_provider }}"
