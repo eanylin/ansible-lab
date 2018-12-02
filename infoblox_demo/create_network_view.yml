@@ -1,6 +1,7 @@
 ---
 - name: Create Network View
   hosts: localhost
+  connection: local
   gather_facts: false
 
   tasks:
