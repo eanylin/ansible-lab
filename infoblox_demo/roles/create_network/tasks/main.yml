@@ -4,7 +4,7 @@
     network: "{{ network }}"
     network_view: "{{ network_view }}"
     extattrs:
-      site: "{{ site_info }}"
+      Site: "{{ site_info }}"
     comment: "{{ network_comments }}"
     state: present
     provider: "{{ nios_provider }}"
