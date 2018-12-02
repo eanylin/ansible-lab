@@ -1,0 +1,12 @@
+---
+- name: Create A Record
+  nios_a_record: 
+    name: "{{ a_record }}"
+    view: "{{ dns_view }}"
+    ipv4: "{{ ip_address }}"
+    ttl: 3600
+    extattrs:
+      Site: "{{ site_info }}"
+    comment: "{{ network_comments }}"
+    state: present
+    provider: "{{ nios_provider }}"

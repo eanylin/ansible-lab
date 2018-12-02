@@ -1,0 +1,11 @@
+---
+- name: Create Record
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Create Record
+    include_role:
+      name: create_record
+      vars_from: "secrets.yml"
