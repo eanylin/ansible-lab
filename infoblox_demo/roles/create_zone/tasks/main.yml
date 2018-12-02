@@ -5,7 +5,7 @@
     zone_format: IPV4
     view: "{{ dns_view }}"
     grid_primary:
-      - name: "{{ inventory_hostname }}"
+      - name: "{{ primary_grid }}"
     extattrs:
       Site: "{{ site_info }}"
     comment: "{{ zone_comments }}"
