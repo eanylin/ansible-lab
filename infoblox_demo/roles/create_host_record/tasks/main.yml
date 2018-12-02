@@ -3,7 +3,8 @@
   nios_host_record: 
     name: "{{ host_record }}"
     view: "{{ dns_view }}"
-    ipv4: "{{ ipv4_address }}"
+    ipv4:
+      - address: "{{ ipv4_address }}"
     ttl: 3600
     extattrs:
       Site: "{{ site_info }}"
