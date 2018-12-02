@@ -3,6 +3,8 @@
   nios_network:
     network: "{{ network }}"
     network_view: "{{ network_view }}"
-    comment: "{{ network_view_comments }}"
+    extattrs:
+      site: "{{ site_info }}"
+    comment: "{{ network_comments }}"
     state: present
     provider: "{{ nios_provider }}"

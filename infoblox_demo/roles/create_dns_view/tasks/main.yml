@@ -3,6 +3,8 @@
   nios_dns_view:
     name: "{{ dns_view }}"
     network_view: "{{ network_view }}"
+    extattrs:
+      site: "{{ site_info }}"
     comment: "{{ dns_view_comments }}"
     state: present
     provider: "{{ nios_provider }}"
