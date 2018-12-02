@@ -1,7 +1,7 @@
 ---
 - name: Retrieve Host Record Information
   set_fact:
-    host: "{{ lookup('nios', 'record:host', filter={'name': host_record}, provider=nios_provider) }}"
+    host: "{{ lookup('nios', 'record:host', filter={'name': 'host1.ansiblezone.com'}, provider=nios_provider) }}"
 
 - name: Print Host Record Information
   debug:
