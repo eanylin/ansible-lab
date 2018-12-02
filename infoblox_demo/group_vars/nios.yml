@@ -1,0 +1,5 @@
+---
+nios_provider:
+  host: "{{ grid_manager }}"
+  username: "{{ infoblox_username }}"
+  password: "{{ infoblox_password }}"

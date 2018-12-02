@@ -4,8 +4,4 @@
     name: "{{ nios_network }}"
     comment: "{{ network_view_comments }}"
     state: present
-    provider:
-      host: "{{ inventory_hostname_short }}"
-      username: "{{ infoblox_username }}"
-      password: "{{ infoblox_password }}"
-  connection: local
+    provider: "{{ nios_provider }}"

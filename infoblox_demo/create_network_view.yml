@@ -1,6 +1,6 @@
 ---
 - name: Create Network View
-  hosts: localhost
+  hosts: "{{ grid_manager }}"
   connection: local
   gather_facts: false
 
