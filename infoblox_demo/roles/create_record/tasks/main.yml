@@ -13,7 +13,7 @@
 
 - name: Create PTR Record
   nios_ptr_record:
-    ptrdname: "{{ ptr_record }}"
+    ptrdname: "{{ a_record }}"
     view: "{{ dns_view }}"
     ipv4: "{{ ipv4_address }}"
     ttl: 3600
