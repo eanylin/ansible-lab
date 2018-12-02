@@ -1,0 +1,10 @@
+---
+- name: Create Network View
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Create Network View
+    include_role:
+      name: create_network_view
+      vars_from: "secrets.yml"

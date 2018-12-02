@@ -1,0 +1,7 @@
+[grid_manager]
+infoblox1 ansible_host=1.2.3.4
+
+[fortinet:vars]
+ansible_user="{{ infoblox_username }}"
+ansible_password="{{ infoblox_password }}"
+ansible_connection=local
