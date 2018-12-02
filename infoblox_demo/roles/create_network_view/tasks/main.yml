@@ -9,6 +9,6 @@
     name: "{{ nios_network }}"
     extattrs:
       Site: "{{ site_name }}"
-    comments: "{{ network_view_comments }}"
+    comment: "{{ network_view_comments }}"
     state: present
     provider: "{{ nios_provider }}"
