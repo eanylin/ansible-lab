@@ -2,7 +2,6 @@
 - name: Create Zone
   nios_zone:
     name: "{{ zone_name }}"
-    zone_format: IPV4
     view: "{{ dns_view }}"
     grid_primary:
       - name: "{{ primary_grid }}"
