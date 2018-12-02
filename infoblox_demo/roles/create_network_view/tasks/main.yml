@@ -1,14 +1,11 @@
 ---
 - name: Create Network View
-  vars:
-    nios_provider:
-      host: "{{ grid_manager }}"
-      username: "{{ infoblox_username }}"
-      password: "{{ infoblox_password }}"
   nios_network_view:
     name: "{{ nios_network }}"
-    extattrs:
-      Site: "{{ site_name }}"
     comment: "{{ network_view_comments }}"
     state: present
-    provider: "{{ nios_provider }}"
+    provider:
+      host: "{{ inventory_hostname_short }}"
+      username: "{{ infoblox_username }}"
+      password: "{{ infoblox_password }}"
+  connection: local
