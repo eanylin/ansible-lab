@@ -1,4 +1,12 @@
 ---
+- name: fetch all networkview objects
+  set_fact:
+    networkviews: "{{ lookup('nios', 'networkview', provider=nios_provider) }}"
+
+- name: check the networkviews
+  debug:
+    var: networkviews
+
 - name: Retrieve Host Record Information
   set_fact:
     host: "{{ lookup('nios', 'record:host', filter={'name': 'host1.ansiblezone.com'}, provider=nios_provider) }}"
