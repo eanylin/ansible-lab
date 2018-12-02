@@ -2,7 +2,7 @@
 - name: Create Zone
   hosts: "{{ grid_manager }}"
   connection: local
-  gather_facts: false
+  gather_facts: true
 
   tasks:
   - name: Create Zone
