@@ -1,12 +1,12 @@
 ---
-- name: Create A Record
-  nios_a_record: 
-    name: "{{ a_record }}"
+- name: Create Host Record
+  nios_host_record: 
+    name: "{{ host_record }}"
     view: "{{ dns_view }}"
     ipv4: "{{ ipv4_address }}"
     ttl: 3600
     extattrs:
       Site: "{{ site_info }}"
-    comment: "{{ a_record_comments }}"
+    comment: "{{ host_record_comments }}"
     state: present
     provider: "{{ nios_provider }}"
