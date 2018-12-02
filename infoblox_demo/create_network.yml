@@ -1,0 +1,11 @@
+---
+- name: Create Network
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Create Network
+    include_role:
+      name: create_network
+      vars_from: "secrets.yml"

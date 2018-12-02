@@ -1,0 +1,8 @@
+---
+- name: Create Network
+  nios_network:
+    network: "{{ network }}"
+    network_view: "{{ network_view }}"
+    comment: "{{ network_view_comments }}"
+    state: present
+    provider: "{{ nios_provider }}"

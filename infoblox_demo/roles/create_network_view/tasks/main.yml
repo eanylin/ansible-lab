@@ -1,7 +1,7 @@
 ---
 - name: Create Network View
   nios_network_view:
-    name: "{{ nios_network }}"
+    name: "{{ network_view }}"
     comment: "{{ network_view_comments }}"
     state: present
     provider: "{{ nios_provider }}"
