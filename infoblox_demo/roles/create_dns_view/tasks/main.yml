@@ -2,6 +2,7 @@
 - name: Create DNS View
   nios_dns_view:
     name: "{{ dns_view }}"
+    network_view: "{{ network_view }}"
     comment: "{{ dns_view_comments }}"
     state: present
     provider: "{{ nios_provider }}"
