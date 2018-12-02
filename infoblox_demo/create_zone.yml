@@ -1,0 +1,11 @@
+---
+- name: Create Zone
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Create Zone
+    include_role:
+      name: create_zone
+      vars_from: "secrets.yml"

@@ -1,0 +1,14 @@
+---
+- name: Create Zone
+  nios_zone:
+    name: "{{ zone_name }}"
+    zone_format: IPV4
+    view: "{{ dns_view }}"
+    grid_primary:
+      - name: "{{ inventory_hostname }}"
+    extattrs:
+      Site: "{{ site_info }}"
+    comment: "{{ zone_comments }}"
+    restart_if_needed: true
+    state: present
+    provider: "{{ nios_provider }}"
