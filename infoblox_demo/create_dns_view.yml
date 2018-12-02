@@ -1,0 +1,11 @@
+---
+- name: Create DNS View
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Create DNS View
+    include_role:
+      name: create_dns_view
+      vars_from: "secrets.yml"
