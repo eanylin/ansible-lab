@@ -1,0 +1,32 @@
+---
+- name: Create a virtual machine from Template and Customize
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: False
+    folder: "/{{ vm_datacenter }}/vm"
+    name: "{{ vm_hostname }}"
+    state: poweredon
+    template: "{{ vm_template }}"
+    disk:
+    - size_gb: "{{ vm_flavor.disk_size }}"
+      type: "{{ vm_disk_provisioning_type }}"
+      datastore: "{{ vm_datastore }}"
+    hardware:
+      memory_mb: "{{ vm_flavor.ram }}"
+      num_cpus: "{{ vm_flavor.vcpu }}"
+    networks:
+    - name: "{{ vm_network }}"
+      ip: "{{ ipv4_address }}"
+      netmask: "{{ subnet_netmask }}"
+      gateway: "{{ subnet_gateway }}"
+    wait_for_ip_address: yes
+    customization:
+      domain: "{{ vm_domain }}"
+      dns_servers:
+      - "{{ vm_dns_server }}"
+      hostname: "{{ vm_hostname }}"
+  delegate_to: localhost
+
+- name: Wait for system to become reachable over SSH
+  wait_for_connection:
+    timeout: 300

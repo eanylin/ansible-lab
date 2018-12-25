@@ -1,6 +1,28 @@
 ---
 infoblox_username: cloudadmin
+m1.tiny:
+  vcpu: 1
+  disk_size: 1
+  ram: 512
+m1.small:
+  vcpu: 1
+  disk_size: 20
+  ram: 2048
+m1.medium:
+  vcpu: 2
+  disk_size: 40
+  ram: 4096
+m1.large:
+  vcpu: 4
+  disk_size: 80
+  ram: 8192
+m1.xlarge:
+  vcpu: 8
+  disk_size: 160
+  ram: 16384
 nios_provider:
   host: "{{ grid_manager }}"
   username: "{{ infoblox_username }}"
   password: "{{ infoblox_password }}"
+vm_domain: 'domain.com'
+vm_network: 'VM Network'
