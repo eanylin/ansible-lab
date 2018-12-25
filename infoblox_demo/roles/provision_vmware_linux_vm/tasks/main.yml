@@ -1,5 +1,5 @@
 ---
-- name: Create a virtual machine from Template and Customize
+- name: Create Linux Virtual Machine from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
