@@ -17,7 +17,7 @@
       num_cpus: "{{ vm_vcpu }}"
     networks:
     - name: "{{ vm_network }}"
-      ip: "{{ ipv4_address }}"
+      ip: "{{ ipv4_address[0] }}"
       netmask: "{{ subnet_netmask }}"
       gateway: "{{ subnet_gateway }}"
     wait_for_ip_address: yes

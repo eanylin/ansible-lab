@@ -4,7 +4,7 @@
     name: "{{ vm_hostname }}"
     view: "{{ dns_view }}"
     ipv4:
-      - address: "{{ ipv4_address }}"
+      - address: "{{ ipv4_address[0] }}"
     ttl: 3600
     extattrs:
       Site: "{{ site_info }}"
