@@ -1,0 +1,9 @@
+---
+- name: Return next available IP addresses for network "{{ ipam_network }}", excluding gateway IPs
+  set_fact:
+    ipaddr: "{{ lookup('nios_next_ip', ipam_network, num=1, exclude=subnet_gateway,
+                provider={'host': grid_manager, 'username': infoblox_username, 'password': infoblox_password }}"
+
+- name: Print next available IP
+  debug:
+    var: ipaddr
