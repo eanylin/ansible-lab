@@ -1,25 +1,5 @@
 ---
 infoblox_username: cloudadmin
-tiny:
-  vcpu: 1
-  disk_size: 1
-  ram: 512
-small:
-  vcpu: 1
-  disk_size: 20
-  ram: 2048
-medium:
-  vcpu: 2
-  disk_size: 40
-  ram: 4096
-large:
-  vcpu: 4
-  disk_size: 80
-  ram: 8192
-xlarge:
-  vcpu: 8
-  disk_size: 160
-  ram: 16384
 nios_provider:
   host: "{{ grid_manager }}"
   username: "{{ infoblox_username }}"
