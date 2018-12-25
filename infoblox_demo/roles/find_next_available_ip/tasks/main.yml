@@ -1,9 +1,14 @@
 ---
 - name: Return next available IP addresses for network "{{ ipam_network }}", excluding gateway IPs
   set_fact:
-    ipv4_address: "{{ lookup('nios_next_ip', ipam_network, exclude=subnet_gateway.split(','),
-                   provider=nios_provider) }}"
+    ipaddr: "{{ lookup('nios_next_ip', ipam_network, exclude=subnet_gateway.split(','),
+                provider=nios_provider) }}"
 
 - name: Print next available IP
   debug:
-    var: ipv4_address
+    var: ipaddr
+
+- name: Save information of next available IP for subsequent workflow
+  set_stats:
+    data:
+      ipv4_address: "{{ ipaddr }}"
