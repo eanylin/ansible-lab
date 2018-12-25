@@ -26,7 +26,3 @@
       dns_servers:
       - "{{ vm_dns_server }}"
   delegate_to: localhost
-
-- name: Wait for system to become reachable over SSH
-  wait_for_connection:
-    timeout: 300
