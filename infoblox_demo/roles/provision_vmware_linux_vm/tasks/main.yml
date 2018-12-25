@@ -1,7 +1,6 @@
 ---
 - name: Create a virtual machine from Template and Customize
   vmware_guest:
-    hostname: "{{ vm_hostname }}"
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
     folder: "/{{ vm_datacenter }}/vm"
