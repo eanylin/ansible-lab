@@ -8,3 +8,8 @@
     snapshot_name: "{{ vm_snapshot_name }}"
     description: "{{ vm_snapshot_description }}"
   delegate_to: localhost
+
+- name: Save information of hostname for subsequent workflow
+  set_stats:
+    data:
+      hostname_vm: "{{ vm_hostname }}"

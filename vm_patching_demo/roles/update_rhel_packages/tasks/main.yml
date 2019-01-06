@@ -3,4 +3,4 @@
   yum:
     name: "{{ required_packages }}"
     state: latest
-  when: name == 'web-app1'
+  when: name == hostname_vm
