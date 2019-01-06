@@ -1,6 +1,6 @@
 ---
 - name: Update Packages
-  hosts: "{{ vm_name }}"
+  hosts: "{{ vm_inventory_group }}"
   become: yes
   gather_facts: yes
 
