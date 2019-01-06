@@ -1,0 +1,7 @@
+---
+- name: Create VM Snapshot
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - create_vmware_vm_snapshot

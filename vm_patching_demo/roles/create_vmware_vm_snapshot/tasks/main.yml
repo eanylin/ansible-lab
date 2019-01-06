@@ -1,0 +1,10 @@
+---
+- name: Create VM Snapshot
+  vmware_guest_snapshot:
+    datacenter: "{{ vm_datacenter }}"
+    folder: "/{{ vm_datacenter }}/vm"
+    name: "{{ vm_hostname }}"
+    state: present
+    snapshot_name: "{{ vm_snapshot_name }}"
+    description: "{{ vm_snapshot_description }}"
+  delegate_to: localhost
