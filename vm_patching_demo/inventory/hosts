@@ -1,0 +1,9 @@
+[localhost]
+127.0.0.1 ansible_connection=local
+
+[rhel7_64Guest]
+webserver1 ansible_host=172.16.100.180
+
+[rhel7_64Guest:vars]
+ansible_user=ansible
+ansible_password=mypassword

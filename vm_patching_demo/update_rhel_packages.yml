@@ -1,0 +1,8 @@
+---
+- name: Update Packages
+  hosts: "{{ vm_name }}"
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - update_rhel_packages

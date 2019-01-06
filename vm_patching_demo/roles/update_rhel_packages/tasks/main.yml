@@ -1,0 +1,5 @@
+---
+- name: Update Packages
+  yum:
+    name: "{{ required_packages }}"
+    state: latest
