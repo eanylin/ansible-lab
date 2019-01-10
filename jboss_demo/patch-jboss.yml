@@ -1,0 +1,8 @@
+---
+# This playbook patches a standalone JBoss server.
+- name: Patch Standalone JBoss Server
+  hosts: "{{ jboss_server }}"
+  gather_facts: False
+
+  roles:
+    - patch-jboss
