@@ -4,3 +4,4 @@
   vars:
     cmd: >-
       patch apply /tmp/{{ jboss_eap_patch_artifact_name }} --verbose --override-all
+  when: name == hostname_vm
