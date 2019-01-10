@@ -2,6 +2,8 @@
 # This playbook patches a standalone JBoss server.
 - name: Patch Standalone JBoss Server
   hosts: "{{ jboss_server }}"
+  become_user: "{{ jboss_eap_user }}"
+  become: yes
   gather_facts: False
 
   roles:

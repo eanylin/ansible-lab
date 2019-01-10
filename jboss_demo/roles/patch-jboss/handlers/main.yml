@@ -1,5 +1,0 @@
----
-- name: Restart jboss-as Service
-  service:
-    name: jboss
-    state: restarted

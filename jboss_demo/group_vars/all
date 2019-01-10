@@ -1,7 +1,6 @@
 # Variables related to the standalone JBoss installation
 http_port: 8080
 https_port: 8443
-jboss_eap_home: '/usr/share/jboss-as'
-jboss_eap_patch_dest: '/usr/share/jboss-as/patches/'
-jboss_eap_user: jboss
-satellite_server: satellite.domain.com
+jboss_eap_home: '/opt/jboss-as/jboss-eap-6.4'
+jboss_eap_patch_artifact_name: 'jboss-eap-6.4.7-patch.zip'
+jboss_eap_user: jboss-eap

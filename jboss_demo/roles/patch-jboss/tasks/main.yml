@@ -1,14 +1,6 @@
 ---
-#- name: Download JBoss EAP Patch
-#  get_url:
-#    url: 'http://{{ satellite_server }}/pub/{{ patch_file }}'
-#    dest: '{{ jboss_eap_patch_dest }}'
-#    owner: jboss
-#    group: jboss
-#    mode: 0644
-
 - name: Apply JBoss EAP Patch
-  become_user: "{{ jboss_eap_user }}"
-  command: "{{ jboss_eap_home }}/bin/jboss-cli.sh 'patch apply {{ jboss_eap_patch_dest }}{{ patch_file }} --verbose'"
-  notify:
-    - Restart jboss-as Service
+  command: "{{ jboss_eap_home }}/bin/jboss-cli.sh {{ '--command=' ~ cmd | quote }}"
+  vars:
+    cmd: >-
+      patch apply /tmp/{{ jboss_eap_patch_artifact_name }} --verbose --override-all
