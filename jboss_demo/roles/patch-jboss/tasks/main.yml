@@ -1,11 +1,11 @@
 ---
-- name: Download JBoss EAP Patch
-  get_url:
-    url: 'http://{{ satellite_server }}/pub/{{ patch_file }}'
-    dest: '{{ jboss_eap_patch_dest }}'
-    owner: jboss
-    group: jboss
-    mode: 0644
+#- name: Download JBoss EAP Patch
+#  get_url:
+#    url: 'http://{{ satellite_server }}/pub/{{ patch_file }}'
+#    dest: '{{ jboss_eap_patch_dest }}'
+#    owner: jboss
+#    group: jboss
+#    mode: 0644
 
 - name: Apply JBoss EAP Patch
   become_user: "{{ jboss_eap_user }}"
