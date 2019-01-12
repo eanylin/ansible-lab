@@ -18,7 +18,7 @@
       owner: jboss
       group: jboss
       mode: 0644
-    remote_src: yes
+      remote_src: yes
 
   - name: Apply JBoss EAP Patch
     become_user: "{{ jboss_eap_user }}"
