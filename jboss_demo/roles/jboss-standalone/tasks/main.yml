@@ -93,8 +93,10 @@
     port: "{{ item }}"
     state: enabled 
   loop:
-    - "{{ http_port }}/tcp"
-    - "{{ https_port }}/tcp"
+    - "{{ jboss_http_port }}/tcp"
+    - "{{ jboss_https_port }}/tcp"
+    - "{{ jboss_management_http_port }}/tcp"
+    - "{{ jboss_management_https_port }}/tcp"
 
 - name: Sending notification email
   mail:
