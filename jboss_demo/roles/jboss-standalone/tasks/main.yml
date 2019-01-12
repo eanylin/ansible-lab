@@ -77,7 +77,7 @@
 
 - name: Deploy iptables rules
   template:
-    src: iptables-save
+    src: iptables-save.j2
     dest: /etc/sysconfig/iptables
   notify: restart iptables
 
