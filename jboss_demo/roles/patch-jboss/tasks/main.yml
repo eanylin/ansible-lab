@@ -21,8 +21,6 @@
       remote_src: yes
 
   - name: Apply JBoss EAP Patch
-    become_user: "{{ jboss_eap_user }}"
-    become: yes
     command: "{{ jboss_eap_home }}/bin/jboss-cli.sh {{ '--command=' ~ cmd | quote }}"
     vars:
       cmd: >-
