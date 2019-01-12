@@ -6,6 +6,11 @@
       - unzip
     state: present
 
+- name: Remove JBoss EAP Directory if it Exists
+  file:
+    path: /opt/jboss-as
+    state: absent
+
 - name: Create group "jboss"
   group:
     name: jboss
@@ -16,12 +21,7 @@
     group: jboss
     home: /opt/jboss-as
 
-- name: Remove JBoss EAP Directory if it Exists
-  file:
-    path: /opt/jboss-as
-    state: absent
-
-- name: Create JBoss EAP Directory Exists
+- name: Ensure JBoss EAP Directory Exists
   file:
     path: /opt/jboss-as
     owner: jboss
