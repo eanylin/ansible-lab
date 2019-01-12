@@ -24,4 +24,5 @@
     vars:
       cmd: >-
         patch apply {{ jboss_patch_files_directory }}/{{ jboss_eap_patch_artifact_name }} --verbose --override-all
+    notify: restart jboss
   when: name == hostname_vm
