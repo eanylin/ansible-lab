@@ -31,7 +31,7 @@
     remote_src: yes
 
 - name: Move Files into Right Directory
-  command: mv /opt/jboss-as/jboss-as-7.1.1.Final/* /opt/jboss-as/
+  shell: mv /opt/jboss-as/jboss-as-7.1.1.Final/* /opt/jboss-as/
 
 - name: Remove jboss-as-7.1.1.Final Directory
   file:
