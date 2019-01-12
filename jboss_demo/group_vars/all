@@ -1,7 +1,8 @@
 # Variables related to the standalone JBoss installation
+jboss_app_deployment_path: '/opt/jboss-as/standalone/deployments'
 jboss_http_port: 8080
 jboss_https_port: 8443
-jboss_eap_home: '/opt/jboss-as/jboss-eap-6.4'
+jboss_eap_home: '/opt/jboss-as'
 jboss_eap_patch_artifact_name: 'jboss-eap-6.4.7-patch.zip'
 jboss_eap_user: jboss-as
 jboss_management_http_port: 9990
