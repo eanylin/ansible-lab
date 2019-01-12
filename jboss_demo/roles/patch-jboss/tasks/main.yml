@@ -1,7 +1,27 @@
 ---
-- name: Apply JBoss EAP Patch
-  command: "{{ jboss_eap_home }}/bin/jboss-cli.sh {{ '--command=' ~ cmd | quote }}"
-  vars:
-    cmd: >-
-      patch apply /tmp/{{ jboss_eap_patch_artifact_name }} --verbose --override-all
+- name: Patch JBoss EAP Server
+  block:
+  - name: Ensure JBoss Patch Files Directory Exists
+    file:
+      path: "{{ jboss_patch_files_directory }}"
+      owner: jboss
+      group: jboss
+      mode: 0644
+      state: directory
+
+  # Assumption is that the patch file will be downloaded/saved on the /tmp
+  # directory of the JBoss EAP Server prior to running this task
+  - name: Copy {{ jboss_eap_patch_artifact_name }} to {{ jboss_patch_files_directory }}
+    copy:
+      src: "/tmp/{{ jboss_eap_patch_artifact_name }}"
+      dest: "{{ jboss_patch_files_directory }}/{{ jboss_eap_patch_artifact_name }}"
+      owner: jboss
+      group: jboss
+      mode: 0644
+
+  - name: Apply JBoss EAP Patch
+    command: "{{ jboss_eap_home }}/bin/jboss-cli.sh {{ '--command=' ~ cmd | quote }}"
+    vars:
+      cmd: >-
+        patch apply {{ jboss_patch_files_directory }}/{{ jboss_eap_patch_artifact_name }} --verbose --override-all
   when: name == hostname_vm

@@ -7,3 +7,4 @@ jboss_eap_patch_artifact_name: 'jboss-eap-6.4.7-patch.zip'
 jboss_eap_user: jboss-as
 jboss_management_http_port: 9990
 jboss_management_https_port: 9443
+jboss_patch_files_directory: '/opt/jboss-patches'

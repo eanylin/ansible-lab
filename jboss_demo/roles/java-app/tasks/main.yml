@@ -4,7 +4,7 @@
     src: "{{ war_file }}"
     dest: /tmp
 
-- name: Deployment of new application to JBoss
+- name: Deployment of new application
   jboss:
     deployment: "{{ app_name }}.war"
     deploy_path: "{{ jboss_app_deployment_path }}"
