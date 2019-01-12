@@ -30,7 +30,7 @@ fi
 # Set defaults.
 
 if [ -z "$JBOSS_HOME" ]; then
-  JBOSS_HOME=/usr/share/jboss-as
+  JBOSS_HOME=/opt/jboss-as
 fi
 export JBOSS_HOME
 
