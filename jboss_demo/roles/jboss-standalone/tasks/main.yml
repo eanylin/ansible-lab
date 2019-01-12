@@ -16,7 +16,12 @@
     group: jboss
     home: /opt/jboss-as
 
-- name: Ensure JBoss EAP Directory Exists
+- name: Remove JBoss EAP Directory if it Exists
+  file:
+    path: /opt/jboss-as
+    state: absent
+
+- name: Create JBoss EAP Directory Exists
   file:
     path: /opt/jboss-as
     owner: jboss
@@ -32,7 +37,6 @@
 
 - name: Move Files into Right Directory
   shell: mv /opt/jboss-as/jboss-as-7.1.1.Final/* /opt/jboss-as/
-  ignore_errors: true
 
 - name: Remove jboss-as-7.1.1.Final Directory
   file:
