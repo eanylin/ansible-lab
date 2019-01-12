@@ -27,12 +27,11 @@
 - name: Extract archive
   unarchive:
     src: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
-    dest: /opt/jboss-as
+    dest: /opt
     remote_src: yes
 
-# Rename the dir to avoid encoding the version in the init script
-#- name: Rename install directory
-#  command: chdir=/opt /bin/mv jboss-as-7.1.1.Final jboss-as creates=/opt/jboss-as
+- name: Rename directory
+  command: mv /opt/jboss-as-7.1.1.Final /opt/jboss-as
 
 - name: Create standalone.xml configuration file
   template:
