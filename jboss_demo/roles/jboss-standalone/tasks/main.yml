@@ -75,16 +75,10 @@
     state: started
     enabled: true
 
-- name: Deploy iptables rules
-  template:
-    src: iptables-save.j2
-    dest: /etc/sysconfig/iptables
-  notify: restart iptables
-
 - name: Ensure that firewalld is installed
   yum: 
     name: firewalld
-    state: present
+    state: latest
 
 - name: Ensure that firewalld is started and enabled at boot
   service: 
@@ -98,20 +92,9 @@
     permanent: yes
     port: "{{ item }}"
     state: enabled 
-  with_items:
-  - "{{ http_port }}/tcp"
-  - "{{ https_port }}/tcp"
-
-- name: Update iptables
-  iptables:
-    chain: IN_public_allow
-    protocol: tcp
-    destination_port: "{{ item }}"
-    jump: ACCEPT
-    rule_num: 1
   loop:
-    - 8080
-    - 8443
+    - "{{ http_port }}/tcp"
+    - "{{ https_port }}/tcp"
 
 - name: Sending notification email
   mail:
@@ -119,5 +102,5 @@
     port: 25
     to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: Ansible Report
-    body: "JBoss Application Server Set Up Successfully"
+    body: "JBoss EAP Standalone Server Set Up Successfully"
   delegate_to: localhost
