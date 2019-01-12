@@ -27,11 +27,16 @@
 - name: Extract archive
   unarchive:
     src: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
-    dest: /opt
+    dest: /opt/jboss-as
     remote_src: yes
 
-- name: Rename directory
-  command: mv /opt/jboss-as-7.1.1.Final /opt/jboss-as
+- name: Move Files into Right Directory
+  command: mv /opt/jboss-as/jboss-as-7.1.1.Final/* /opt/jboss-as/
+
+- name: Remove jboss-as-7.1.1.Final Directory
+  file:
+    path: /opt/jboss-as/jboss-as-7.1.1.Final
+    state: absent
 
 - name: Create standalone.xml configuration file
   template:
