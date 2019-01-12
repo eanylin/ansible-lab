@@ -2,7 +2,6 @@
 - name: Patch JBoss EAP Server
   block:
   - name: Ensure JBoss Patch Files Directory Exists
-    become: yes
     file:
       path: "{{ jboss_patch_files_directory }}"
       owner: jboss
@@ -21,6 +20,8 @@
       mode: 0644
 
   - name: Apply JBoss EAP Patch
+    become_user: "{{ jboss_eap_user }}"
+    become: yes
     command: "{{ jboss_eap_home }}/bin/jboss-cli.sh {{ '--command=' ~ cmd | quote }}"
     vars:
       cmd: >-
