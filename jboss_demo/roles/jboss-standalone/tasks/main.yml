@@ -1,6 +1,6 @@
 ---
 - name: Install Java 1.7 and some basic dependencies
-  yum: 
+  yum:
     name: "{{ item }}"
     state: present
   with_items:
@@ -10,89 +10,89 @@
    - libsemanage-python
    - iptables-services
 
-- name: Download JBoss from jboss.org
-  get_url: 
-    url: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip 
-    dest: /opt/jboss-as-7.1.1.Final.zip
+- name: Create group "jboss"
+  group:
+    name: jboss
+
+- name: Create user "jboss"
+  user:
+    name: jboss
+    group: jboss
+    home: /opt/jboss-as
+
+- name: Ensure JBoss EAP Directory Exists
+  file:
+    path: /opt/jboss-as
+    owner: jboss
+    group: jboss
+    state: directory
+    mode: 0755
 
 - name: Extract archive
-  unarchive: 
-    dest: /usr/share 
-    src: /opt/jboss-as-7.1.1.Final.zip 
-    creates: /usr/share/jboss-as 
-    copy: no 
+  unarchive:
+    src: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip
+    dest: /opt/jboss-as
+    remote_src: yes
 
 # Rename the dir to avoid encoding the version in the init script
-- name: Rename install directory
-  command: chdir=/usr/share /bin/mv jboss-as-7.1.1.Final jboss-as creates=/usr/share/jboss-as
+#- name: Rename install directory
+#  command: chdir=/opt /bin/mv jboss-as-7.1.1.Final jboss-as creates=/opt/jboss-as
 
-- name: Copying standalone.xml configuration file
-  template: 
-    src: standalone.xml 
-    dest: /usr/share/jboss-as/standalone/configuration/
+- name: Create standalone.xml configuration file
+  template:
+    src: standalone.xml.j2
+    dest: /opt/jboss-as/standalone/configuration/standalone.xml
   notify: restart jboss
 
 - name: Download and use jboss-module-1.1.5.GA instead
   get_url:
     url: http://repo1.maven.org/maven2/org/jboss/modules/jboss-modules/1.1.5.GA/jboss-modules-1.1.5.GA.jar
-    dest: /usr/share/jboss-as/jboss-modules.jar
-
-- name: Add group "jboss"
-  group: 
-    name: jboss
-
-- name: Add user "jboss"
-  user: 
-    name: jboss 
-    group: jboss 
-    home: /usr/share/jboss-as
+    dest: /opt/jboss-as/jboss-modules.jar
+    force: yes
 
 - name: Change ownership of JBoss installation
   file: 
-    path: /usr/share/jboss-as/ 
-    owner: jboss 
-    group: jboss 
-    state: directory 
+    path: /opt/jboss-as/
+    owner: jboss
+    group: jboss
+    state: directory
     recurse: yes
 
 - name: Copy the init script
   copy: 
-    src: jboss-as-standalone.sh 
-    dest: /etc/init.d/jboss 
+    src: jboss-as-standalone.sh
+    dest: /etc/init.d/jboss
     mode: 0755
 
-- name: Workaround for systemd bug
-  shell: service jboss start && chkconfig jboss on
-  ignore_errors: yes
-
-- name: Enable JBoss to be started at boot
-  service: 
-    name: jboss 
-    enabled: yes 
+- name: Enable and Start JBoss
+  service:
+    name: jboss
     state: started
+    enabled: true
 
 - name: Deploy iptables rules
-  template: 
-    src: iptables-save 
+  template:
+    src: iptables-save
     dest: /etc/sysconfig/iptables
   notify: restart iptables
 
 - name: Ensure that firewalld is installed
   yum: 
-    name: firewalld 
+    name: firewalld
     state: present
 
-- name: Ensure that firewalld is started
+- name: Ensure that firewalld is started and enabled at boot
   service: 
-    name: firewalld 
+    name: firewalld
     state: started
+    enabled: true
 
 - name: Deploy firewalld rules
-  firewalld: 
-    immediate: yes 
-    port: "{{ item }}" 
-    state: enabled 
+  firewalld:
+    immediate: yes
     permanent: yes
+    port: "{{ item }}"
+    state: enabled 
   with_items:
   - "{{ http_port }}/tcp"
   - "{{ https_port }}/tcp"
