@@ -1,9 +1,0 @@
----
-# This playbook patches a standalone JBoss server.
-- name: Patch Standalone JBoss Server
-  hosts: "{{ vm_inventory_group }}"
-  become: yes
-  gather_facts: False
-
-  roles:
-    - patch-jboss

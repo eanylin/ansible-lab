@@ -1,11 +1,11 @@
 ---
 - name: Patch JBoss EAP Server
   block:
-  - name: Ensure JBoss Patch Files Directory Exists
+  - name: Ensure Patch Files Directory Exists
     file:
       path: "{{ jboss_patch_files_directory }}"
-      owner: jboss
-      group: jboss
+      owner: jboss-as
+      group: jboss-as
       mode: 0644
       state: directory
 
@@ -15,8 +15,8 @@
     copy:
       src: "/tmp/{{ jboss_eap_patch_artifact_name }}"
       dest: "{{ jboss_patch_files_directory }}/{{ jboss_eap_patch_artifact_name }}"
-      owner: jboss
-      group: jboss
+      owner: jboss-as
+      group: jboss-as
       mode: 0644
       remote_src: yes
 

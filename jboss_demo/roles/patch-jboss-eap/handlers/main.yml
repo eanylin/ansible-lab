@@ -1,5 +1,5 @@
 ---
 - name: restart jboss
   service:
-    name: jboss
+    name: jboss-as-standalone.service
     state: restarted

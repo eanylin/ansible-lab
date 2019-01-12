@@ -1,0 +1,11 @@
+---
+# This playbook patches a standalone JBoss EAP server
+# The JBoss EAP 6.4 server is deployed using the Ansible JBoss EAP Role
+# from this link, i.e. https://github.com/redhat-cop/jboss_eap
+- name: Patch Standalone JBoss EAP Server
+  hosts: "{{ vm_inventory_group }}"
+  become: yes
+  gather_facts: False
+
+  roles:
+    - patch-jboss-eap
