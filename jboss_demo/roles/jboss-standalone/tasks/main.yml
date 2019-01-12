@@ -32,6 +32,7 @@
 
 - name: Move Files into Right Directory
   shell: mv /opt/jboss-as/jboss-as-7.1.1.Final/* /opt/jboss-as/
+  ignore_errors: true
 
 - name: Remove jboss-as-7.1.1.Final Directory
   file:
