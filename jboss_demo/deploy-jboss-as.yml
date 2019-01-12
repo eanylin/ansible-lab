@@ -1,5 +1,5 @@
 ---
-# This playbook deploys a simple standalone JBoss application server.
+# This playbook deploys a simple standalone JBoss 7.1.1 application server
 - name: Deploy Simple Standalone JBoss Application Server
   hosts: "{{ jboss_server }}"
   gather_facts: False
