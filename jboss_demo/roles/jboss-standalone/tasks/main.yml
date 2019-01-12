@@ -6,7 +6,7 @@
       - unzip
     state: present
 
-- name: Remove JBoss EAP Directory if it Exists
+- name: Remove JBoss Application Server Directory if it Exists
   file:
     path: /opt/jboss-as
     state: absent
@@ -21,7 +21,7 @@
     group: jboss
     home: /opt/jboss-as
 
-- name: Ensure JBoss EAP Directory Exists
+- name: Ensure JBoss Application Server Directory Exists
   file:
     path: /opt/jboss-as
     owner: jboss
@@ -104,5 +104,5 @@
     port: 25
     to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: Ansible Report
-    body: "JBoss EAP Standalone Server Set Up Successfully"
+    body: "JBoss Application Server Standalone Server Set Up Successfully"
   delegate_to: localhost
