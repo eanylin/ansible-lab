@@ -2,6 +2,7 @@
 - name: Patch JBoss EAP Server
   block:
   - name: Ensure JBoss Patch Files Directory Exists
+    become: yes
     file:
       path: "{{ jboss_patch_files_directory }}"
       owner: jboss
