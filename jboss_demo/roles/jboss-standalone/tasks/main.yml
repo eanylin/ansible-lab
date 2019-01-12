@@ -1,7 +1,9 @@
 ---
-- name: Install Java 1.7.0
+- name: Install Java 1.7.0 and Zip
   yum:
-    name: 'java-1.7.0-openjdk-devel'
+    name:
+      - 'java-1.7.0-openjdk-devel'
+      - zip
     state: present
 
 - name: Create group "jboss"
