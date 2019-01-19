@@ -25,7 +25,7 @@
     lines: "{{ cisco_routers_acl[inventory_hostname]['acl_rules'][item] }}"
     parents: "ip access-list extended {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }}"
   when: cisco_routers_acl[inventory_hostname]['add_acl_rules']
-  loop: "{{ range(0, 16 + 1, 2)|list }}"
+  loop: "{{ range(0, cisco_routers_acl[inventory_hostname]['acl_rules']|length)|list }}"
 
 - name: Apply ACL to interface
   ios_config:
