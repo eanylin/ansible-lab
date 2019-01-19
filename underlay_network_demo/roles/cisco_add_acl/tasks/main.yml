@@ -16,7 +16,9 @@
 
 - name: Create ACL (bi-directional)
   ios_config:
-    lines: "{{ cisco_routers_acl[inventory_hostname]['acl_rules'] }}"
+    #lines: "{{ cisco_routers_acl[inventory_hostname]['acl_rules'] }}"
+    lines:
+      - "permit tcp 10.10.10.0 0.0.0.255 10.10.30.0 0.0.0.255 eq 22"
     parents: "ip access-list extended {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }}"
   when: cisco_routers_acl[inventory_hostname]['add_acl_rules']
 
