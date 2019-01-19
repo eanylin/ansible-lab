@@ -1,7 +1,6 @@
 ---
 cisco_routers:
-  cisco_rtr1:
-    router_ip: '172.16.100.205'
+  cisco_rtr_172.16.100.205:
     router_ip_interface: 'GigabitEthernet3'
     ip_access_list: 'acl_gi3'
     source_ip_segment: ['10.10.10.0', '10.10.10.20.0']
@@ -10,8 +9,7 @@ cisco_routers:
     destination_ip_segment_mask: ['0.0.0.255', '0.0.0.255']
     services: ['http', 'https', 'ssh', 'tomcat']
     enable: true
-  cisco_rtr2:
-    router_ip: '172.16.100.206'
+  cisco_rtr_172.16.100.206:
     router_ip_interface: 'GigabitEthernet3'
     ip_access_list: 'acl_gi3'
     source_ip_segment: ['10.10.50.0', '10.10.10.60.0']
