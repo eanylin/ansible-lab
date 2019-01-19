@@ -3,18 +3,18 @@ cisco_routers:
   cisco_rtr_172.16.100.205:
     router_ip_interface: 'GigabitEthernet3'
     ip_access_list: 'acl_gi3'
-    source_ip_segment: ['10.10.10.0', '10.10.10.20.0']
+    source_ip_segment: ['10.10.10.0', '10.10.20.0']
     source_ip_segment_mask: ['0.0.0.255', '0.0.0.255']
-    destination_ip_segment: ['10.10.30.0', '10.10.10.40.0']
+    destination_ip_segment: ['10.10.30.0', '10.10.40.0']
     destination_ip_segment_mask: ['0.0.0.255', '0.0.0.255']
     services: [80, 443, 22, 8080]
     enable: true
   cisco_rtr_172.16.100.206:
     router_ip_interface: 'GigabitEthernet3'
     ip_access_list: 'acl_gi3'
-    source_ip_segment: ['10.10.50.0', '10.10.10.60.0']
+    source_ip_segment: ['10.10.50.0', '10.10.60.0']
     source_ip_segment_mask: ['0.0.0.255', '0.0.0.255']
-    destination_ip_segment: ['10.10.70.0', '10.10.10.80.0']
+    destination_ip_segment: ['10.10.70.0', '10.10.80.0']
     destination_ip_segment_mask: ['0.0.0.255', '0.0.0.255']
     services: [80, 443, 22]
     enable: true
