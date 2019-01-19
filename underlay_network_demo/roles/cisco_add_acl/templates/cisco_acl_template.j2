@@ -1,0 +1,22 @@
+cisco_routers_acl:
+{% for router, attributes in cisco_routers.items() %}
+  {{ router }}:
+{% if attributes.router_ip_interface %}
+    ip_interface: {{ attributes.router_ip_interface }}
+{% endif %}
+    ip_access_group: {{ attributes.ip_access_list }}
+    acl_rules:
+{% set num_services = attributes.services|length %}
+{% for index_service in range(num_services) %}
+{% set num_ip_segment = attributes.source_ip_segment|length %}
+{% for index_ip_segment in range(num_ip_segment) %}
+      - permit tcp {{ attributes.source_ip_segment[index_ip_segment] }} {{ attributes.source_ip_segment_mask[index_ip_segment] }} {{ attributes.destination_ip_segment[index_ip_segment] }} {{ attributes.destination_ip_segment_mask[index_ip_segment] }} eq {{ attributes.services[index_service] }}
+      - permit tcp {{ attributes.destination_ip_segment[index_ip_segment] }} {{ attributes.destination_ip_segment_mask[index_ip_segment] }} {{ attributes.source_ip_segment[index_ip_segment] }} {{ attributes.source_ip_segment_mask[index_ip_segment] }} eq {{ attributes.services[index_service] }}
+{% endfor %}
+{% endfor %}
+{% if attributes.enable %}
+    add_acl_rules: true
+{% else %}
+    add_acl_rules: false
+{% endif %}
+{% endfor %}

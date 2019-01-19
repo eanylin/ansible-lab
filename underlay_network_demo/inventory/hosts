@@ -1,0 +1,9 @@
+[cisco]
+cisco_rtr1 ansible_host=172.16.100.205
+cisco_rtr2 ansible_host=172.16.100.206
+
+[cisco:vars]
+ansible_connection=network_cli
+ansible_password=mypassword
+ansible_user=admin
+ansible_network_os=ios
