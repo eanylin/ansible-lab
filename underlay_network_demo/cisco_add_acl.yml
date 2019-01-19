@@ -1,6 +1,6 @@
 ---
 - name: Cisco CSR 1000v Add ACL
-  hosts: localhost
+  hosts: "{{ cisco_router }}"
   gather_facts: false
   vars_files:
     - roles/cisco_add_acl/vars/acl_requirements.yml
