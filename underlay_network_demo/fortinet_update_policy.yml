@@ -1,0 +1,13 @@
+---
+- name: Update Fortigate Firewall Policies
+  hosts: "{{ fortigate_firewall_ip }}"
+  gather_facts: false
+  vars_files:
+    - roles/fortinet_update_firewall_rule/vars/policy_requirements.yml
+
+  - name: Update Fortigate Firewall Policies
+    vars:
+      random_id: "{{ 1000 | random }}"
+    include_role:
+      name: fortinet_update_firewall_policy
+      vars_from: "password.yml"

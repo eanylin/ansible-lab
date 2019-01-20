@@ -1,0 +1,12 @@
+---
+fortigate_firewall:
+  fortigate_fw_192.168.200.100:
+    source: 'client_network'
+    destination: 'webserver'
+    services: ['http', 'https', 'ssh', 'tomcat']
+    enable: true
+  fortigate_fw_192.168.200.101:
+    source: 'client_network'
+    destination: 'webserver'
+    services: ['http', 'https', 'ssh']
+    enable: true

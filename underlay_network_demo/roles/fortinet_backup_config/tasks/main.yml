@@ -1,0 +1,10 @@
+---
+- name: Backup current configurations
+  raw:  "execute backup config flash running-config-{{ timestamp.stdout }}"
+
+- name: List revision
+  raw: "execute revision list config"
+  register: revision_list
+
+- debug:
+    msg: "{{ revision_list.stdout_lines }}"
