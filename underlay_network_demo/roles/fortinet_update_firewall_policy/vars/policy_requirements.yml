@@ -1,12 +1,14 @@
 ---
 fortigate_firewall:
   fortigate_fw_192.168.200.100:
-    source: 'client_network'
-    destination: 'webserver'
+    host_ip: '192.168.200.100'
+    source: 'network_zone_1'
+    destination: 'network_zone_9'
     services: ['http', 'https', 'ssh', 'tomcat']
     enable: true
-  fortigate_fw_192.168.200.101:
-    source: 'client_network'
-    destination: 'webserver'
+  fortigate_fw_192.168.30.100:
+    host_ip: '192.168.30.100'
+    source: 'network_zone_1'
+    destination: 'network_zone_9'
     services: ['http', 'https', 'ssh']
     enable: true
