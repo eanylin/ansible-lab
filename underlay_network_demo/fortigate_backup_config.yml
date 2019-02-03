@@ -1,5 +1,5 @@
 ---
-- name: Backup Fortinet Firewall Configurations
+- name: Backup Fortigate Firewall Configurations
   hosts: "{{ firewalls }}"
   gather_facts: false
 
@@ -8,7 +8,7 @@
     command: date "+%Y-%m-%d-%H:%M:%S"
     register: timestamp
 
-  - name: Backup Fortinet Config
+  - name: Backup Fortigate Config
     include_role:
-      name: fortinet_backup_config
-      vars_from: "fortinet_connection.yml"
+      name: fortigate_backup_config
+      vars_from: "fortigate_connection.yml"

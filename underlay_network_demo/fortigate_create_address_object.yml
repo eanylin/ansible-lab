@@ -1,0 +1,10 @@
+---
+- name: Create Fortigate Firewall Address Object
+  hosts: "{{ fortigate_firewall_ip }}"
+  gather_facts: false
+
+  tasks:
+  - name: Create Fortigate Firewall Address Object
+    include_role:
+      name: fortigate_create_address_object
+      vars_from: "password.yml"

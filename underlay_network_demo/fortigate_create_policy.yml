@@ -3,10 +3,10 @@
   hosts: "{{ firewalls }}"
   gather_facts: false
   vars_files:
-    - roles/fortinet_create_firewall_policy/vars/policy_requirements.yml
+    - roles/fortigate_create_firewall_policy/vars/policy_requirements.yml
 
   tasks:
   - name: Create Fortigate Firewall Policies
     include_role:
-      name: fortinet_create_firewall_policy
+      name: fortigate_create_firewall_policy
       vars_from: "password.yml"
