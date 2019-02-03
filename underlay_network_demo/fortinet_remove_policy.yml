@@ -1,0 +1,15 @@
+---
+- name: Delete Fortigate Firewall Policies
+  hosts: "{{ fortigate_firewall_ip }}"
+  gather_facts: false
+  vars_files:
+    - roles/fortinet_update_firewall_rule/vars/policy_requirements.yml
+
+  - name: Delete Fortigate Firewall Policies
+    vars:
+      random_id: "{{ 1000 | random }}"
+      firewall_rule_state: 'absent'
+      policy_action: 'accept'
+    include_role:
+      name: fortinet_update_firewall_policy
+      vars_from: "password.yml"
