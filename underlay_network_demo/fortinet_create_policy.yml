@@ -7,9 +7,9 @@
 
   - name: Create Fortigate Firewall Policies
     vars:
-      random_id: "{{ 1000 | random }}"
-      firewall_rule_state: 'present'
-      policy_action: 'accept'
+      - random_id: "{{ 1000 | random }}"
+      - firewall_rule_state: 'present'
+      - policy_action: 'accept'
     include_role:
       name: fortinet_update_firewall_policy
       vars_from: "password.yml"
