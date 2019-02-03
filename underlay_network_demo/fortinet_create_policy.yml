@@ -4,12 +4,11 @@
   gather_facts: false
   vars_files:
     - roles/fortinet_update_firewall_rule/vars/policy_requirements.yml
+    - roles/fortinet_update_firewall_rule/vars/policy_settings.yml
 
   - name: Create Fortigate Firewall Policies
     vars:
-      - random_id: "{{ 1000 | random }}"
-      - firewall_rule_state: 'present'
-      - policy_action: 'accept'
+      firewall_rule_state: 'present'
     include_role:
       name: fortinet_update_firewall_policy
       vars_from: "password.yml"
