@@ -1,7 +1,7 @@
 ---
 - name: Create New Address Object
   fortios_address:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+    host: "{{ hostvars[fortigate_firewall_ip].ansible_host }}"
     username: "{{ fortigate_username }}"
     password: "{{ fortigate_password }}"
     state: present
