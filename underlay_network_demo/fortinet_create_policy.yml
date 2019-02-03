@@ -1,6 +1,6 @@
 ---
 - name: Create Fortigate Firewall Policies
-  hosts: "{{ fortigate_firewall_ip }}"
+  hosts: "{{ firewalls }}"
   gather_facts: false
   vars_files:
     - roles/fortinet_create_firewall_policy/vars/policy_requirements.yml

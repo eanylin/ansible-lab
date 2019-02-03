@@ -1,6 +1,6 @@
 ---
 - name: Backup Fortinet Firewall Configurations
-  hosts: "{{ fortinet_firewall_ip }}"
+  hosts: "{{ firewalls }}"
   gather_facts: false
 
   tasks:

@@ -1,6 +1,6 @@
 ---
 - name: Cisco CSR 1000v Roll Back ACL
-  hosts: "{{ cisco_router }}"
+  hosts: "{{ routers }}"
   gather_facts: false
 
   roles:
