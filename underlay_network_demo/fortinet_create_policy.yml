@@ -3,7 +3,7 @@
   hosts: "{{ fortigate_firewall_ip }}"
   gather_facts: false
   vars_files:
-    - roles/fortinet_update_firewall_policy/vars/policy_requirements.yml
+    - roles/fortinet_create_firewall_policy/vars/policy_requirements.yml
 
   tasks:
   - name: Create Fortigate Firewall Policies

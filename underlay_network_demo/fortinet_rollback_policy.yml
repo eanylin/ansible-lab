@@ -1,14 +1,12 @@
 ---
-- name: Delete Fortigate Firewall Policies
+# Reverse the actions performed in 'create_firewall_policy' playbook
+- name: Rollback Fortigate Firewall Policies
   hosts: "{{ fortigate_firewall_ip }}"
   gather_facts: false
   vars_files:
-    - roles/fortinet_update_firewall_rule/vars/policy_requirements.yml
-    - roles/fortinet_update_firewall_rule/vars/policy_settings.yml
+    - roles/fortinet_create_firewall_policy/vars/policy_requirements.yml
 
-  - name: Delete Fortigate Firewall Policies
-    vars:
-      firewall_rule_state: 'absent'
+  - name: Rollback Fortigate Firewall Policies
     include_role:
-      name: fortinet_update_firewall_policy
+      name: fortinet_rollback_firewall_policy
       vars_from: "password.yml"
