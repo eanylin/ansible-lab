@@ -1,7 +1,4 @@
 ---
-- debug:
-    msg: "{{ inventory_hostname }}"
-
 - name: Create New Address Object
   fortios_address:
     host: "{{ hostvars[inventory_hostname].ansible_host }}"
