@@ -26,7 +26,7 @@
 
 - name: Search through the list of archives and print the last backed up configurations
   debug:
-    msg: "{% for i in archive_output.stdout_lines[0] if 'Most Recent' in i %}{{ i | regex_replace('^ .*bootflash(.*) <- Most Recent', 'b\\1') }}{% endfor %}"
+    msg: "{% for i in archive_output.stdout_lines[0] if 'Most Recent' in i %}{{ i | regex_replace('^ .*bootflash:(.*) <- Most Recent', '\\1') }}{% endfor %}"
   register: most_recent_config
 
 - name: Restore most recent backup configurations
