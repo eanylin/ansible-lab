@@ -1,6 +1,6 @@
 ---
 - name: F5 BIG-IP Add Node
-  hosts: "{{ webapp_server }}"
+  hosts: lb
   connection: local
   gather_facts: false
 
