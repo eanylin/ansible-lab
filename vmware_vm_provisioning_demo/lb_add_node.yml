@@ -1,0 +1,10 @@
+---
+- name: F5 BIG-IP Add Node
+  hosts: "{{ webapp_server }}"
+  connection: local
+  gather_facts: false
+
+  - name: Add Nodes
+    include_role:
+      name: lb_add_node
+      vars_from: "secrets.yml"

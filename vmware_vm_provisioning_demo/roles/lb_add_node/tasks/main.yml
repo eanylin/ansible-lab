@@ -1,0 +1,11 @@
+---
+- name: Add Nodes
+  bigip_node:
+    server: "{{ f5_bigip_server }}"
+    user: "{{ f5_bigip_user }}"
+    password: "{{ f5_bigip_password }}"
+    server_port: "8443"
+    host: "{{ hostvars[item].ansible_host }}"
+    name: "{{ hostvars[item].inventory_hostname }}"
+    validate_certs: "no"
+  loop: "{{ webapp_server }}"
