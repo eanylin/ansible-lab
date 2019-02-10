@@ -11,4 +11,4 @@ nios_provider:
   password: "{{ infoblox_password }}"
 vm_domain: 'domain.com'
 webapp_port: 80
-workflow_tower_inventory: 'VMWare_VM_Provisioning'
+workflow_tower_inventory: 'VMWare_Workflow'
