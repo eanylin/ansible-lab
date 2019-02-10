@@ -1,5 +1,5 @@
 ---
-- name: Add Three Tier VMs to Ansible Tower Inventory
+- name: Add Web Application VM to Ansible Tower Inventory
   hosts: localhost
   gather_facts: false
   connection: local

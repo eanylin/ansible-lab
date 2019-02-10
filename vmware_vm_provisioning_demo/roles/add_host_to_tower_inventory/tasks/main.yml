@@ -1,20 +1,14 @@
 ---
-- name: Add Three Tier App VMs to Tower Inventory
+- name: Add Web Application VM to Tower Inventory
   tower_host:
-    name: "{{ vm_prefix }}-{{ item.name }}"
-    description: "Add VM to Tower Inventory"
-    inventory: "{{ tower_inventory_name }}"
+    name: "{{ vm_name }}"
+    description: "Add {{ vm_name }} to Tower Inventory"
+    inventory: "VMWare_VM_Provisioning"
     state: present
     tower_verify_ssl: no
     variables: |+
       ---
-      ansible_host: "{{ item.ip }}"
-  loop:
-    - { name: 'webapp1', ip: '172.16.100.62' }
-    - { name: 'webapp2', ip: '172.16.100.63' }
+      ansible_host: "{{ ipv4_address }}"
 
-- name: Add hosts to group
-  command: tower-cli host associate --host "{{ vm_prefix }}-{{ item.name }}" --group "{{ item.group }}"
-  loop:
-    - { name: 'webapp1', group: 'apps' }
-    - { name: 'webapp2', group: 'apps' }
+- name: Add host to webapp group
+  command: tower-cli host associate --host "{{ vm_name }}" --group webapp
