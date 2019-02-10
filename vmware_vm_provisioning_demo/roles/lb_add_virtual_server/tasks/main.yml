@@ -1,0 +1,16 @@
+---
+- name: Add Virtual Server
+  bigip_virtual_server:
+    provider: "{{ f5_provider }}"
+    state: present
+    server_port: "8443"
+    name: "vip"
+    partition: Common
+    destination: "{{ f5_bigip_server }}"
+    port: "443"
+    enabled_vlans: "all"
+    all_profiles: ['http','clientssl','oneconnect']
+    pool: "{{ f5_pool_name }}"
+    snat: "Automap"
+    validate_certs: "no"
+  delegate_to: localhost
