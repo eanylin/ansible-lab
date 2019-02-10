@@ -1,9 +1,7 @@
 ---
 - name: Add Nodes
   bigip_node:
-    server: "{{ f5_bigip_server }}"
-    user: "{{ f5_bigip_user }}"
-    password: "{{ f5_bigip_password }}"
+    provider: "{{ f5_provider }}"
     state: present
     partition: Common
     server_port: "8443"
