@@ -1,7 +1,7 @@
 ---
 - name: Add Web Application VM to Tower Inventory
   tower_host:
-    name: "{{ vm_name }}"
+    name: "{{ vm_hostname }}"
     description: "Add {{ vm_name }} to Tower Inventory"
     inventory: "VMWare_VM_Provisioning"
     state: present
