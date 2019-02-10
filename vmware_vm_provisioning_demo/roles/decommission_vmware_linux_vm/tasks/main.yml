@@ -6,4 +6,5 @@
     name: "{{ vm_hostname }}"
     state: absent
     esxi_hostname: "{{ esxi_host }}"
+    force: yes
   delegate_to: localhost
