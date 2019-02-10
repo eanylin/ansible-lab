@@ -1,0 +1,15 @@
+---
+- name: Add Pool
+  bigip_pool:
+    server: "{{ f5_bigip_server }}"
+    user: "{{ f5_bigip_user }}"
+    password: "{{ f5_bigip_password }}"
+    state: present
+    server_port: "8443"
+    name: "http_pool"
+    partition: Common
+    lb_method: "round-robin"
+    monitors: "/Common/http"
+    monitor_type: "and_list"
+    validate_certs: "no"
+  delegate_to: localhost
