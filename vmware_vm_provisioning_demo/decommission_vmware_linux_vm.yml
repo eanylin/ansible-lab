@@ -1,0 +1,7 @@
+---
+- name: Decommission VM
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - decommission_vmware_linux_vm

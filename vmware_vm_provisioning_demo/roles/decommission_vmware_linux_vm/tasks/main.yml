@@ -1,0 +1,9 @@
+---
+- name: Remove Linux Virtual Machine
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: no
+    name: "{{ vm_hostname }}"
+    state: absent
+    esxi_hostname: "{{ esxi_host }}"
+  delegate_to: localhost
