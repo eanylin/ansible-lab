@@ -26,3 +26,8 @@
       dns_servers:
       - "{{ vm_dns_server }}"
   delegate_to: localhost
+
+- name: Save information of VM name for subsequent workflow
+  set_stats:
+    data:
+      webapp_server: "{{ vm_hostname | list }}"
