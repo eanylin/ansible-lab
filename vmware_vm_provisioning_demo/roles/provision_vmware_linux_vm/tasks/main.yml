@@ -30,4 +30,4 @@
 - name: Save information of VM name for subsequent workflow
   set_stats:
     data:
-      webapp_server: "{{ vm_hostname | list }}"
+      webapp_server: ["{{ vm_hostname }}"]

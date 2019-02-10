@@ -1,7 +1,7 @@
 ---
 - name: Create Host Record
   nios_host_record: 
-    name: "{{ vm_hostname }}"
+    name: "{{ vm_hostname }}.{{ vm_domain }}"
     view: "{{ dns_view }}"
     ipv4:
       - address: "{{ ipv4_address[0] }}"
