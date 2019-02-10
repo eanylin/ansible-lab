@@ -1,6 +1,6 @@
 ---
 - name: Setup Web Application Server
-  hosts: webapp
+  hosts: "{{ webapp_server }}"
   become: yes
   gather_facts: true
 
