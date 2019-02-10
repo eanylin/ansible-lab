@@ -1,0 +1,11 @@
+---
+- name: Retrieve Host Record
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Retrieve Host Record
+    include_role:
+      name: retrieve_host_record
+      vars_from: "secrets.yml"

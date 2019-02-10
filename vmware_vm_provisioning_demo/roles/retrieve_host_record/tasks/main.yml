@@ -1,0 +1,12 @@
+---
+- name: Retrieve Host Record Information
+  set_fact:
+    host: "{{ lookup('nios', 'record:host', filter={'name': host_record}, provider=nios_provider) }}"
+
+- name: Print Host Record Information
+  debug:
+    var: host
+
+- name: Retrieve IP Address of Host
+  debug:
+    var: host.ipv4addrs[0].ipv4addr

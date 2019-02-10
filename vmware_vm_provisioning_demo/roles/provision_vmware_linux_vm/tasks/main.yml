@@ -1,0 +1,28 @@
+---
+- name: Create Linux Virtual Machine from Template and Customize
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: no
+    folder: "/{{ vm_datacenter }}/vm"
+    name: "{{ vm_hostname }}"
+    state: poweredon
+    template: "{{ vm_template }}"
+    esxi_hostname: "{{ esxi_host }}"
+    disk:
+    - size_gb: "{{ vm_disk_size }}"
+      type: "{{ vm_disk_provisioning_type }}"
+      datastore: "{{ vm_datastore }}"
+    hardware:
+      memory_mb: "{{ vm_ram }}"
+      num_cpus: "{{ vm_vcpu }}"
+    networks:
+    - name: "{{ vm_network }}"
+      ip: "{{ ipv4_address[0] }}"
+      netmask: "{{ subnet_netmask }}"
+      gateway: "{{ subnet_gateway }}"
+    wait_for_ip_address: yes
+    customization:
+      domain: "{{ vm_domain }}"
+      dns_servers:
+      - "{{ vm_dns_server }}"
+  delegate_to: localhost

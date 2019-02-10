@@ -1,0 +1,11 @@
+---
+- name: Search for Next Available IP
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Search for Next Available IP
+    include_role:
+      name: find_next_available_ip
+      vars_from: "secrets.yml"

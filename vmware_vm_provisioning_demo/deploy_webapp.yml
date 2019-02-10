@@ -1,0 +1,8 @@
+---
+- name: Setup Web Application Server
+  hosts: webapp
+  become: yes
+  gather_facts: true
+
+  roles:
+    - deploy_webapp

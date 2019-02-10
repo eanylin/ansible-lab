@@ -1,0 +1,24 @@
+---
+- name: Install httpd
+  yum:
+    name: httpd
+    state: latest
+
+- name: Enable service httpd
+  service:
+    name: httpd
+    enabled: yes
+
+- name: Generate index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    mode: 0644
+  notify: "restart httpd services"
+
+- name: Enable http firewalld service
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes

@@ -1,0 +1,13 @@
+---
+- name: Create Host Record
+  nios_host_record: 
+    name: "{{ vm_hostname }}"
+    view: "{{ dns_view }}"
+    ipv4:
+      - address: "{{ ipv4_address[0] }}"
+    ttl: 3600
+    extattrs:
+      Site: "{{ site_info }}"
+    comment: "{{ host_record_comments }}"
+    state: present
+    provider: "{{ nios_provider }}"
