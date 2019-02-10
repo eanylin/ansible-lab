@@ -6,7 +6,7 @@
     server_port: "8443"
     name: "vip"
     partition: Common
-    destination: "{{ f5_bigip_server }}"
+    destination: "{{ hostvars['f5_bigip'].ansible_host }}"
     port: "443"
     enabled_vlans: "all"
     all_profiles: ['http','clientssl','oneconnect']
