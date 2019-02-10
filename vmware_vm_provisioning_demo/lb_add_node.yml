@@ -1,7 +1,6 @@
 ---
 - name: F5 BIG-IP Add Node
   hosts: lb
-  connection: local
   gather_facts: false
 
   tasks:
