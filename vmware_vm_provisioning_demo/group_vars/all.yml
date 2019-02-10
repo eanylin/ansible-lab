@@ -14,3 +14,4 @@ nios_provider:
 subnet_netmask: '255.255.255.0'
 vm_domain: 'domain.com'
 vm_network: 'VM Network'
+webapp_port: 80
