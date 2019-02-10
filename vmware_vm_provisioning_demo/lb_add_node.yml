@@ -4,6 +4,7 @@
   connection: local
   gather_facts: false
 
+  tasks:
   - name: Add Nodes
     include_role:
       name: lb_add_node
