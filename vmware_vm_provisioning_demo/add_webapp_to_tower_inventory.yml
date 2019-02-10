@@ -5,4 +5,4 @@
   connection: local
 
   roles:
-    - add_host_to_tower_inventory
+    - add_webapp_to_tower_inventory
