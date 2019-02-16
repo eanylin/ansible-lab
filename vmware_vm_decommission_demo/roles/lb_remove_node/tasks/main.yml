@@ -4,7 +4,6 @@
     provider: "{{ f5_provider }}"
     state: absent
     partition: Common
-    server_port: "8443"
     name: "{{ hostvars[item].inventory_hostname }}"
     validate_certs: "no"
   loop: "{{ webapp_server }}"

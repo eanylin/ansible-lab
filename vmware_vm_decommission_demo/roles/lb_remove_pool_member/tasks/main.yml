@@ -7,7 +7,6 @@
     partition: Common
     host: "{{ hostvars[item].ansible_host }}"
     port: "{{ webapp_port }}"
-    description: "{{ webapp_description }}"
     validate_certs: "no"
   loop: "{{ webapp_server }}"
   delegate_to: localhost
