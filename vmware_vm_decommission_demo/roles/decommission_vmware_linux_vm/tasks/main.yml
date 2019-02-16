@@ -1,5 +1,4 @@
 ---
-# Assume that the VMs are on the same ESXi host
 - name: Remove Linux Virtual Machine
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
