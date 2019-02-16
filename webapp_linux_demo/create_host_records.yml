@@ -1,11 +1,11 @@
 ---
-- name: Create Host Record
+- name: Create Host Records
   hosts: "{{ grid_manager }}"
   connection: local
   gather_facts: false
 
   tasks:
-  - name: Create Host Record
+  - name: Create Host Records
     include_role:
-      name: create_host_record
+      name: create_host_records
       vars_from: "secrets.yml"
