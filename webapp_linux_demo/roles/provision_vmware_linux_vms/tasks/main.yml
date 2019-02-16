@@ -12,6 +12,18 @@
 - debug:
     msg: "{{ vm_hostname[1] }}"
 
+- debug:
+    msg: "{{ vm_hostname[2] }}"
+
+- debug:
+    msg: "{{ vm_hostname[3] }}"
+
+- debug:
+    msg: "{{ vm_hostname[4] }}"
+
+- debug:
+    msg: "{{ vm_hostname[5] }}"
+
 #- name: Create WebApp-1 from Template and Customize
 #  vmware_guest:
 #    datacenter: "{{ vm_datacenter }}"
