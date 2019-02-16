@@ -2,9 +2,8 @@
 - name: Remove Nodes
   bigip_node:
     provider: "{{ f5_provider }}"
-    state: absent
-    partition: Common
     name: "{{ hostvars[item].inventory_hostname }}"
+    state: absent
     validate_certs: "no"
   loop: "{{ webapp_server }}"
   delegate_to: localhost
