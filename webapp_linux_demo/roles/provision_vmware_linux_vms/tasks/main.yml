@@ -1,6 +1,6 @@
 ---
 - set_fact:
-    hostname: "{{ vm_hostname.split(,) }}"
+    hostname: "{{ vm_hostname.split(',') }}"
 
 - debug:
     msg: "{{ hostname }}"
