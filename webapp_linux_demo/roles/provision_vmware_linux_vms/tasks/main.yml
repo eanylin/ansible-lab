@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: "{{ vm_hostname | list }}"
+
 - name: Create WebApp-1 from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
