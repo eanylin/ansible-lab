@@ -3,12 +3,12 @@
   set_fact:
     vm_hostname: "{{ hostname.split(',') }}"
 
-- name: Create WebApp-1 from Template and Customize
+- name: Create {{ vm_hostname[item] }} from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
     folder: "/{{ vm_datacenter }}/vm"
-    name: "{{ vm_hostname[0] }}"
+    name: "{{ vm_hostname[item] }}"
     state: poweredon
     template: "{{ vm_template }}"
     esxi_hostname: "{{ esxi_host }}"
@@ -21,7 +21,7 @@
       num_cpus: "{{ vm_vcpu }}"
     networks:
     - name: "{{ vm_network }}"
-      ip: "{{ ipv4_address[0] }}"
+      ip: "{{ ipv4_address[item] }}"
       netmask: "{{ subnet_netmask }}"
       gateway: "{{ subnet_gateway }}"
     wait_for_ip_address: yes
@@ -30,38 +30,7 @@
       dns_servers:
       - "{{ vm_dns_server }}"
   delegate_to: localhost
-
-- name: Wait for 60 seconds before creating Web App 2
-  wait_for: timeout=60
-  delegate_to: localhost
-
-- name: Create WebApp-2 from Template and Customize
-  vmware_guest:
-    datacenter: "{{ vm_datacenter }}"
-    validate_certs: no
-    folder: "/{{ vm_datacenter }}/vm"
-    name: "{{ vm_hostname[1] }}"
-    state: poweredon
-    template: "{{ vm_template }}"
-    esxi_hostname: "{{ esxi_host }}"
-    disk:
-    - size_gb: "{{ vm_disk_size }}"
-      type: "{{ vm_disk_provisioning_type }}"
-      datastore: "{{ vm_datastore }}"
-    hardware:
-      memory_mb: "{{ vm_ram }}"
-      num_cpus: "{{ vm_vcpu }}"
-    networks:
-    - name: "{{ vm_network }}"
-      ip: "{{ ipv4_address[1] }}"
-      netmask: "{{ subnet_netmask }}"
-      gateway: "{{ subnet_gateway }}"
-    wait_for_ip_address: yes
-    customization:
-      domain: "{{ vm_domain }}"
-      dns_servers:
-      - "{{ vm_dns_server }}"
-  delegate_to: localhost
+  loop: "{{ range(0, vm_hostname|length)|list }}"
 
 - name: Save information of VM names for subsequent workflow
   set_stats:
