@@ -1,0 +1,12 @@
+---
+- name: Add Nodes
+  bigip_node:
+    provider: "{{ f5_provider }}"
+    state: present
+    partition: Common
+    host: "{{ hostvars[item].ansible_host }}"
+    name: "{{ hostvars[item].inventory_hostname }}"
+    validate_certs: "no"
+    description: "{{ webapp_description }}"
+  loop: "{{ webapp_server }}"
+  delegate_to: localhost

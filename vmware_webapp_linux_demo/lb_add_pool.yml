@@ -1,0 +1,10 @@
+---
+- name: F5 BIG-IP Add Pool
+  hosts: lb
+  gather_facts: false
+
+  tasks:
+  - name: Add Pool
+    include_role:
+      name: lb_add_pool
+      vars_from: "secrets.yml"
