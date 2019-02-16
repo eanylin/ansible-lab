@@ -1,7 +1,7 @@
 ---
 - name: Return next 2 available IP addresses for network "{{ ipam_network }}", excluding gateway IPs
   set_fact:
-    ipaddr: "{{ lookup('nios_next_ip', num=2, ipam_network, exclude=subnet_gateway.split(','),
+    ipaddr: "{{ lookup('nios_next_ip', ipam_network, num=2, exclude=subnet_gateway.split(','),
                 provider=nios_provider) }}"
   delegate_to: localhost
 
