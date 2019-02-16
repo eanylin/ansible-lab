@@ -3,7 +3,7 @@
   set_fact:
     vm_hostname: "{{ hostname.split(',') }}"
 
-- name: Create {{ vm_hostname[item] }} from Template and Customize
+- name: Create vm_hostname[item] from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
