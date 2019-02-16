@@ -3,7 +3,6 @@
   bigip_pool:
     provider: "{{ f5_provider }}"
     state: present
-    server_port: "8443"
     name: "{{ f5_pool_name }}"
     partition: Common
     lb_method: "{{ f5_lb_method }}"

@@ -3,7 +3,6 @@
   bigip_virtual_server:
     provider: "{{ f5_provider }}"
     state: present
-    server_port: "8443"
     name: "vip"
     partition: Common
     destination: "{{ hostvars['f5_bigip'].ansible_host }}"
