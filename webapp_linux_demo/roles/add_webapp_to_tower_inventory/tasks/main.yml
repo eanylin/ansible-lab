@@ -1,14 +1,16 @@
 ---
 - name: Add Web Application VM to Tower Inventory
   tower_host:
-    name: "{{ vm_hostname }}"
-    description: "{{ vm_hostname }}"
+    name: "{{ webapp_servers[item] }}"
+    description: "{{ webapp_servers[item] }}"
     inventory: "{{ workflow_tower_inventory }}"
     state: present
     tower_verify_ssl: no
     variables: |+
       ---
-      ansible_host: "{{ ipv4_address[0] }}"
+      ansible_host: "{{ ipv4_address[item] }}"
+  loop: "{{ range(0, webapp_servers|length)|list }}"
 
 - name: Add host to webapp group
-  command: tower-cli host associate --host "{{ vm_hostname }}" --group webapp --insecure
+  command: tower-cli host associate --host "{{ webapp_servers[item] }}" --group webapp --insecure
+  loop: "{{ range(0, webapp_servers|length)|list }}"
