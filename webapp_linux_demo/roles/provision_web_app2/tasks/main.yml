@@ -3,6 +3,7 @@
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
+    folder: /testvms
     name: "{{ webapp_servers[1] }}"
     state: poweredon
     template: "{{ vm_template }}"
