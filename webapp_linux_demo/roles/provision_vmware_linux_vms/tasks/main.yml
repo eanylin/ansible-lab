@@ -1,6 +1,9 @@
 ---
 - debug:
-    msg: "{{ vm_hostname | list }}"
+    msg: "{{ vm_hostname }}"
+
+- debug:
+    msg: "{{ vm_hostname[0] }}"
 
 - name: Create WebApp-1 from Template and Customize
   vmware_guest:
