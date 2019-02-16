@@ -31,6 +31,10 @@
       - "{{ vm_dns_server }}"
   delegate_to: localhost
 
+- name: Wait for 60 seconds before creating Web App 2
+  wait_for: timeout=60
+  delegate_to: localhost
+
 - name: Create WebApp-2 from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
