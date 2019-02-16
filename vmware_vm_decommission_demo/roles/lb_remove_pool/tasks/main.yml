@@ -4,6 +4,5 @@
     provider: "{{ f5_provider }}"
     state: absent
     name: "{{ f5_pool_name }}"
-    state: absent
     validate_certs: "no"
   delegate_to: localhost
