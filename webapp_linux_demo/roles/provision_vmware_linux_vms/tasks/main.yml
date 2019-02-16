@@ -3,6 +3,15 @@
   set_fact:
     vm_hostname: "{{ hostname.split(',') }}"
 
+- debug:
+    msg: "{{ vm_hostname }}"
+
+- debug:
+    msg: "{{ vm_hostname[0] }}"
+
+- debug:
+    msg: "{{ vm_hostname[1] }}"
+
 - name: Create WebApp-1 from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
