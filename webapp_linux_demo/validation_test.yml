@@ -1,6 +1,6 @@
 ---
 - name: Validation Test
-  hosts: "{{ webapp_server }}"
+  hosts: "{{ webapp_servers }}"
   become: yes
   gather_facts: true
 
