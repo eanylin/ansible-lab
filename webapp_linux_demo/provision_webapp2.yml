@@ -1,8 +1,7 @@
 ---
-- name: Provision Web App VMs
+- name: Provision WebApp2
   hosts: localhost
   gather_facts: false
 
   roles:
-    - provision_web_app1
     - provision_web_app2
