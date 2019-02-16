@@ -1,18 +1,15 @@
 ---
-- debug:
-    msg: "{{ vm_hostname }}"
+- set_fact:
+    hostname: "{{ vm_hostname.split(,) }}"
 
 - debug:
-    msg: "{{ vm_hostname[0] }}"
+    msg: "{{ hostname }}"
 
 - debug:
-    msg: "{{ vm_hostname[1] }}"
+    msg: "{{ hostname[0] }}"
 
 - debug:
-    msg: "{{ vm_hostname[2] }}"
-
-- debug:
-    msg: "{{ vm_hostname[3] }}"
+    msg: "{{ hostname[1] }}"
 
 #- name: Create WebApp-1 from Template and Customize
 #  vmware_guest:
