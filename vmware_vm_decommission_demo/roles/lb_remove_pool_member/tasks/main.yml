@@ -3,11 +3,11 @@
   bigip_pool_member:
     provider: "{{ f5_provider }}"
     state: absent
+    pool: "{{ f5_pool_name }}"
     partition: Common
-    server_port: "8443"
     host: "{{ hostvars[item].ansible_host }}"
     port: "{{ webapp_port }}"
-    pool: "{{ f5_pool_name }}"
+    description: "{{ webapp_description }}"
     validate_certs: "no"
   loop: "{{ webapp_server }}"
   delegate_to: localhost
