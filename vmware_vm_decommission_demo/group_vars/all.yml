@@ -4,6 +4,7 @@ f5_provider:
   server: "{{ f5_bigip_server }}"
   user: "{{ f5_bigip_user }}"
   password: "{{ f5_bigip_password }}"
+  server_port: 8443
 infoblox_username: 'cloudadmin'
 nios_provider:
   host: "{{ grid_manager }}"
