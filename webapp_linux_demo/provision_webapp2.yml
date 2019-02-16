@@ -1,7 +1,0 @@
----
-- name: Provision WebApp2
-  hosts: localhost
-  gather_facts: false
-
-  roles:
-    - provision_web_app2

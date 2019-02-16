@@ -1,0 +1,7 @@
+---
+- name: Provision Web App VMs
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - provision_webapp_vms
