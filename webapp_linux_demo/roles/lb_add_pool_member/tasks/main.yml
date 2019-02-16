@@ -1,5 +1,5 @@
 ---
-- name: Add Pool Member
+- name: Add Pool Members
   bigip_pool_member:
     provider: "{{ f5_provider }}"
     state: present
@@ -9,6 +9,6 @@
     port: "{{ webapp_port }}"
     pool: "{{ f5_pool_name }}"
     description: "{{ webapp_description }}"
-    validate_certs: "no"
-  loop: "{{ webapp_server }}"
+    validate_certs: no
+  loop: "{{ webapp_servers }}"
   delegate_to: localhost

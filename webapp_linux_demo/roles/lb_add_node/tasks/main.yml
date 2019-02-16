@@ -6,7 +6,7 @@
     partition: Common
     host: "{{ hostvars[item].ansible_host }}"
     name: "{{ hostvars[item].inventory_hostname }}"
-    validate_certs: "no"
+    validate_certs: no
     description: "{{ webapp_description }}"
-  loop: "{{ webapp_server }}"
+  loop: "{{ webapp_servers }}"
   delegate_to: localhost
