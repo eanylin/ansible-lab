@@ -5,7 +5,7 @@
     state: present
     name: "{{ f5_virtual_server }}"
     partition: Common
-    destination: "{{ hostvars['f5_bigip'].ansible_host }}"
+    destination: "{{ hostvars['f5_bigip'].private_ip }}"
     port: 443
     enabled_vlans: all
     all_profiles: ['http','clientssl','oneconnect']
