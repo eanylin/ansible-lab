@@ -4,11 +4,13 @@
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
     password: "{{ paloalto_password }}"
 
-- name: Create an address group in devicegroup using API key
+- name: Create Address Object
   panos_object:
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
-    api_key: "{{ paloalto_key }}"
-    operation: add
+    username: "{{ paloalto_username }}"
+    password: "{{ paloalto_password }}"
+    operation: 'add'
     address: "{{ object_address }}"
+    address_type: 'ip-netmask'
     tag_name: "{{ object_tag }}"
     description: "{{ object_description }}"
