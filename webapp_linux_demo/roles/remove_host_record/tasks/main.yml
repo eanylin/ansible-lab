@@ -1,0 +1,8 @@
+---
+- name: Remove Host Record
+  nios_host_record: 
+    name: "{{ webapp_servers[item] }}.{{ vm_domain }}"
+    view: "{{ dns_view }}"
+    state: absent
+    provider: "{{ nios_provider }}"
+  loop: "{{ range(0, webapp_servers|length)|list }}"

@@ -1,0 +1,8 @@
+---
+- name: Remove Web Application VM from Ansible Tower Inventory
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  roles:
+    - remove_webapp_from_tower_inventory

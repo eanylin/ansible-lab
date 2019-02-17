@@ -1,0 +1,11 @@
+---
+- name: Delete Web App VMs
+  vmware_guest:
+    datacenter: "{{ vm_datacenter }}"
+    validate_certs: no
+    name: "{{ item }}"
+    state: absent
+    esxi_hostname: "{{ esxi_host }}"
+    force: yes
+  loop: "{{ webapp_servers }}"
+  delegate_to: localhost

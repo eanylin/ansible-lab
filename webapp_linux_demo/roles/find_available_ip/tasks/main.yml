@@ -1,5 +1,5 @@
 ---
-- name: Generate VM Hostname in List Format
+- name: Generate WebApp Hostname in List Format
   set_fact:
     vm_hostname: "{{ hostname.split(',') }}"
 
@@ -20,7 +20,7 @@
       ipv4_address: "{{ ipaddr }}"
   delegate_to: localhost
 
-- name: Save information of VM names for subsequent workflow
+- name: Save information of WebApp Hostname for subsequent workflow
   set_stats:
     data:
       webapp_servers: "{{ vm_hostname }}"

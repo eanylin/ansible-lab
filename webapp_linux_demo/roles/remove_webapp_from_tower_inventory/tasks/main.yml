@@ -1,0 +1,8 @@
+---
+- name: Remove Web Application VMs from Tower Inventory
+  tower_host:
+    name: "{{ webapp_servers[item] }}"
+    inventory: "{{ workflow_tower_inventory }}"
+    state: absent
+    tower_verify_ssl: no
+  loop: "{{ range(0, webapp_servers|length)|list }}"

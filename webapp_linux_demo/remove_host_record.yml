@@ -1,0 +1,11 @@
+---
+- name: Remove Host Record
+  hosts: "{{ grid_manager }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Remove Host Record
+    include_role:
+      name: remove_host_record
+      vars_from: "secrets.yml"

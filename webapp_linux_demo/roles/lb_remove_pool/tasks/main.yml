@@ -1,0 +1,8 @@
+---
+- name: Remove Pool
+  bigip_pool:
+    provider: "{{ f5_provider }}"
+    state: absent
+    name: "{{ f5_pool_name }}"
+    validate_certs: "no"
+  delegate_to: localhost

@@ -1,0 +1,7 @@
+---
+- name: Decommission WebApp VMs
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - decommission_webapp_vms
