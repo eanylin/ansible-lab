@@ -4,11 +4,11 @@
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
     password: "{{ paloalto_password }}"
 
-- name: Create Address Object
+- name: Create Address Object using API Key
   panos_object:
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
-    username: "{{ paloalto_username }}"
-    password: "{{ paloalto_password }}"
+    api_key: "{{ paloalto_key }}"
+    addressobject: "{{ address_object_name }}"
     operation: '{{ object_action }}'
     address: "{{ object_address }}"
     address_type: 'ip-netmask'
