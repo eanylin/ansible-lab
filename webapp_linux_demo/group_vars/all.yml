@@ -13,6 +13,7 @@ nios_provider:
   host: "{{ grid_manager }}"
   username: "{{ infoblox_username }}"
   password: "{{ infoblox_password }}"
+paloalto_username: 'admin'
 subnet_netmask: '255.255.255.0'
 vm_domain: 'domain.com'
 vm_network: 'VM Network'

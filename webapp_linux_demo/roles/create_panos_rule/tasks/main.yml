@@ -1,7 +1,7 @@
 ---
 - name: Check if Palo Alto Firewall is ready
   panos_check:
-    ip_address: "{{ firewall_node }}"
+    ip_address: "{{ hostvars['panos'].ansible_host }}"
     password: "{{ paloalto_password }}"
 
 #- name: Export Palo Alto Configuration Prior to Creation of New Rule
