@@ -4,50 +4,19 @@
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
     password: "{{ paloalto_password }}"
 
-#- name: Export Palo Alto Configuration Prior to Creation of New Rule
-#  uri:
-#    url: "https://{{ firewall_node }}/api/?type=export&category=configuration&key={{ paloalto_key }}"
-#    validate_certs: no
-#    return_content: yes
-#  register: original_config
-#
-#- name: Write Original Config
-#  copy:
-#    content: "{{ original_config.content }}"
-#    dest: /tmp/palo_alto_original_config.xml
-#  delegate_to: localhost
-#
-#- name: Create Security Rule
-#  panos_security_rule:
-#    ip_address: "{{ firewall_node }}"
-#    username: "{{ paloalto_username }}"
-#    password: "{{ paloalto_password }}"
-#    operation: "{{ firewall_operation }}"
-#    rule_name: "{{ firewall_rule_name }}"
-#    source_ip: "{{ srcipaddress }}"
-#    source_user: 'any'
-#    destination_ip: "{{ dstipaddress }}"
-#    category: 'any'
-#    application: "{{ application }}"
-#    service: "{{ service }}"
-#    hip_profiles: 'any'
-#    action: "{{ firewall_action }}"
-#    devicegroup: "{{ device_group }}"
-#
-#- name: Export Palo Alto Configuration After Creation of New Rule
-#  uri:
-#    url: "https://{{ firewall_node }}/api/?type=export&category=configuration&key={{ paloalto_key }}"
-#    validate_certs: no
-#    return_content: yes
-#  register: new_config
-#
-#- name: Write Updated Config
-#  copy:
-#    content: "{{ new_config.content }}"
-#    dest: /tmp/palo_alto_new_config.xml
-#  delegate_to: localhost
-#
-## Makes use of xmldiff
-#- name: Show Differences in configurations, if any
-#  shell: xmldiff -p /tmp/palo_alto_original_config.xml /tmp/palo_alto_new_config.xml
-#  delegate_to: localhost
+- name: Create Security Rule
+  panos_security_rule:
+    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
+    username: "{{ paloalto_username }}"
+    password: "{{ paloalto_password }}"
+    operation: "{{ firewall_operation }}"
+    rule_name: "{{ firewall_rule_name }}"
+    source_ip: "{{ srcipaddress }}"
+    source_user: 'any'
+    destination_ip: "{{ dstipaddress }}"
+    category: 'any'
+    application: "{{ application }}"
+    service: "{{ service }}"
+    hip_profiles: 'any'
+    action: "{{ firewall_action }}"
+    devicegroup: "{{ device_group }}"
