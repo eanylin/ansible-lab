@@ -9,7 +9,7 @@
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
     api_key: "{{ paloalto_key }}"
     addressobject: "{{ address_object_name }}"
-    operation: '{{ object_action }}'
+    operation: 'add'
     address: "{{ object_address }}"
     address_type: 'ip-netmask'
     description: "{{ object_description }}"
