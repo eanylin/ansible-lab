@@ -1,17 +1,26 @@
 ---
-- name: Return next 2 available IP addresses for network "{{ ipam_network }}", excluding gateway IPs
+- name: Generate VM Hostname in List Format
   set_fact:
-    ipaddr: "{{ lookup('nios_next_ip', ipam_network, num=2, exclude=subnet_gateway.split(','),
+    vm_hostname: "{{ hostname.split(',') }}"
+
+- name: Return next available IP addresses for network "{{ ipam_network }}", excluding gateway IPs
+  set_fact:
+    ipaddr: "{{ lookup('nios_next_ip', ipam_network, num=vm_hostname|length, exclude=subnet_gateway.split(','),
                 provider=nios_provider) }}"
   delegate_to: localhost
 
-- name: Print next 2 available IPs
+- name: Print available IPs
   debug:
     var: ipaddr
   delegate_to: localhost
 
-- name: Save information of next 2 available IP for subsequent workflow
+- name: Save information of available IP for subsequent workflow
   set_stats:
     data:
       ipv4_address: "{{ ipaddr }}"
   delegate_to: localhost
+
+- name: Save information of VM names for subsequent workflow
+  set_stats:
+    data:
+      webapp_servers: "{{ vm_hostname }}"

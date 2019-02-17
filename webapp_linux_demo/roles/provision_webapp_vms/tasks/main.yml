@@ -1,14 +1,10 @@
 ---
-- name: Generate VM Hostname in List Format
-  set_fact:
-    vm_hostname: "{{ hostname.split(',') }}"
-
 - name: Create Web App VMs from Template and Customize
   vmware_guest:
     datacenter: "{{ vm_datacenter }}"
     validate_certs: no
     folder: "/{{ vm_datacenter }}/vm/"
-    name: "{{ vm_hostname[item] }}"
+    name: "{{ webapp_servers[item] }}"
     state: poweredon
     template: "{{ vm_template }}"
     esxi_hostname: "{{ esxi_host }}"
@@ -30,9 +26,4 @@
       dns_servers:
       - "{{ vm_dns_server }}"
   delegate_to: localhost
-  loop: "{{ range(0, vm_hostname|length)|list }}"
-
-- name: Save information of VM names for subsequent workflow
-  set_stats:
-    data:
-      webapp_servers: "{{ vm_hostname }}"
+  loop: "{{ range(0, webapp_servers|length)|list }}"
