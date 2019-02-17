@@ -10,4 +10,5 @@
     api_key: "{{ paloalto_key }}"
     operation: add
     address: "{{ object_address }}"
+    tag_name: "{{ object_tag }}"
     description: "{{ object_description }}"
