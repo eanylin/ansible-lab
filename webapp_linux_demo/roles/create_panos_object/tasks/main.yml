@@ -12,5 +12,4 @@
     operation: '{{ object_action }}'
     address: "{{ object_address }}"
     address_type: 'ip-netmask'
-    tag_name: "{{ object_tag }}"
     description: "{{ object_description }}"
