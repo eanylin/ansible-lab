@@ -7,4 +7,4 @@ ansible_password="{{ infoblox_password }}"
 ansible_connection=local
 
 [lb]
-f5_bigip ansible_host=172.16.100.160
+f5_bigip ansible_host=172.16.100.160 private_ip=192.168.200.160
