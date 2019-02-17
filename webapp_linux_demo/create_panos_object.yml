@@ -1,0 +1,13 @@
+---
+- name: Palo Alto Firewall
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  environment:
+    PYTHONHTTPSVERIFY: 0
+
+  tasks:
+  - name: Create Object
+    include_role:
+      name: create_panos_object
+      vars_from: "password.yml"

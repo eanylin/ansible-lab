@@ -1,0 +1,13 @@
+---
+- name: Check if Palo Alto Firewall is ready
+  panos_check:
+    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
+    password: "{{ paloalto_password }}"
+
+- name: Create an address group in devicegroup using API key
+  panos_object:
+    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
+    api_key: "{{ paloalto_key }}"
+    operation: add
+    address: "{{ object_address }}"
+    description: "{{ object_description }}"
