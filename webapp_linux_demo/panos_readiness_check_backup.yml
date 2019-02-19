@@ -1,12 +1,12 @@
 ---
-- name: Palo Alto Create Address Object
+- name: Palo Alto Firewall Readiness Check and Backup
   hosts: "{{ firewall_node }}"
   gather_facts: false
   environment:
     PYTHONHTTPSVERIFY: 0
 
   tasks:
-  - name: Create PANOS Address Object
+  - name: Readiness Check and Backup
     include_role:
-      name: create_panos_object
+      name: panos_readiness_check_backup
       vars_from: "password.yml"

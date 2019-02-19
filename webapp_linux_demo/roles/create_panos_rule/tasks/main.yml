@@ -1,9 +1,4 @@
 ---
-- name: Check if Palo Alto Firewall is ready
-  panos_check:
-    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
-    password: "{{ paloalto_password }}"
-
 - name: Create Security Rule
   panos_security_rule:
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
@@ -20,3 +15,4 @@
     hip_profiles: 'any'
     action: "{{ firewall_action }}"
     devicegroup: "{{ device_group }}"
+  delegate_to: localhost

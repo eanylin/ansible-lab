@@ -1,0 +1,20 @@
+---
+- name: Check if Palo Alto Firewall is ready
+  panos_check:
+    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
+    password: "{{ paloalto_password }}"
+  delegate_to: localhost
+
+- name: Export Palo Alto Configuration Prior to Creation of New Rule
+  uri:
+    url: "https://{{ firewall_node }}/api/?type=export&category=configuration&key={{ paloalto_key }}"
+    validate_certs: no
+    return_content: yes
+  register: current_config
+  delegate_to: localhost
+
+- name: Write Current Configuration
+  copy:
+    content: "{{ current_config.content }}"
+    dest: /tmp/palo_alto_curent_config.xml
+  delegate_to: localhost

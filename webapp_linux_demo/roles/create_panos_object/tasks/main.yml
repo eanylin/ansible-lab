@@ -1,9 +1,4 @@
 ---
-- name: Check if Palo Alto Firewall is ready
-  panos_check:
-    ip_address: "{{ hostvars[firewall_node].ansible_host }}"
-    password: "{{ paloalto_password }}"
-
 - name: Create Address Object using API Key
   panos_object:
     ip_address: "{{ hostvars[firewall_node].ansible_host }}"
@@ -13,3 +8,4 @@
     address: "{{ object_address }}"
     address_type: 'ip-netmask'
     description: "{{ object_description }}"
+  delegate_to: localhost

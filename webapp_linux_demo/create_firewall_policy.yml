@@ -1,13 +1,12 @@
 ---
-- name: Palo Alto Firewall
-  hosts: localhost
-  connection: local
+- name: Palo Alto Create Firewall Policy
+  hosts: "{{ firewall_node }}"
   gather_facts: false
   environment:
     PYTHONHTTPSVERIFY: 0
 
   tasks:
-  - name: Create Firewall Rule
+  - name: Create Firewall Policy
     include_role:
       name: create_panos_rule
       vars_from: "password.yml"
