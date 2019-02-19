@@ -7,7 +7,7 @@
 
 - name: Export Palo Alto Configuration Prior to Creation of New Rule
   uri:
-    url: "https://{{ firewall_node }}/api/?type=export&category=configuration&key={{ paloalto_key }}"
+    url: "https://{{ hostvars[firewall_node].ansible_host }}/api/?type=export&category=configuration&key={{ paloalto_key }}"
     validate_certs: no
     return_content: yes
   register: current_config
