@@ -1,8 +1,0 @@
----
-- name: Setup Web Application Server
-  hosts: "{{ webapp_server }}"
-  become: yes
-  gather_facts: true
-
-  roles:
-    - deploy_webapp

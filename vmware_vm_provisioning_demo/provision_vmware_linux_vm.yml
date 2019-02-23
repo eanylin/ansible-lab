@@ -1,7 +1,0 @@
----
-- name: Provision VM
-  hosts: localhost
-  gather_facts: false
-
-  roles:
-    - provision_vmware_linux_vm

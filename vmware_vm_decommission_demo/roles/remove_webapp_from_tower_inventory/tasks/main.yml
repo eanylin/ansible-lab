@@ -1,8 +1,0 @@
----
-- name: Remove Web Application VM from Tower Inventory
-  tower_host:
-    name: "{{ vm_hostname }}"
-    description: "{{ vm_hostname }}"
-    inventory: "{{ workflow_tower_inventory }}"
-    state: absent
-    tower_verify_ssl: no

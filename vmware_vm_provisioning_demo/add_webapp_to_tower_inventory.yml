@@ -1,8 +1,0 @@
----
-- name: Add Web Application VM to Ansible Tower Inventory
-  hosts: localhost
-  gather_facts: false
-  connection: local
-
-  roles:
-    - add_webapp_to_tower_inventory

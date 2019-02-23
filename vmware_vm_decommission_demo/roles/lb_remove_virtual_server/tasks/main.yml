@@ -1,8 +1,0 @@
----
-- name: Remove Virtual Server
-  bigip_virtual_server:
-    provider: "{{ f5_provider }}"
-    name: "{{ f5_virtual_server }}"
-    state: absent
-    validate_certs: "no"
-  delegate_to: localhost
