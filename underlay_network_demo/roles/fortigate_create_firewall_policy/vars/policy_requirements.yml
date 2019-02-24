@@ -4,7 +4,7 @@ fortigate_firewall:
     host_ip: '192.168.200.100'
     policy_id: ['9', '10']
     inverse_policy_id: ['11', '12']
-    source: ['network_zone_1', 'network_zone_1']
+    source: ['network_zone_1', 'network_zone_2']
     destination: ['network_zone_8', 'network_zone_9']
     services: ['HTTP', 'HTTPS', 'SSH', 'TOMCAT']
     policy: 'accept'
@@ -12,7 +12,7 @@ fortigate_firewall:
     host_ip: '192.168.30.100'
     policy_id: ['20', '21']
     inverse_policy_id: ['22', '23']
-    source: ['network_zone_1', 'network_zone_1']
+    source: ['network_zone_1', 'network_zone_2']
     destination: ['network_zone_8', 'network_zone_9']
     services: ['HTTP', 'HTTPS', 'SSH', 'TOMCAT']
     policy: 'accept'
