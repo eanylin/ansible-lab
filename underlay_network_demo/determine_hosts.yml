@@ -11,4 +11,4 @@
       set_stats:
         data:
           routers: "{{ cisco_routers.keys() }}"
-          fortigate_firewall_ip: "{{ fortigate_firewall.keys() }}"
+          firewalls: "{{ fortigate_firewall.keys() }}"

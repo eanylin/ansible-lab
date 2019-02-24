@@ -1,6 +1,6 @@
 ---
 - name: Create Fortigate Firewall Address Object
-  hosts: "{{ fortigate_firewall_ip }}"
+  hosts: "{{ firewalls }}"
   gather_facts: false
 
   tasks:
