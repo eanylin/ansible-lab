@@ -10,6 +10,7 @@
     service: "{{ fortigate_firewall[inventory_hostname]['services'] }}"
     state: 'present'
     policy_action: "{{ fortigate_firewall[inventory_hostname]['policy'] }}"
+  loop: "{{ range(0, fortigate_firewall[inventory_hostname]['destination']|length)|list }}"
 
 - name: Create Fortigate Firewall Policy in Reverse Direction
   fortios_ipv4_policy:
@@ -22,3 +23,4 @@
     service: "{{ fortigate_firewall[inventory_hostname]['services'] }}"
     state: 'present'
     policy_action: "{{ fortigate_firewall[inventory_hostname]['policy'] }}"
+  loop: "{{ range(0, fortigate_firewall[inventory_hostname]['destination']|length)|list }}"
