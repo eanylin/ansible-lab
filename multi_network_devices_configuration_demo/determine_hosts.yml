@@ -1,0 +1,14 @@
+---
+- name: Determine Hosts
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - roles/cisco_add_acl/vars/acl_requirements.yml
+    - roles/fortigate_create_firewall_policy/vars/policy_requirements.yml
+
+  tasks:
+    - name: Get information of Cisco and Fortigate Hosts for subsequent workflow
+      set_stats:
+        data:
+          routers: "{{ cisco_routers.keys() }}"
+          firewalls: "{{ fortigate_firewall.keys() }}"

@@ -1,0 +1,13 @@
+---
+# Reverse the actions performed in 'create_firewall_policy' playbook
+- name: Rollback Fortigate Firewall Policies
+  hosts: "{{ firewalls }}"
+  gather_facts: false
+  vars_files:
+    - roles/fortigate_create_firewall_policy/vars/policy_requirements.yml
+
+  tasks:
+  - name: Rollback Fortigate Firewall Policies
+    include_role:
+      name: fortigate_rollback_firewall_policy
+      vars_from: "password.yml"

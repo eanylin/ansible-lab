@@ -1,0 +1,33 @@
+---
+- name: Backup current running config
+  ios_config:
+    backup: yes
+
+- name: Create ACL config yaml file
+  template:
+    src: templates/cisco_acl_template.j2
+    dest: /tmp/acl_config_update.yml
+  delegate_to: localhost
+
+- name: Include vars from acl_config_update.yml
+  include_vars:
+    file: /tmp/acl_config_update.yml
+  delegate_to: localhost
+
+- name: Create ACL (bi-directional)
+  ios_config:
+    lines: "{{ cisco_routers_acl[inventory_hostname]['acl_rules'][item] }}"
+    parents: "ip access-list extended {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }}"
+  when: cisco_routers_acl[inventory_hostname]['add_acl_rules']
+  loop: "{{ range(0, cisco_routers_acl[inventory_hostname]['acl_rules']|length)|list }}"
+
+- name: Apply ACL to interface
+  ios_config:
+    lines:
+      - "ip access-group {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }} in"
+    parents: "interface {{ cisco_routers_acl[inventory_hostname]['ip_interface'] }}"
+  when: cisco_routers_acl[inventory_hostname]['add_acl_rules'] and cisco_routers_acl[inventory_hostname]['ip_interface'] is defined
+
+- name: Save running config to startup when modified
+  ios_config:
+    save_when: modified

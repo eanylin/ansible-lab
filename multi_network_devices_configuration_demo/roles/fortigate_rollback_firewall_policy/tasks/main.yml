@@ -1,0 +1,22 @@
+---
+- name: Rollback Fortigate Firewall Policy
+  fortios_ipv4_policy:
+    host: "{{ fortigate_firewall[inventory_hostname]['host_ip'] }}"
+    username: "{{ fortigate_username }}"
+    password: "{{ fortigate_password }}"
+    id: "{{ fortigate_firewall[inventory_hostname]['policy_id'] }}"
+    src_addr: "{{ fortigate_firewall[inventory_hostname]['source'] }}"
+    dst_addr: "{{ fortigate_firewall[inventory_hostname]['destination'] }}"
+    service: "{{ fortigate_firewall[inventory_hostname]['services'] }}"
+    state: 'absent'
+
+- name: Rollback Fortigate Firewall Policy in Reverse Direction
+  fortios_ipv4_policy:
+    host: "{{ fortigate_firewall[inventory_hostname]['host_ip'] }}"
+    username: "{{ fortigate_username }}"
+    password: "{{ fortigate_password }}"
+    id: "{{ fortigate_firewall[inventory_hostname]['inverse_policy_id'] }}"
+    src_addr: "{{ fortigate_firewall[inventory_hostname]['destination'] }}"
+    dst_addr: "{{ fortigate_firewall[inventory_hostname]['source'] }}"
+    service: "{{ fortigate_firewall[inventory_hostname]['services'] }}"
+    state: 'absent'

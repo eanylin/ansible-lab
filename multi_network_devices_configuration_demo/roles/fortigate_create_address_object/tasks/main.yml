@@ -1,0 +1,11 @@
+---
+- name: Create New Address Object
+  fortios_address:
+    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+    username: "{{ fortigate_username }}"
+    password: "{{ fortigate_password }}"
+    state: present
+    name: "{{ address_object }}"
+    type: ipmask
+    value: "{{ address_object_ip_subnet }}"
+    comment: "Register {{ address_object }}"

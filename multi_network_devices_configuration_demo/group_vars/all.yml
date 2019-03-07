@@ -1,0 +1,3 @@
+---
+fortigate_config_backup_path: /tmp/forti_backup/
+fortigate_username: admin

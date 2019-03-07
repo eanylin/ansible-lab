@@ -1,0 +1,37 @@
+---
+# The assumption here is that the archive is saved in 'bootflash:'
+# 
+# A sample output of the list of archive backup looks like this:
+#
+# CSR-1000v-1#sh archive
+# The maximum archive configurations allowed is 10.
+# There are currently 2 archive configurations saved.
+# The next archive file will be named bootflash:BackupConfig-<timestamp>-2
+#  Archive #  Name
+#    1        bootflash:BackupConfig-Aug-25-10-43-22.641-0 
+#    2        bootflash:BackupConfig-Aug-25-16-27-08.667-1 <- Most Recent
+#    3         
+#    4         
+#    5         
+#    6         
+#    7         
+#    8         
+#    9         
+#    10        
+# CSR-1000v-1#
+- name: Get the list of archive configurations
+  ios_command:
+    commands: show archive
+  register: archive_output
+
+- name: Search through the list of archives and print the last backed up configurations
+  debug:
+    msg: "{% for i in archive_output.stdout_lines[0] if 'Most Recent' in i %}{{ i | regex_replace('^ .*bootflash:(.*) <- Most Recent', 'bootflash:\\1') }}{% endfor %}"
+  register: most_recent_config
+
+- name: Restore most recent backup configurations
+  ios_command:
+    commands:
+      - command: "config replace {{ most_recent_config.msg }}"
+        prompt: 'Enter Y if you are sure you want to proceed'
+        answer: 'y'

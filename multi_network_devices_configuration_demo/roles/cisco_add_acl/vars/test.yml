@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+
+  tasks:
+    - name: Parse CSV file
+      command: python csv_to_yaml.py
+
+    - name: Include vars
+      include_vars: 
+        file: /tmp/output.yaml
+        name: output
+
+    - debug:
+        msg: "{{ output['routers'][0]['services'].split(',') }}"

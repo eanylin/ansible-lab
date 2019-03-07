@@ -1,0 +1,7 @@
+---
+- name: Cisco CSR 1000v Add ACL
+  hosts: "{{ routers }}"
+  gather_facts: false
+
+  roles:
+    - cisco_archive_config

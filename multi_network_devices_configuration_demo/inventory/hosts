@@ -1,0 +1,36 @@
+[cisco]
+cisco_rtr_172.16.100.205 ansible_host=172.16.100.205
+cisco_rtr_172.16.100.206 ansible_host=172.16.100.206
+
+[cisco:vars]
+ansible_connection=network_cli
+ansible_password=mypassword
+ansible_user=admin
+ansible_network_os=ios
+
+[fortinet]
+fortigate_fw_192.168.200.100 ansible_host=192.168.200.100
+fortigate_fw_192.168.30.100 ansible_host=192.168.30.100
+
+[fortinet:vars]
+ansible_connection=local
+ansible_password=mypassword
+ansible_user=admin
+
+[juniper]
+juniper_rtr_10.30.20.105 ansible_host=10.30.20.105
+juniper_rtr_10.30.30.102 ansible_host=10.30.30.102
+
+[juniper:vars]
+ansible_connection=network_cli
+ansible_password=mypassword
+ansible_user=admin
+ansible_network_os=junos
+
+[paloalto]
+paloalto_fw_10.50.30.151 ansible_host=10.50.30.151
+paloalto_fw_10.60.30.173 ansible_host=10.60.30.173
+
+[paloalto:vars]
+ansible_user=admin
+ansible_connection=local

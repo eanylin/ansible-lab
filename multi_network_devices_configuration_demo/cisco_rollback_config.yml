@@ -1,0 +1,7 @@
+---
+- name: Cisco CSR 1000v Rollback Configurations
+  hosts: "{{ routers }}"
+  gather_facts: false
+
+  roles:
+    - cisco_rollback_config
