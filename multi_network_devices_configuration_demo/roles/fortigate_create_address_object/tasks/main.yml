@@ -1,11 +1,17 @@
 ---
+- name: Parse firewall address object csv file
+  csv_to_yaml:
+    name: roles/fortigate_create_address_object/files/firewall_objects.csv.csv
+  register: address_object_csv_parse_results
+
 - name: Create new address object, if required
   fortios_address:
-    host: "{{ hostvars[inventory_hostname].ansible_host }}"
+    host: "{{ hostvars[address_object_csv_parse_results]['yaml_output']['nodes'][item]['firewall'].ansible_host }}"
     username: "{{ fortigate_username }}"
     password: "{{ fortigate_password }}"
     state: present
-    name: "{{ address_object }}"
+    name: "{{ address_object_csv_parse_results['yaml_output']['nodes'][item]['object'] }}"
     type: ipmask
-    value: "{{ address_object_ip_subnet }}"
-    comment: "Register {{ address_object }}"
+    value: "{{ address_object_csv_parse_results['yaml_output']['nodes'][item]['ip_subnet'] }}"
+    comment: "Register {{ address_object_csv_parse_results['yaml_output']['nodes'][item]['object'] }}"
+  loop: "{{ range(0, address_object_csv_parse_results['yaml_output']['nodes']|length)|list }}"

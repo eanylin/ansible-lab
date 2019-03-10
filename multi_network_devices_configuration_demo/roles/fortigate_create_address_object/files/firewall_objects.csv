@@ -1,0 +1,3 @@
+Firewall,Object,IP Subnet
+fortigate_fw_192.168.200.100,webserver1,10.10.30.141
+fortigate_fw_192.168.30.100,webserver1,10.10.30.141
