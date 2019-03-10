@@ -26,7 +26,7 @@
     parents: "ip access-list extended {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }}"
   loop: "{{ range(0, cisco_routers_acl[inventory_hostname]['acl_rules']|length)|list }}"
 
-- name: Apply ACL to interface
+- name: Apply ACL to interface, if required
   ios_config:
     lines:
       - "ip access-group {{ cisco_routers_acl[inventory_hostname]['ip_access_group'] }} in"
@@ -35,3 +35,9 @@
 - name: Save running config to startup when modified
   ios_config:
     save_when: modified
+
+- name: Clean up temporary acl_config_update.yml
+  file:
+    path: /tmp/acl_config_update.yml
+    state: absent
+  delegate_to: localhost
