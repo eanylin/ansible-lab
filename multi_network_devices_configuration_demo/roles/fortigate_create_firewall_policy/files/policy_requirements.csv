@@ -1,5 +1,5 @@
 Firewall,Policy ID,Inverse Policy ID,Source,Destination,Services,Policy Action
-fortigate_fw_192.168.200.100,2,3,network_zone1,webserver1,"SSH,TOMCAT",accept
-fortigate_fw_192.168.200.100,4,5,network_zone2,webserver1,"SSH,TOMCAT",accept
-fortigate_fw_192.168.30.100,2,3,network_zone1,webserver1,"SSH,TOMCAT",accept
-fortigate_fw_192.168.30.100,4,5,network_zone3,webserver1,"SSH,TOMCAT",accept
+fortigate_fw_192.168.200.100,2,3,network_zone_1,webserver1,"SSH,TOMCAT",accept
+fortigate_fw_192.168.200.100,4,5,network_zone_2,webserver1,"SSH,TOMCAT",accept
+fortigate_fw_192.168.30.100,2,3,network_zone_1,webserver1,"SSH,TOMCAT",accept
+fortigate_fw_192.168.30.100,4,5,network_zone_3,webserver1,"SSH,TOMCAT",accept
