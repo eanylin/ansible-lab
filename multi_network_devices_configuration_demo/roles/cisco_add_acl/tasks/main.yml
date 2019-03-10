@@ -3,6 +3,17 @@
   ios_config:
     backup: yes
 
+- name: Parse csv change request file
+  csv_to_yaml:
+    name: files/acl_requirements.csv
+  register: csv_parse_results
+
+- name: Create ACL config yaml file
+  template:
+    src: templates/cisco_acl_template.j2
+    dest: /tmp/acl_config_update.yml
+  delegate_to: localhost
+
 - name: Include vars from acl_config_update.yml
   include_vars:
     file: /tmp/acl_config_update.yml
