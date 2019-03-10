@@ -6,7 +6,7 @@
 
 - name: Create new address object, if required
   fortios_address:
-    host: "{{ hostvars[address_object_csv_parse_results]['yaml_output']['nodes'][item]['firewall'].ansible_host }}"
+    host: "{{ hostvars[address_object_csv_parse_results['yaml_output']['nodes'][item]['firewall']].ansible_host }}"
     username: "{{ fortigate_username }}"
     password: "{{ fortigate_password }}"
     state: present
