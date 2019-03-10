@@ -1,3 +1,3 @@
 Router,Interface,IP Access List,Source IP Subnet,Source Network Mask,Destination IP Subnet,Destination Network Mask,Services
 cisco_rtr_172.16.100.205,GigabitEthernet1,acl_mgmt,172.16.100.0,0.0.0.255,10.10.30.141,0.0.0.0,"22,8080"
-cisco_rtr_192.168.100.100,GigabitEthernet1,acl_mgmt,192.168.100.0,0.0.0.255,10.10.30.141,0.0.0.0,"22,8080"
+cisco_rtr_192.168.100.100,GigabitEthernet1,acl_mgmt,172.16.100.0,0.0.0.255,10.10.30.141,0.0.0.0,"22,8080"

@@ -6,7 +6,7 @@
   run_once: true
   delegate_to: localhost
 
-- name: Create Fortigate Firewall Policy
+- name: Create Fortigate firewall policy
   fortios_ipv4_policy:
     host: "{{ hostvars[csv_parse_results['yaml_output']['nodes'][item]['firewall']].ansible_host }}"
     username: "{{ fortigate_username }}"
@@ -21,7 +21,7 @@
     policy_action: "{{ csv_parse_results['yaml_output']['nodes'][item]['policy_action'] }}"
   loop: "{{ range(0, csv_parse_results['yaml_output']['nodes']|length)|list }}"
 
-- name: Create Fortigate Firewall Policy in Reverse Direction
+- name: Create Fortigate firewall policy in reverse direction
   fortios_ipv4_policy:
     host: "{{ hostvars[csv_parse_results['yaml_output']['nodes'][item]['firewall']].ansible_host }}"
     username: "{{ fortigate_username }}"
