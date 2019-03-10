@@ -1,14 +1,14 @@
 cisco_routers_acl:
 {% set acl_entries = csv_parse_results['yaml_output']['nodes'] %}
 {% for entry in range(0, acl_entries|length) %}
-  {{ acl_entries[entry]['router'] }}:
-    ip_interface: {{ acl_entries[entry]['interface'] }}
-    ip_access_group: {{ acl_entries[entry]['ip_access_list'] }}
-    acl_rules:
+- router: {{ acl_entries[entry]['router'] }}
+  ip_interface: {{ acl_entries[entry]['interface'] }}
+  ip_access_group: {{ acl_entries[entry]['ip_access_list'] }}
+  acl_rules:
 {% set services_list = csv_parse_results['yaml_output']['nodes'][entry]['services'].split(',') %}
 {% set num_services = services_list|length %}
 {% for service in range(num_services) %}
-      - permit tcp {{ acl_entries[entry]['source_ip_subnet'] }} {{ acl_entries[entry]['source_network_mask'] }} {{ acl_entries[entry]['destination_ip_subnet'] }} {{ acl_entries[entry]['destination_network_mask'] }} eq {{ services_list[service] }}
-      - permit tcp {{ acl_entries[entry]['destination_ip_subnet'] }} {{ acl_entries[entry]['destination_network_mask'] }} {{ acl_entries[entry]['source_ip_subnet'] }} {{ acl_entries[entry]['source_network_mask'] }} eq {{ services_list[service] }}
+    - permit tcp {{ acl_entries[entry]['source_ip_subnet'] }} {{ acl_entries[entry]['source_network_mask'] }} {{ acl_entries[entry]['destination_ip_subnet'] }} {{ acl_entries[entry]['destination_network_mask'] }} eq {{ services_list[service] }}
+    - permit tcp {{ acl_entries[entry]['destination_ip_subnet'] }} {{ acl_entries[entry]['destination_network_mask'] }} {{ acl_entries[entry]['source_ip_subnet'] }} {{ acl_entries[entry]['source_network_mask'] }} eq {{ services_list[service] }}
 {% endfor %}
 {% endfor %}

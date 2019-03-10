@@ -1,0 +1,13 @@
+- name: Create ACL (bi-directional)
+  ios_config:
+    lines: "{{ cisco_routers_acl[entry_index]['acl_rules'][item] }}"
+    parents: "ip access-list extended {{ cisco_routers_acl[entry_index]['ip_access_group'] }}"
+  loop: "{{ range(0, cisco_routers_acl|length)|list }}"
+  when: cisco_routers_acl[entry_index]['router'] == inventory_hostname
+
+- name: Apply ACL to interface, if required
+  ios_config:
+    lines:
+      - "ip access-group {{ cisco_routers_acl[entry_index]['ip_access_group'] }} in"
+    parents: "interface {{ cisco_routers_acl[entry_index]['ip_interface'] }}"
+  when: cisco_routers_acl[entry_index]['router'] == inventory_hostname
