@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+# Copyright: (c) 2019, Anthony Lin <anthony.jclin@gmail.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ANSIBLE_METADATA = {
@@ -32,7 +33,7 @@ def csv_to_yaml(filename):
           content[headings[cell_index]] = cell
         key_value_result.append(content)
 
-    return {'routers': key_value_result}
+    return {'nodes': key_value_result}
 
 
 def run_module():

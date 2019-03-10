@@ -1,5 +1,5 @@
 ---
-- name: Create New Address Object
+- name: Create new address object, if required
   fortios_address:
     host: "{{ hostvars[inventory_hostname].ansible_host }}"
     username: "{{ fortigate_username }}"
