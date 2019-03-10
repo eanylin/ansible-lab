@@ -1,0 +1,11 @@
+---
+# Reverse the actions performed in 'create_address_object' playbook
+- name: Rollback Fortigate firewall address object
+  hosts: "{{ firewalls }}"
+  gather_facts: false
+
+  tasks:
+  - name: Rollback Fortigate firewall address object
+    include_role:
+      name: fortigate_rollback_address_object
+      vars_from: "password.yml"

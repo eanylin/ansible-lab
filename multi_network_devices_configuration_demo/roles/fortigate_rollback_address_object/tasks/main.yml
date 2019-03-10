@@ -4,12 +4,12 @@
     name: roles/fortigate_create_address_object/files/firewall_objects.csv
   register: address_object_csv_parse_results
 
-- name: Create new address object
+- name: Rollback address object
   fortios_address:
     host: "{{ hostvars[address_object_csv_parse_results['yaml_output']['nodes'][item]['firewall']].ansible_host }}"
     username: "{{ fortigate_username }}"
     password: "{{ fortigate_password }}"
-    state: present
+    state: absent
     name: "{{ address_object_csv_parse_results['yaml_output']['nodes'][item]['object'] }}"
     type: ipmask
     value: "{{ address_object_csv_parse_results['yaml_output']['nodes'][item]['ip_subnet'] }}"
