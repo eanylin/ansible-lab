@@ -1,0 +1,3 @@
+Firewall,Policy ID,Inverse Policy ID,Source,Source Interface,Destination,Destination Interface,Services,Policy Action
+fortigate_fw_192.168.200.100,4,5,network_zone_1,port1,webserver1,port2,"SSH,TOMCAT",accept
+fortigate_fw_192.168.30.100,4,5,network_zone_1,port1,webserver1,port2,"SSH,TOMCAT",accept
