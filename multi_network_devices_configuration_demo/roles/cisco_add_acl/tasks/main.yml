@@ -5,7 +5,7 @@
 
 - name: Parse csv change request file
   csv_to_yaml:
-    name: files/acl_requirements.csv
+    name: roles/cisco_add_acl/files/acl_requirements.csv
   register: csv_parse_results
   delegate_to: localhost
 
