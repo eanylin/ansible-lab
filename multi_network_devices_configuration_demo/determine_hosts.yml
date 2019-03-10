@@ -2,13 +2,45 @@
 - name: Determine Hosts
   hosts: localhost
   gather_facts: false
-  vars_files:
-    - roles/cisco_add_acl/vars/acl_requirements.yml
-    - roles/fortigate_create_firewall_policy/vars/policy_requirements.yml
 
   tasks:
+    - name: Initialize variables
+      set_fact:
+        router_string: ''
+        router_list: []
+        firewall_string: ''
+        firewall_list: []
+
+    - name: Parse ACL csv file
+      csv_to_yaml:
+        name: roles/cisco_add_acl/files/acl_requirements.csv
+      register: router_csv_parse_results
+
+    - name: Parse firewall policy csv file
+      csv_to_yaml:
+        name: roles/fortigate_create_firewall_policy/files/policy_requirements.csv
+      register: firewall_csv_parse_results
+
+    - name: Concatenate router host entries into a string
+      set_fact:
+        router_string: "{{ router_string + router_csv_parse_results['yaml_output']['nodes'][item]['router'] + ',' }}"
+      loop: "{{ range(0, router_csv_parse_results['yaml_output']['nodes']|length)|list }}"
+
+    - name: Get unique list of router entries, ignore last element which is an empty string
+      set_fact:
+        router_list: "{{ router_string.split(',')[0:-1] | unique }}"
+
+    - name: Concatenate firewall host entries into a string
+      set_fact:
+        firewall_string: "{{ firewall_string + firewall_csv_parse_results['yaml_output']['nodes'][item]['firewall'] + ',' }}"
+      loop: "{{ range(0, firewall_csv_parse_results['yaml_output']['nodes']|length)|list }}"
+
+    - name: Get unique list of firewall entries, ignore last element which is an empty string
+      set_fact:
+        firewall_list: "{{ firewall_string.split(',')[0:-1] | unique }}"
+
     - name: Get information of Cisco and Fortigate Hosts for subsequent workflow
       set_stats:
         data:
-          routers: "{{ cisco_routers.keys() }}"
-          firewalls: "{{ fortigate_firewall.keys() }}"
+          routers: "{{ router_list }}"
+          firewalls: "{{ firewall_list }}"
