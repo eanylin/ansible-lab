@@ -1,7 +1,7 @@
 ---
 - name: Parse firewall address object csv file
   csv_to_yaml:
-    name: roles/fortigate_create_address_object/files/firewall_objects.csv.csv
+    name: roles/fortigate_create_address_object/files/firewall_objects.csv
   register: address_object_csv_parse_results
 
 - name: Create new address object, if required
