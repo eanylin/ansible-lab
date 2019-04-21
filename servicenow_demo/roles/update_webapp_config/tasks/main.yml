@@ -5,3 +5,9 @@
     dest: /var/www/html/index.html
     mode: 0644
   notify: "restart httpd service"
+
+- name: Capture information of request number and request item number for subsequent workflow
+  set_stats:
+    data:
+      request_number: "{{ request_number }}"
+      req_item_number: "{{ req_item_number }}"
