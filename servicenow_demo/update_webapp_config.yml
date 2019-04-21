@@ -2,7 +2,7 @@
 - name: Update Web Application Server Configurations
   hosts: "{{ webapp_server }}"
   become: yes
-  gather_facts: true
+  gather_facts: false
 
   roles:
     - update_webapp_config

@@ -1,7 +1,7 @@
 ---
 - name: Update ServiceNow Ticket
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
   - name: Update ServiceNow Ticket
