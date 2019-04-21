@@ -1,0 +1,10 @@
+---
+- name: Update ServiceNow Ticket
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+  - name: Update ServiceNow Ticket
+    include_role:
+      name: update_snow_ticket
+      vars_from: "password.yml"

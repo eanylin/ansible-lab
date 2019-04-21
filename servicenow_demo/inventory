@@ -1,0 +1,2 @@
+[webapp]
+webapp1 ansible_host=192.168.0.4

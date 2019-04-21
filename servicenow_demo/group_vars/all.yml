@@ -1,0 +1,5 @@
+---
+servicenow_instance: "dev80528"
+servicenow_request_table: "sc_request"
+servicenow_request_item_table: "sc_req_item"
+servicenow_username: "admin"

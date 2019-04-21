@@ -1,0 +1,26 @@
+---
+- name: Update and Close Request
+  snow_record:
+    username: "{{ servicenow_username }}"
+    password: "{{ servicenow_password }}"
+    instance: "{{ servicenow_instance }}"
+    state: present
+    number: "{{ request_number }}"
+    table: "{{ servicenow_request_table }}"
+    data:
+      request_state: "closed_complete"
+      work_notes : "{{ request_number }} has been successfully implemented by Ansible. Closing Ticket."
+  delegate_to: localhost
+
+- name: Update and Close Request Item
+  snow_record:
+    username: "{{ servicenow_username }}"
+    password: "{{ servicenow_password }}"
+    instance: "{{ servicenow_instance }}"
+    state: present
+    number: "{{ req_item_number }}"
+    table: "{{ servicenow_request_item_table }}"
+    data:
+      state: 3
+      work_notes : "{{ req_item_number }} has been successfully implemented by Ansible. Closing Ticket."
+  delegate_to: localhost
