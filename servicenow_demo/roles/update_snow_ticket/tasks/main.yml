@@ -11,7 +11,7 @@
       request_state: "closed_complete"
       work_notes : "{{ request_number }} has been successfully implemented by Ansible. Closing Ticket."
   delegate_to: localhost
-  when: request_number is defined
+  when: request_number == 'undefined'
 
 - name: Update and Close Request Item
   snow_record:
@@ -25,4 +25,4 @@
       state: 3
       work_notes : "{{ req_item_number }} has been successfully implemented by Ansible. Closing Ticket."
   delegate_to: localhost
-  when: request_number is defined
+  when: request_number == 'undefined'
