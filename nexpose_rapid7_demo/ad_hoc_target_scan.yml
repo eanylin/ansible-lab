@@ -1,0 +1,99 @@
+---
+- name: Perform Ad Hoc Security Scanning
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Scan Target
+    uri:
+      url: "{{ nexpose_base_api }}/sites/{{ site_id }}/scans"
+      method: POST
+      user: "{{ nexpose_username }}"
+      password: "{{ nexpose_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+      headers:
+        Content-Type: application/json
+        Accept: application/json
+      body: "{{ lookup('template','templates/scan_asset.json.j2') }}"
+      body_format: json
+      status_code: 201
+      return_content: yes
+    register: scan_target
+
+  - set_fact:
+      scan_id: "{{ scan_target.json.id }}"
+
+  - name: Check Scan Result
+    uri:
+      url: "{{ nexpose_base_api }}/scans/{{ scan_id }}"
+      user: "{{ nexpose_username }}"
+      password: "{{ nexpose_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+      return_content: yes
+    register: check_scan_results
+    until: check_scan_results.json.status == 'finished'
+    retries: 60
+    delay: 10
+
+  - name: "Get {{ target_server }} Asset Information"
+    uri:
+      url: "{{ nexpose_base_api }}/assets/search"
+      method: POST
+      user: "{{ nexpose_username }}"
+      password: "{{ nexpose_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+      headers:
+        Content-Type: application/json
+      body: "{{ lookup('template','templates/search_asset.json.j2') }}"
+      body_format: json
+      return_content: yes
+    register: get_target_asset
+
+  - set_fact:
+      asset_id: "{{ get_target_asset.json.resources[0]['id'] }}"
+
+  - name: Get Asset Vulnerabilities
+    uri:
+      url: "{{ nexpose_base_api }}/assets/{{ asset_id }}/vulnerabilities?size={{ nexpose_vulnerabilities_records_per_page }}"
+      user: "{{ nexpose_username }}"
+      password: "{{ nexpose_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+      return_content: yes
+    register: get_asset_vulnerabilities
+
+  - name: Clean Up Reports Directory if it exists
+    file:
+      path: reports
+      state: absent
+  
+  - name: Create Reports Directory
+    file:
+      path: reports
+      state: directory
+      mode: 0755
+
+  - name: Create VM Vulnerabilities Report
+    template:
+      src: vulnerability_report.html.j2
+      dest: "reports/vulnerability_report.html"
+
+  - name: Send Email with Report
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: "{{ gmail_account }}"
+      password: "{{ gmail_account_password }}"
+      to: Anthony Lin <anthony.lin.test@gmail.com>
+      subject: "Ansible Report"
+      body: "The vunlerabilities report of {{ target_server }} can found in the attached file"
+      attach:
+       - reports/vulnerability_report.html
+
+  - name: Clean Up Reports Directory
+    file:
+      path: reports
+      state: absent

@@ -1,0 +1,11 @@
+---
+asset_group_id: '1'
+gmail_account: 'email@example.com'
+gmail_account_password: 'mypassword'
+nexpose_base_api: 'https://nexpose-rapid7.domain.com:3780/api/3'
+nexpose_password: 'mypassword'
+nexpose_username: 'admin'
+nexpose_vulnerabilities_records_per_page: 100
+site_id: '2'
+target_server: server1.domain.com
+target_server_ip: '10.10.10.10'
