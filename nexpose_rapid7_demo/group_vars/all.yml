@@ -9,3 +9,4 @@ nexpose_vulnerabilities_records_per_page: 100
 site_id: '2'
 target_server: server1.domain.com
 target_server_ip: '10.10.10.10'
+

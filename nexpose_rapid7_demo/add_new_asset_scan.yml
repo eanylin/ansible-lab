@@ -128,3 +128,4 @@
     file:
       path: reports
       state: absent
+
