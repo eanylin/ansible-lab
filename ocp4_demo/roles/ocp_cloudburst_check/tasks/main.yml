@@ -31,7 +31,7 @@
 
 - name: "Create project {{ oc_project }} in DC-2"
   command: "/usr/bin/oc new-project {{ oc_project }}"
-  when: get_prom_data.json.data.result[0].value[1] | float('inf') > 0.2 and check_dc2_app.stdout == ""
+  when: get_prom_data.json.data.result[0].value[1] | float('inf') > cpu_threshold and check_dc2_app.stdout == ""
 
 - name: Save prom_data for subsequent workflow
   set_stats:

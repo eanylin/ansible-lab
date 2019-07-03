@@ -1,5 +1,6 @@
 ---
 client_type: "slave"
+cpu_threshold: 0.2
 dc1_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp1_cluster_domain }}"
 dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
 dc2_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp2_cluster_domain }}"

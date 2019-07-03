@@ -5,4 +5,4 @@
 
   - name: Expose Service
     command: "/usr/bin/oc expose service {{ app_service }}"
-  when: prom_data.json.data.result[0].value[1] | float('inf') > 0.2 and check_dc2_app.stdout == ""
+  when: prom_data.json.data.result[0].value[1] | float('inf') > cpu_threshold and check_dc2_app.stdout == ""
