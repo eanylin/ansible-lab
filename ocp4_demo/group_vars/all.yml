@@ -2,9 +2,7 @@
 client_type: "slave"
 cpu_threshold: 0.2
 dc1_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp1_cluster_domain }}"
-dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
 dc2_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp2_cluster_domain }}"
-dc2_oc_api_endpoint: "https://api.{{ ocp2_cluster_domain }}:6443/"
 haproxy_backend: 'webapp1'
 integrated_registry_route: "default-route-openshift-image-registry"
 master_url: "http://{{ app_service }}-{{ oc_project }}.apps.{{ ocp1_cluster_domain }}"

@@ -2,13 +2,13 @@
 - name: OCP Application Deployment
   hosts: ocp2_bastion
   gather_facts: false
-  vars:
-    client_type: "slave"
-    master_url: "http://{{ app_service }}-{{ oc_project }}.apps.{{ ocp1_cluster_domain }}"
-    mongodb_svc: "mongodb.{{ oc_project }}.svc.cluster.local"
-    oc_project: "app1"
-    ocp2_api_endpoint: "https://api.{{ ocp2_cluster_domain }}"
-    prometheus_endpoint: "https://prometheus-k8s-openshift-monitoring.apps.{{ ocp1_cluster_domain }}/api/v1/"
+#  vars:
+#    client_type: "slave"
+#    master_url: "http://{{ app_service }}-{{ oc_project }}.apps.{{ ocp1_cluster_domain }}"
+#    mongodb_svc: "mongodb.{{ oc_project }}.svc.cluster.local"
+#    oc_project: "app1"
+#    ocp2_api_endpoint: "https://api.{{ ocp2_cluster_domain }}"
+#    prometheus_endpoint: "https://prometheus-k8s-openshift-monitoring.apps.{{ ocp1_cluster_domain }}/api/v1/"
 
   tasks:
   - name: Application Deployment

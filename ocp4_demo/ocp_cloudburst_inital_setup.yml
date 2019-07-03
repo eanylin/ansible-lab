@@ -3,17 +3,17 @@
   hosts: ocp1_bastion
   become: true
   gather_facts: false
-  vars:
-    dc1_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp1_cluster_domain }}"
-    dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
-    integrated_registry_route: "default-route-openshift-image-registry"
-    mongodb_image: "centos/mongodb-36-centos7"
-    mongodb_svc_port: "27017"
-    oc_app: "nodejs-demo"
-    oc_app_git_repository: "openshift/nodejs~https://github.com/wohshon/ocp-demo"
-    oc_project: "app1"
-    oc_mongodb_service: "my-standalone-svc"
-    oc_site: "SITE1"
+#  vars:
+#    dc1_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp1_cluster_domain }}"
+#    dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
+#    integrated_registry_route: "default-route-openshift-image-registry"
+#    mongodb_image: "centos/mongodb-36-centos7"
+#    mongodb_svc_port: "27017"
+#    oc_app: "nodejs-demo"
+#    oc_app_git_repository: "openshift/nodejs~https://github.com/wohshon/ocp-demo"
+#    oc_project: "app1"
+#    oc_mongodb_service: "my-standalone-svc"
+#    oc_site: "SITE1"
 
   tasks:
   - name: OCP Cloudburst Initial Setup

@@ -2,12 +2,12 @@
 - name: OCP Cloud Burst Check
   hosts: ocp2_bastion
   gather_facts: false
-  vars:
-    client_type: "slave"
-    mongodb_svc: "mongodb.{{ oc_project }}.svc.cluster.local"
-    ocp1_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443"
-    ocp2_api_endpoint: "https://api.{{ ocp2_cluster_domain }}:6443"
-    prometheus_endpoint: "https://prometheus-k8s-openshift-monitoring.apps.{{ ocp1_cluster_domain }}/api/v1/"
+#  vars:
+#    client_type: "slave"
+#    mongodb_svc: "mongodb.{{ oc_project }}.svc.cluster.local"
+#    ocp1_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443"
+#    ocp2_api_endpoint: "https://api.{{ ocp2_cluster_domain }}:6443"
+#    prometheus_endpoint: "https://prometheus-k8s-openshift-monitoring.apps.{{ ocp1_cluster_domain }}/api/v1/"
 
   tasks:
   - name: Cloud Burst Check
