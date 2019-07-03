@@ -5,12 +5,12 @@
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
-  #no_log: true
+  no_log: true
   register: oc_token_dc1
   delegate_to: localhost
 
 - name: Copy Image from QA to DC-1
-  shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}-qa/nodejs-demo{% raw %}:{% endraw %}qa docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}/nodejs-demo --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
+  shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ ocp1_integrated_registry }}/{{ oc_project }}-qa/nodejs-demo{% raw %}:{% endraw %}qa docker{% raw %}:{% endraw %}//{{ ocp1_integrated_registry }}/{{ oc_project }}/nodejs-demo --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
 
 - name: Get Access Token for DC-2
   k8s_auth:
@@ -18,9 +18,9 @@
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
-  #no_log: true
+  no_log: true
   register: oc_token_dc2
   delegate_to: localhost
 
 - name: Copy Image from QA to DC-2
-  shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}-qa/nodejs-demo{% raw %}:{% endraw %}qa docker{% raw %}:{% endraw %}//{{ dc2_integrated_registry }}/{{ oc_project }}/nodejs-demo --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
+  shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ ocp1_integrated_registry }}/{{ oc_project }}-qa/nodejs-demo{% raw %}:{% endraw %}qa docker{% raw %}:{% endraw %}//{{ ocp2_integrated_registry }}/{{ oc_project }}/nodejs-demo --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"

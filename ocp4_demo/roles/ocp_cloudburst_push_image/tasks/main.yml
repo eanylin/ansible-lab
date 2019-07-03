@@ -30,5 +30,5 @@
     register: get_app_dc2
 
   - name: Copy Image from DC-1 to DC-2
-    shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}/{{ oc_app }} docker{% raw %}:{% endraw %}//{{ dc2_integrated_registry }}/{{ oc_project }}/{{ oc_app }} --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
+    shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ ocp1_integrated_registry }}/{{ oc_project }}/{{ oc_app }} docker{% raw %}:{% endraw %}//{{ ocp2_integrated_registry }}/{{ oc_project }}/{{ oc_app }} --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
   when: prom_data.json.data.result[0].value[1] | float('inf') > cpu_threshold and check_dc2_app.stdout == ""
