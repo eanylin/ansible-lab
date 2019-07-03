@@ -6,6 +6,7 @@
 
 - name: OC Login to DC-1
   command: "/usr/bin/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ dc1_oc_api_endpoint }}"
+  no_log: true
 
 - name: Create app1 in DC-1
   command: "/usr/bin/oc new-project {{ oc_project }}"

@@ -6,6 +6,7 @@
       username: "{{ oc_user }}"
       password: "{{ oc_password }}"
       validate_certs: no
+    no_log: true
     register: oc_token_dc1
     delegate_to: localhost
 
@@ -15,11 +16,13 @@
       username: "{{ oc_user }}"
       password: "{{ oc_password }}"
       validate_certs: no
+    no_log: true
     register: oc_token_dc2
     delegate_to: localhost
 
   - name: OC Login to DC-2
     command: "/usr/bin/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ dc2_oc_api_endpoint }}"
+    no_log: true
 
   - name: "Check if project {{ oc_project }} exits"
     command: "/usr/bin/oc get project {{ oc_project }}"

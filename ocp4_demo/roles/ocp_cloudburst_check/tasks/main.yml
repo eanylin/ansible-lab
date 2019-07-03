@@ -5,6 +5,7 @@
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
+  no_log: true
   register: k8s_auth_results
   delegate_to: localhost
 
@@ -18,11 +19,13 @@
   register: get_prom_data
   delegate_to: localhost
 
-- debug:
+- name: Print CPU Load
+  debug:
     msg: "{{ get_prom_data.json.data.result[0].value[1] }}"
 
 - name: OC Login
   command: "/usr/bin/oc login {{ ocp2_api_endpoint }} -u {{ oc_user }} -p {{ oc_password }}"
+  no_log: true
 
 - name: "Check if project {{ oc_project }} exists in DC-2"
   command: "/usr/bin/oc get project {{ oc_project }}"
