@@ -1,7 +1,7 @@
 ---
 - name: Get Access Token for DC-1
   k8s_auth:
-    host: "{{ dc1_oc_api_endpoint }}"
+    host: "{{ ocp1_api_endpoint }}"
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
@@ -14,7 +14,7 @@
 
 - name: Get Access Token for DC-2
   k8s_auth:
-    host: "{{ dc2_oc_api_endpoint }}"
+    host: "{{ ocp2_api_endpoint }}"
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
