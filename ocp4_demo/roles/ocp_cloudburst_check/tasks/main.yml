@@ -1,0 +1,40 @@
+---
+- name: Get Access Token
+  k8s_auth:
+    host: "{{ ocp1_api_endpoint }}"
+    username: "{{ oc_user }}"
+    password: "{{ oc_password }}"
+    validate_certs: no
+  register: k8s_auth_results
+  delegate_to: localhost
+
+- name: Get Prometheus Data
+  uri:
+    url: "{{ prometheus_endpoint }}/query?query=namespace_name%3Akube_pod_container_resource_requests_cpu_cores%3Asum%7Bnamespace%3D%22{{ oc_project }}%22%7D"
+    headers:
+      Authorization: "Bearer {{ k8s_auth_results.k8s_auth.api_key }}"
+    validate_certs: no
+    return_content: yes
+  register: get_prom_data
+  delegate_to: localhost
+
+- debug:
+    msg: "{{ get_prom_data.json.data.result[0].value[1] }}"
+
+- name: OC Login
+  command: "/usr/bin/oc login {{ ocp2_api_endpoint }} -u {{ oc_user }} -p {{ oc_password }}"
+
+- name: "Check if project {{ oc_project }} exists in DC-2"
+  command: "/usr/bin/oc get project {{ oc_project }}"
+  ignore_errors: yes
+  register: check_dc2_app
+
+- name: "Create project {{ oc_project }} in DC-2"
+  command: "/usr/bin/oc new-project {{ oc_project }}"
+  when: get_prom_data.json.data.result[0].value[1] | float('inf') > 0.2 and check_dc2_app.stdout == ""
+
+- name: Save prom_data for subsequent workflow
+  set_stats:
+    data:
+      prom_data: "{{ get_prom_data }}"
+      check_dc2_app: "{{ check_dc2_app }}"

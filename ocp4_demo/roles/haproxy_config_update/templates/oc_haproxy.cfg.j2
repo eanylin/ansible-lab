@@ -1,0 +1,45 @@
+global
+  log /dev/log local0
+  log /dev/log local1 notice
+  stats socket /var/lib/haproxy/stats level admin
+  chroot /var/lib/haproxy
+  user haproxy
+  group haproxy
+  daemon
+
+defaults
+  log global
+  mode http
+  option httplog
+  option dontlognull
+  option forwardfor
+  timeout connect 5000
+  timeout client 50000
+  timeout server 50000
+  maxconn 5000
+
+frontend haproxyfrontend
+    bind 0.0.0.0:5000
+    option tcplog
+    use_backend {{ haproxy_backend }}
+
+backend {{ haproxy_backend }}
+    balance roundrobin
+    http-send-name-header Host
+    server {{ app_service }}-{{ oc_project }}.apps.{{ ocp_cluster1 }} {{ app_service }}-{{ oc_project }}.apps.{{ ocp_cluster1 }}:{{ app_service_port }} check
+    server {{ app_service }}-{{ oc_project }}.apps.{{ ocp_cluster2 }} {{ app_service }}-{{ oc_project }}.apps.{{ ocp_cluster2 }}:{{ app_service_port }} check
+
+listen stats 0.0.0.0:9000
+    mode http
+    balance
+    timeout client 5000
+    timeout connect 4000
+    timeout server 30000
+
+    stats uri /haproxy_stats
+
+    stats realm HAProxy\ Statistics
+
+    stats auth admin:password
+
+    stats admin if TRUE

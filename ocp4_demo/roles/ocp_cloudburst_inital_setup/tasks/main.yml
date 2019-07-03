@@ -1,0 +1,20 @@
+---
+- name: Install skopeo
+  yum:
+    name: skopeo
+    state: latest
+
+- name: OC Login to DC-1
+  command: "/usr/bin/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ dc1_oc_api_endpoint }}"
+
+- name: Create app1 in DC-1
+  command: "/usr/bin/oc new-project {{ oc_project }}"
+
+- name: Setup Mongo DB in DC-1
+  command: "/usr/bin/oc new-app -e MONGODB_USER={{ mongo_user }} -e MONGODB_PASSWORD={{ mongodb_password }} -e MONGODB_DATABASE=countDB -e MONGODB_ADMIN_PASSWORD={{ mongo_admin_password }} {{ mongodb_image }} --name={{ oc_mongodb_service }}"
+
+- name: Deploy app1 in DC-1
+  command: "/usr/bin/oc new-app {{ oc_app_git_repository }} --name {{ oc_app }} -e SITE={{ oc_site }} -e DATABASE_USER={{ datebase_user }} -e DATABASE_PASSWORD={{ mongo_admin_password }} -e MONGODB_SVC={{ oc_mongodb_service }}.{{ oc_project }}.svc.cluster.local -e MONGODB_SERVICE_PORT={{ mongodb_svc_port }} -e CLIENT_TYPE=master -n {{ oc_project }}"
+
+- name: Expose app1 service
+  command: "/usr/bin/oc expose svc {{ oc_app }}"

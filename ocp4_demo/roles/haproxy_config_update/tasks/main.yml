@@ -1,0 +1,7 @@
+---
+- name: Update HA Proxy Configuration File
+  template:
+    src: templates/oc_haproxy.cfg.j2
+    dest: "/etc/haproxy/haproxy.cfg"
+  notify: restart haproxy
+  when: prom_data.json.data.result[0].value[1] | float('inf') > 0.2 and check_dc2_app.stdout == ""

@@ -1,0 +1,8 @@
+---
+- block:
+  - name: Deploy Application
+    command: "/usr/bin/oc new-app {{ app_service }} -e SITE={{ site_id }} -e DATABASE_USER={{ db_user }} -e DATABASE_PASSWORD={{ db_password }} -e MONGODB_SVC={{ mongodb_svc }} -e CLIENT_TYPE={{ client_type }} -e MASTERURL={{ master_url }} -n {{ oc_project }}"
+
+  - name: Expose Service
+    command: "/usr/bin/oc expose service {{ app_service }}"
+  when: prom_data.json.data.result[0].value[1] | float('inf') > 0.2 and check_dc2_app.stdout == ""
