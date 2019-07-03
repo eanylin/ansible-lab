@@ -1,7 +1,6 @@
 ---
 - name: Push Image to DC-2
   hosts: ocp1_bastion
-  become: true
   gather_facts: false
   vars:
     dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
