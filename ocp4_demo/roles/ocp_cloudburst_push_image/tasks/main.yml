@@ -1,18 +1,25 @@
 ---
 - block:
-  - name: OC Login to DC-1
-    command: "/usr/bin/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ dc1_oc_api_endpoint }}"
-
-  - name: Get Token for DC-1
-    command: "/usr/bin/oc whoami -t"
+  - name: Get Access Token for DC-1
+    k8s_auth:
+      host: "{{ dc1_oc_api_endpoint }}"
+      username: "{{ oc_user }}"
+      password: "{{ oc_password }}"
+      validate_certs: no
     register: oc_token_dc1
+    delegate_to: localhost
+
+  - name: Get Access Token for DC-2
+    k8s_auth:
+      host: "{{ dc2_oc_api_endpoint }}"
+      username: "{{ oc_user }}"
+      password: "{{ oc_password }}"
+      validate_certs: no
+    register: oc_token_dc2
+    delegate_to: localhost
 
   - name: OC Login to DC-2
     command: "/usr/bin/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ dc2_oc_api_endpoint }}"
-
-  - name: Get Token for DC-2
-    command: "/usr/bin/oc whoami -t"
-    register: oc_token_dc2
 
   - name: "Check if project {{ oc_project }} exits"
     command: "/usr/bin/oc get project {{ oc_project }}"
@@ -20,5 +27,5 @@
     register: get_app_dc2
 
   - name: Copy Image from DC-1 to DC-2
-    shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}/{{ oc_app }} docker{% raw %}:{% endraw %}//{{ dc2_integrated_registry }}/{{ oc_project }}/{{ oc_app }} --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.stdout }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.stdout }} --dest-tls-verify=false --src-tls-verify=false"
+    shell: "skopeo copy docker{% raw %}:{% endraw %}//{{ dc1_integrated_registry }}/{{ oc_project }}/{{ oc_app }} docker{% raw %}:{% endraw %}//{{ dc2_integrated_registry }}/{{ oc_project }}/{{ oc_app }} --src-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc1.k8s_auth.api_key }} --dest-creds {{ oc_user }}{% raw %}:{% endraw %}{{ oc_token_dc2.k8s_auth.api_key }} --dest-tls-verify=false --src-tls-verify=false"
   when: prom_data.json.data.result[0].value[1] | float('inf') > cpu_threshold and check_dc2_app.stdout == ""
