@@ -2,10 +2,6 @@
 - name: HA Proxy Configuration Update
   hosts: haproxy1
   gather_facts: false
-#  vars:
-#    haproxy_backend: 'webapp1'
-#    ocp_cluster1: "{{ ocp1_cluster_domain }}"
-#    ocp_cluster2: "{{ ocp2_cluster_domain }}"
 
   roles:
     - haproxy_config_update

@@ -5,7 +5,7 @@
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
-  no_log: true
+  #no_log: true
   register: oc_token_dc1
   delegate_to: localhost
 
@@ -18,7 +18,7 @@
     username: "{{ oc_user }}"
     password: "{{ oc_password }}"
     validate_certs: no
-  no_log: true
+  #no_log: true
   register: oc_token_dc2
   delegate_to: localhost
 

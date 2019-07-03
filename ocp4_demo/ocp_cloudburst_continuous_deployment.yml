@@ -3,12 +3,6 @@
   hosts: ocp1_bastion
   become: true
   gather_facts: false
-#  vars:
-#    dc1_oc_api_endpoint: "https://api.{{ ocp1_cluster_domain }}:6443/"
-#    dc1_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp1_cluster_domain }}"
-#    dc2_oc_api_endpoint: "https://api.{{ ocp2_cluster_domain }}:6443/"
-#    dc2_integrated_registry: "{{ integrated_registry_route }}.apps.{{ ocp2_cluster_domain }}"
-#    integrated_registry_route: "default-route-openshift-image-registry"
 
   tasks:
   - name: Continuous Deployment
