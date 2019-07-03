@@ -1,7 +1,6 @@
 ---
 - name: Continuous Deployment
   hosts: ocp1_bastion
-  become: true
   gather_facts: false
 
   tasks:
