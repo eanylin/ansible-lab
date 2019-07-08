@@ -4,7 +4,7 @@
   gather_facts: false
 
   tasks:
-  - name: Make sure group wheel is not in the sudoers configuration
+  - name: Remove OCP-2 Configurations from HA Proxy
     lineinfile:
       path: /etc/haproxy/haproxy.cfg
       state: absent
