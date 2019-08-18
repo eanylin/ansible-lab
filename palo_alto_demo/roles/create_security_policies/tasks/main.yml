@@ -1,0 +1,23 @@
+---
+- name: Read CSV File
+  read_csv:
+    path: firewall_policy_requirements.csv
+  register: firewall_policies
+
+- name: Add rules at specific location in the rulebase
+  panos_security_rule:
+    provider: "{{ provider }}"
+    rule_name: "{{ firewall_policies.list[item]['Rule Name'] }}"
+    description: "{{ firewall_policies.list[item]['Rule Description'] }}"
+    source_zone: ["{{ firewall_policies.list[item]['Source Zone'] }}"]
+    source_ip: ["{{ firewall_policies.list[item]['Source IP'] }}"]
+    source_user: ["{{ firewall_policies.list[item]['Source User'] }}"]
+    destination_zone: ["{{ firewall_policies.list[item]['Destination Zone'] }}"]
+    destination_ip: ["{{ firewall_policies.list[item]['Destination IP'] }}"]
+    category: ["{{ firewall_policies.list[item]['Category'] }}"]
+    application: ["{{ firewall_policies.list[item]['Application'] }}"]
+    service: ["{{ firewall_policies.list[item]['Service'] }}"]
+    action: "{{ firewall_policies.list[item]['Action'] }}"
+    location: "{{ firewall_policies.list[item]['Location'] }}"
+    existing_rule: "{{ firewall_policies.list[item]['Existing Rule'] }}"
+  loop: "{{ range(0, firewall_policies | length | int - 2) | list }}"

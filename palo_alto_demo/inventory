@@ -1,0 +1,2 @@
+[palo_alto]
+paloalto ansible_host=172.16.100.239
