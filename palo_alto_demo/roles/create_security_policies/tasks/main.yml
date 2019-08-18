@@ -1,7 +1,7 @@
 ---
 - name: Read CSV File
   read_csv:
-    path: files/firewall_policy_requirements.csv
+    path: roles/create_security_policies/files/firewall_policy_requirements.csv
   register: firewall_policies
 
 - name: Add rules at specific location in the rulebase
