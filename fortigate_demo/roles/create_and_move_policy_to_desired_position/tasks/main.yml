@@ -17,7 +17,7 @@
 
 - name: Move Firewall Policy to Required Position
   uri:
-    url: "{{ base_url }}/firewall/policy/{{ current_policy_id }}/?action=move&{{ move_action }}={{ target_policy_id }}&access_token={{ access_token }}"
+    url: "{{ base_url }}/firewall/policy/{{ policy_id }}/?action=move&{{ move_action }}={{ target_policy_id }}&access_token={{ access_token }}"
     method: PUT
     validate_certs: no
     headers:

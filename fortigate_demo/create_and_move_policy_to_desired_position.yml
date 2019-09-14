@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars:
-    current_policy_id: 3
+    policy_id: 3
     target_policy_id: 4
     move_action: "before"
 
