@@ -1,0 +1,15 @@
+---
+- name: Firewall Policy Management
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    original_position: 1
+    desired_position: 2
+    move_action: "before"
+
+  tasks:
+  - name: Create and move firewall policy to desired position
+    include_role:
+      name: create_and_move_policy_to_desired_position
+      vars_from: "secrets.yml"

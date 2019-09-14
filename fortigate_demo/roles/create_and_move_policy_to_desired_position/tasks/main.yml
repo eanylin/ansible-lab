@@ -1,0 +1,31 @@
+---
+- name: Add New Firewall Policy
+  uri:
+    url: "{{ base_url }}/firewall/policy/?access_token={{ access_token }}"
+    method: POST
+    validate_certs: no
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    body: "{{ lookup('template','templates/add_fortigate_firewall_policy.json.j2') }}"
+    body_format: json
+    return_content: yes
+  register: firewall_address
+
+- debug:
+    msg: "{{ firewall_address.content }}"
+
+- name: Move Firewall Policy to Required Position
+  uri:
+    url: "{{ base_url }}/firewall/policy/{{ original_position }}/?action=move&{{ move_action }}={{ desired_position }}&access_token={{ access_token }}"
+    method: PUT
+    validate_certs: no
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    body_format: json
+    return_content: yes
+  register: move_policy
+
+- debug:
+    msg: "{{ move_policy.content }}"
