@@ -4,8 +4,8 @@
   connection: local
   gather_facts: false
   vars:
-    original_position: 1
-    desired_position: 2
+    current_policy_id: 3
+    target_policy_id: 4
     move_action: "before"
 
   tasks:
