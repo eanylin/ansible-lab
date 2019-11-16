@@ -1,0 +1,30 @@
+---
+- debug:
+    msg: "Running audit section {{ section_num }} on host {{ inventory_hostname }}"
+
+- name: Create csv file for each host
+  set_fact:
+    host_csv_file: "{{ audit_files_directory + inventory_hostname + '-' + section_num }}.csv"
+
+- name: Remove host CSV file if it exists
+  file:
+    path: "{{ host_csv_file }}"
+    state: absent
+
+- name: Create host CSV file
+  file:
+    path: "{{ host_csv_file }}"
+    state: touch
+
+- name: Create heading for host CSV file
+  shell: "echo Hostname,IP Address,Date,Baseline,Results > {{ host_csv_file }}"
+
+- name: "Include vars from section-{{ section_num }}_data.yml"
+  include_vars:
+    file: "roles/rhel_scan/defaults/section-{{ section_num }}_data.yml" 
+
+- name: Run the audit of the sections
+  include_tasks: audit-loop.yml
+  loop: "{{ range(0, hardening_baseline | length) | list }}"
+  loop_control:
+    loop_var: hardening_baseline_item

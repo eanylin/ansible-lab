@@ -1,0 +1,7 @@
+---
+hardening_baseline:
+- { descrip: '1.1.0 Ensure NTP is setup properly', cmd_type: script, cmd: '1-1-0.sh', result_when_cmd_success: 'SUCCESS', result_when_cmd_fail: 'FAILURE'}
+- { descrip: '1.2.0 Ensure DNS is setup properly', cmd_type: script, cmd: '1-2-0.sh', result_when_cmd_success: 'SUCCESS', result_when_cmd_fail: 'FAILURE'}
+- { descrip: '1.3.0 Ensure SELinux is installed', cmd_type: command, cmd: 'rpm -q libselinux', result_when_cmd_success: 'SUCCESS', result_when_cmd_fail: 'FAILURE'}
+- { descrip: '1.4.0 Ensure rsyslog is installed', cmd_type: command, cmd: 'rpm -q rsyslog', result_when_cmd_success: 'SUCCESS', result_when_cmd_fail: 'FAILURE'}
+- { descrip: '1.5.0 Ensure all security software and packages are updated/installed', cmd_type: command, cmd: 'yum check-update --security', result_when_cmd_success: 'SUCCESS', result_when_cmd_fail: 'FAILURE'}

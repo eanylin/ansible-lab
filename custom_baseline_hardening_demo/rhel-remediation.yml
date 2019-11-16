@@ -1,0 +1,10 @@
+---
+- name: Perform Baseline Remediation
+  hosts: "{{ target_group }}"
+  become: yes
+  gather_facts: yes
+
+  tasks:
+  - name: RHEL Baseline Remediation
+    include_role:
+      name: "rhel_remediation"

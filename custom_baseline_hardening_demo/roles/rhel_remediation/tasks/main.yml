@@ -1,0 +1,75 @@
+---
+# Remediation only covers section 1 of baseline hardening
+# for demo purpose
+- name: Enforce ntp.conf
+  template:
+    src: roles/rhel_remediation/templates/ntp.conf.j2
+    dest: /etc/ntp.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  register: backup_ntp_conf
+  notify:
+    - "restart ntpd services"
+  when: "'ntp_remediation' in remediation_task"
+
+- set_stats:
+    data:
+      ntp_conf_backup_file: "{{ backup_ntp_conf.backup_file }}"
+  when: "'ntp_remediation' in remediation_task"
+
+- name: Ensure 'dns=none' is set in NetworkManager.conf
+  ini_file:
+    path: /etc/NetworkManager/NetworkManager.conf
+    state: present
+    no_extra_spaces: yes
+    section: main
+    option: dns
+    value: none
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  register: backup_network_manager_conf
+  notify:
+    - reload NetworkManager
+  when: "'dns_remediation' in remediation_task"
+
+- name: Enforce resolv.conf
+  template:
+    src: roles/rhel_remediation/templates/resolv.conf.j2
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  register: backup_resolv_conf
+  notify:
+    - reload NetworkManager
+  when: "'dns_remediation' in remediation_task"
+
+- set_stats:
+    data:
+      network_manager_conf_backup_file: "{{ backup_network_manager_conf.backup_file }}"
+      resolv_conf_backup_file: "{{ backup_resolv_conf.backup_file }}"
+  when: "'dns_remediation' in remediation_task"
+
+- name: Ensure SELinux is installed
+  yum:
+    name: libselinux
+    state: latest
+  when: "'install_selinux' in remediation_task"
+
+- name: Ensure rsyslog is installed
+  yum:
+    name: rsyslog
+    state: latest
+  when: "'install_rsyslog' in remediation_task"
+
+- name: Ensure all security software and packages are updated/installed
+  yum:
+    name: '*'
+    security: yes
+    state: latest
+  when: "'install_security_updates' in remediation_task"

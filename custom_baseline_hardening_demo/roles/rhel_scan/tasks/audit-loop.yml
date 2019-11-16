@@ -1,0 +1,38 @@
+---
+- name: Reset baseline result
+  set_fact:
+    hardening_baseline_result: "NA"
+
+- name: Audit via command(s)
+  block:
+    - name: Check if it comply with baseline via command(s)
+      shell: "{{ hardening_baseline[hardening_baseline_item].cmd }}"
+
+    - name: Set result 
+      set_fact:
+        hardening_baseline_result: "{{ hardening_baseline[hardening_baseline_item].result_when_cmd_success }}"
+
+  rescue:
+    - name: Set result
+      set_fact:
+        hardening_baseline_result: "{{ hardening_baseline[hardening_baseline_item].result_when_cmd_fail }}"
+  when: hardening_baseline[hardening_baseline_item].cmd_type == 'command'
+
+- name: Audit via script(s)
+  block:
+    - name: Check if it comply with baseline via script(s)
+      script: "roles/rhel_scan/files/{{ hardening_baseline[hardening_baseline_item].cmd }}"
+
+    - name: Set result 
+      set_fact:
+        hardening_baseline_result: "{{ hardening_baseline[hardening_baseline_item].result_when_cmd_success }}"
+
+  rescue:
+    - name: Set result
+      set_fact:
+        hardening_baseline_result: "{{ hardening_baseline[hardening_baseline_item].result_when_cmd_fail }}"
+  when: hardening_baseline[hardening_baseline_item].cmd_type == 'script'
+
+# Assume that the server/vm has multiple NIC and its management IP can be found at enp0s8
+- name: Inset Entry into csv file
+  shell: "echo {{ ansible_hostname }},{{ ansible_enp0s8.ipv4.address }},{{ ansible_date_time.date }},{{ hardening_baseline[hardening_baseline_item].descrip }},{{ hardening_baseline_result }} >> {{ host_csv_file }}"

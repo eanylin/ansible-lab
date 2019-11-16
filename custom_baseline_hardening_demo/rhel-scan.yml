@@ -1,0 +1,56 @@
+---
+- name: Perform Baseline Scanning
+  hosts: "{{ target_group }}"
+  become: yes
+  gather_facts: yes
+
+  tasks:
+  - debug:
+      msg: "Starting Audit for {{ target_group }}"
+  
+  - name: Running the following sections
+    debug:
+      msg: "{{ user_select }}"
+
+  - name: "Loading role for {{ target_group }}"
+    include_role:
+      name: "rhel_scan"
+    loop: "{{ user_select }}"
+    loop_control:
+      loop_var: section_num
+
+  - name: Find audit files
+    find:
+      paths: "{{ audit_files_directory }}"
+      patterns: "^{{ inventory_hostname + '-' }}*"
+      use_regex: yes
+    register: files_located
+  
+  - name: Initialize an empty list for audit files
+    set_fact:
+      audit_file_list: []
+  
+  - name: Append to list of audit files
+    set_fact:
+      audit_file_list: "{{ audit_file_list + [files_located.files[item].path] }}"
+    loop: "{{ range(0, files_located.files | length) | list }}"
+    when: files_located.files | length | int > 0
+
+  - name: Send Email with audit files
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: "{{ gmail_user }}"
+      password: "{{ gmail_password }}"
+      to: Anthony Lin <anthony.lin.test@gmail.com>
+      subject: "{{ ansible_hostname }} Audit Report"
+      body: "{{ ansible_hostname }} has been audited. See attached report."
+      attach: "{{ audit_file_list }}"
+    when: files_located.files | length | int > 0
+
+  - name: Cleanup audit files
+    file:
+      path: "{{ files_located.files[item].path }}"
+      state: absent
+    loop: "{{ range(0, files_located.files | length) | list }}"
+    when: files_located.files | length | int > 0

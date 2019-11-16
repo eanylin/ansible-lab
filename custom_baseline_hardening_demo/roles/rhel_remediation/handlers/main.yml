@@ -1,0 +1,10 @@
+---
+- name: restart ntpd services
+  service:
+    name: ntpd
+    state: restarted
+
+- name: reload NetworkManager
+  service:
+    name: NetworkManager
+    state: reloaded

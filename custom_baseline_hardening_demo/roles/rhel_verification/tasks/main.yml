@@ -1,0 +1,13 @@
+---
+#
+# A simple verificationt test to see if web service goes
+# down as a result of remediation performed on the node
+#
+# Fail if web service goes down due to remediation
+#
+- name: Application verification test
+  uri:
+    url: "http://{{ ansible_enp0s8.ipv4.address }}"
+    return_content: yes
+  register: test_result
+  failed_when: "'Hello World' not in test_result.content"

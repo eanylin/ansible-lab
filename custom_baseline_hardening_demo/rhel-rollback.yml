@@ -1,0 +1,10 @@
+---
+- name: Perform Rollback
+  hosts: "{{ target_group }}"
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: Rollback Changes
+    include_role:
+      name: "rhel_rollback"
