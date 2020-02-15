@@ -1,0 +1,14 @@
+---
+- name: Hiding Last Logged On Username in the Logon Dialog
+  win_regedit:
+    path: "{{ hardening_requirements.windows_hardening.registry_fixes_section.dont_display_last_user_name.path }}"
+    name: "{{ hardening_requirements.windows_hardening.registry_fixes_section.dont_display_last_user_name.name }}"
+    data: "{{ hardening_requirements.windows_hardening.registry_fixes_section.dont_display_last_user_name.value }}"
+    type: "{{ hardening_requirements.windows_hardening.registry_fixes_section.dont_display_last_user_name.type }}"
+
+- name: Enable Password Protected Screen Saver
+  win_regedit:
+    path: "{{ hardening_requirements.windows_hardening.registry_fixes_section.screen_saver_is_secure.path }}"
+    name: "{{ hardening_requirements.windows_hardening.registry_fixes_section.screen_saver_is_secure.name }}"
+    data: "{{ hardening_requirements.windows_hardening.registry_fixes_section.screen_saver_is_secure.value }}"
+    type: "{{ hardening_requirements.windows_hardening.registry_fixes_section.screen_saver_is_secure.type }}"

@@ -1,0 +1,8 @@
+---
+- name: Perform scanning on 'Password' section
+  include_tasks: password_section.yml
+  when: "'password_section' in user_select"
+
+- name: Perform scanning on 'Account Lockout' section
+  include_tasks: account_lockout_section.yml
+  when: "'account_lockout_section' in user_select"

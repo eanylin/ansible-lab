@@ -1,0 +1,16 @@
+---
+- name: Perform Password Hardening
+  include_tasks: password_section.yml
+  when: "'password_section' in user_select"
+
+- name: Perform Account Lockout Hardening
+  include_tasks: account_lockout_section.yml
+  when: "'account_lockout_section' in user_select"
+
+- name: Perform Auditing Hardening
+  include_tasks: auditing_section.yml
+  when: "'auditing_section' in user_select"
+
+- name: Perform Registry Fixes
+  include_tasks: registry_fixes_section.yml
+  when: "'registry_fixes_section' in user_select"

@@ -1,0 +1,36 @@
+---
+windows_hardening:
+  system_access: "System Access"
+  password_section:
+    password_expiry_warning:
+      name: 'PasswordExpiryWarning'
+      path: 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      value: 14
+    password_history_size:
+      name: 'PasswordHistorySize'
+      value: 5
+    maximum_password_age:
+      name: 'MaximumPasswordAge'
+      value: 90
+    minimum_password_age:
+      name: 'MinimumPasswordAge'
+      value: 1
+    minimum_password_length:
+      name: 'MinimumPasswordLength'
+      value: 8
+    password_complexity:
+      name: 'PasswordComplexity'
+      value: 1
+    clear_text_password:
+      name: 'ClearTextPassword'
+      value: 0
+  account_lockout_section:
+    lockout_bad_count:
+      name: 'LockoutBadCount'
+      value: 5
+    lockout_duration:
+      name: 'LockoutDuration'
+      value: 1800
+    reset_lockout_count:
+      name: 'ResetLockoutCount'
+      value: 1800

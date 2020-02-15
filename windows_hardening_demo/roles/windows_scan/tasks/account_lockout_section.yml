@@ -1,0 +1,20 @@
+---
+- name: Retrieve current 'System Access' settings
+  set_fact:
+    lockout_bad_count: "{{ lookup('ini', 'LockoutBadCount section=System Access file=/tmp/{{ inventory_hostname }}_security_settings.ini') }}"
+    lockout_duration: "{{ lookup('ini', 'LockoutDuration section=System Access file=/tmp/{{ inventory_hostname }}_security_settings.ini') }}"
+    reset_lockout_count: "{{ lookup('ini', 'ResetLockoutCount section=System Access file=/tmp/{{ inventory_hostname }}_security_settings.ini') }}"
+
+- name: Check compliance for 'Account Lockout' section
+  set_fact:
+    lockout_bad_count_results: "{{ 'success' if hardening_requirements.windows_hardening.account_lockout_section.lockout_bad_count.value | int == lockout_bad_count | int else 'fail' }}"
+    lockout_duration_results: "{{ 'success' if hardening_requirements.windows_hardening.account_lockout_section.lockout_duration.value | int == lockout_duration | int else 'fail' }}"
+    reset_lockout_count_results: "{{ 'success' if hardening_requirements.windows_hardening.account_lockout_section.reset_lockout_count.value | int == reset_lockout_count | int else 'fail' }}"
+
+- name: Inset entry into csv file
+  shell: "echo {{ ansible_hostname }},{{ ansible_ip_addresses[0] }},{{ ansible_date_time.date }},'Account Lockout',{{ item[0] }},{{ item[1] }},{{ item[2] }},{{ item[3] }} >> {{ host_csv_file }}"
+  loop:
+    - ['LockoutBadCount', "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_bad_count.value }}", "{{ lockout_bad_count }}", "{{ lockout_bad_count_results }}"]
+    - ['LockoutDuration', "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_duration.value }}", "{{ lockout_duration }}", "{{ lockout_duration_results }}"]
+    - ['ResetLockoutCount', "{{ hardening_requirements.windows_hardening.account_lockout_section.reset_lockout_count.value }}", "{{ reset_lockout_count }}", "{{ reset_lockout_count_results }}"]
+  delegate_to: localhost

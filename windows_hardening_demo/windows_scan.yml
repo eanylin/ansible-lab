@@ -1,0 +1,60 @@
+---
+- name: Windows Server Hardening Scan
+  hosts: "{{ target_hosts }}"
+  gather_facts: true
+
+  roles:
+    - windows_scan
+
+  tasks:
+  - name: Get the audit files and email to administrator
+    block:
+      - name: Find .csv audit files
+        find:
+          paths: "{{ audit_files_directory }}"
+          patterns: '*.csv'
+        register: csv_files_located
+
+      - name: Find all .ini and .csv audit files
+        find:
+          paths: "{{ audit_files_directory }}"
+          patterns: '*.csv,*.ini'
+        register: csv_ini_files_located
+
+      - name: Initialize an empty list for audit files
+        set_fact:
+          csv_audit_file_list: []
+          csv_ini_audit_file_list: []
+
+      - name: Append to list of csv audit files
+        set_fact:
+          csv_audit_file_list: "{{ csv_audit_file_list + [csv_files_located.files[item].path] }}"
+        loop: "{{ range(0, csv_files_located.files | length) | list }}"
+        when: csv_files_located.files | length | int > 0
+
+      - name: Append to list of csv and ini audit files
+        set_fact:
+          csv_ini_audit_file_list: "{{ csv_ini_audit_file_list + [csv_ini_files_located.files[item].path] }}"
+        loop: "{{ range(0, csv_ini_files_located.files | length) | list }}"
+        when: csv_ini_files_located.files | length | int > 0
+
+      - name: Send Email with audit files
+        mail:
+          host: smtp.gmail.com
+          port: 587
+          username: "{{ gmail_account }}"
+          password: "{{ gmail_account_password }}"
+          to: Anthony Lin <anthony.lin.test@gmail.com>
+          subject: "Windows Server(s) Audit Report"
+          body: "Scan Completed. Please see attached report."
+          attach: "{{ csv_audit_file_list }}"
+        when: csv_files_located.files | length | int > 0
+
+      - name: Cleanup all audit files
+        file:
+          path: "{{ csv_ini_files_located.files[item].path }}"
+          state: absent
+        loop: "{{ range(0, csv_ini_files_located.files | length) | list }}"
+        when: csv_ini_files_located.files | length | int > 0
+    delegate_to: localhost
+    run_once: true

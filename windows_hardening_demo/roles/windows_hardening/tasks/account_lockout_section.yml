@@ -1,0 +1,18 @@
+---
+- name: "Set Account lockout threshold to 5 invalid logon attempts"
+  win_security_policy:
+     section: "{{ hardening_requirements.windows_hardening.system_access }}"
+     key: "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_bad_count.name }}"
+     value: "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_bad_count.value }}"
+
+- name: "Set Account lockout duration to 30 minutes"
+  win_security_policy:
+     section: "{{ hardening_requirements.windows_hardening.system_access }}"
+     key: "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_duration.name }}"
+     value: "{{ hardening_requirements.windows_hardening.account_lockout_section.lockout_duration.value }}"
+
+- name: "Reset account lockout counter after 30 minutes"
+  win_security_policy:
+     section: "{{ hardening_requirements.windows_hardening.system_access }}"
+     key: "{{ hardening_requirements.windows_hardening.account_lockout_section.reset_lockout_count.name }}"
+     value: "{{ hardening_requirements.windows_hardening.account_lockout_section.reset_lockout_count.value }}"

@@ -1,0 +1,27 @@
+---
+- name: Retrieve Hardening Requirements
+  include_vars:
+    file: defaults/windows_server_hardening_requirements.yml
+    name: hardening_requirements
+
+- name: Perform Server Hardening
+  include_tasks: hardening.yml
+
+- name: Dump Account Settings
+  win_command: net accounts
+  register: account_settings
+
+- name: Print Account Settings
+  debug:
+    msg: "{{ account_settings.stdout_lines }}"
+
+- name: Get Security Settings
+  win_command: 'SecEdit.exe /export /cfg C:\hardening_results.ini'
+
+- name: Dump Security Settings
+  win_shell: 'type C:\hardening_results.ini'
+  register: security_settings
+
+- name: Print Security Settings
+  debug:
+    msg: "{{ security_settings.stdout_lines }}"

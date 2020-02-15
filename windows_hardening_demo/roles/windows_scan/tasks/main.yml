@@ -1,0 +1,44 @@
+---
+- name: Retrieve Hardening Requirements
+  include_vars:
+    file: defaults/windows_server_hardening_requirements.yml
+    name: hardening_requirements
+
+- name: Create csv file for each host
+  set_fact:
+    host_csv_file: "/tmp/{{ inventory_hostname }}.csv"
+
+- name: Remove host CSV file if it exists
+  file:
+    path: "{{ host_csv_file }}"
+    state: absent
+  delegate_to: localhost
+
+- name: Create host CSV file
+  file:
+    path: "{{ host_csv_file }}"
+    state: touch
+  delegate_to: localhost
+
+- name: Create heading for host CSV file
+  shell: "echo Hostname,IP Address,Date,Section,Item,Expected Setting,Current Setting,Results > {{ host_csv_file }}"
+  delegate_to: localhost
+
+- name: Get Security Settings
+  win_command: 'SecEdit.exe /export /cfg C:\current_hardening_results.ini'
+
+- name: "Fetch security settings ini file for {{ inventory_hostname }}"
+  fetch:
+    src: 'C:\current_hardening_results.ini'
+    dest: "/tmp/{{ inventory_hostname }}_security_settings_unconverted.ini"
+    flat: yes
+
+# The ini file that was downloaded from Windows is in utf-16le format
+# The command to check will be 'file -i <file_name>'
+# This task is meant to convert the downloaded file to ascii format using iconv
+- name: "Convert file to us-ascii Format"
+  command: "iconv -f utf-16le -t ascii//TRANSLIT /tmp/{{ inventory_hostname }}_security_settings_unconverted.ini -o /tmp/{{ inventory_hostname }}_security_settings.ini"
+  delegate_to: localhost
+
+- name: Perform Server Scanning
+  include_tasks: scanning.yml

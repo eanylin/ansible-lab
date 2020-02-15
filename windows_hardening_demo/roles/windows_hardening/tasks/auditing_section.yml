@@ -1,0 +1,115 @@
+---
+- name: "Ensure 'Audit Credential Validation' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.credential_validation.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.credential_validation.value }}"
+
+- name: "Ensure 'Audit Application Group Management' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.application_group_management.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.application_group_management.value }}"
+
+- name: "Ensure 'Audit Computer Account Management' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.computer_account_management.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.computer_account_management.value }}"
+
+- name: "Ensure 'Audit Other Account Management Events' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.other_account_management_events.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.other_account_management_events.value }}"
+
+- name: "Ensure 'Audit Security Group Management' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.security_group_management.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.security_group_management.value }}"
+
+- name: "Ensure 'Audit User Account Management' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.user_account_management.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.user_account_management.value }}"
+
+- name: "Ensure 'Audit PNP Activity' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.plug_and_play_events.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.plug_and_play_events.value }}"
+
+- name: "Ensure 'Audit Process Creation' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.process_creation.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.process_creation.value }}"
+
+- name: "Ensure 'Audit Account Lockout' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.account_lockout.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.account_lockout.value }}"
+
+- name: "Ensure 'Audit Group Membership' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.group_membership.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.group_membership.value }}"
+
+- name: "Ensure 'Audit Logoff' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.logoff.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.logoff.value }}"
+
+- name: "Ensure 'Audit Logon' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.logon.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.logon.value }}"
+
+- name: "Ensure 'Audit Other Logon/Logoff Events' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.other_logon_logoff_events.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.other_logon_logoff_events.value }}"
+
+- name: "Ensure 'Audit Special Logon' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.special_logon.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.special_logon.value }}"
+
+- name: "Ensure 'Audit Removable Storage' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.removable_storage.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.removable_storage.value }}"
+
+- name: "Ensure 'Audit Audit Policy Change' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.audit_policy_change.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.audit_policy_change.value }}"
+
+- name: "Ensure 'Audit Authentication Policy Change' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.authentication_policy_change.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.authentication_policy_change.value }}"
+
+- name: "Ensure 'Audit Authorization Policy Change' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.authorization_policy_change.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.authorization_policy_change.value }}"
+
+- name: "Ensure 'Audit Sensitive Privilege Use' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.sensitive_privilege_use.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.sensitive_privilege_use.value }}"
+
+- name: "Ensure 'Audit Other System Events' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.other_system_events.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.other_system_events.value }}"
+
+- name: "Ensure 'Audit Security State Change' is set to 'Success'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.security_state_change.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.security_state_change.value }}"
+
+- name: "Ensure 'Audit Security System Extension' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.security_system_extension.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.security_system_extension.value }}"
+
+- name: "Ensure 'Audit System Integrity' is set to 'Success and Failure'"
+  win_audit_policy_system:
+     subcategory: "{{ hardening_requirements.windows_hardening.auditing_section.system_integrity.name }}"
+     audit_type: "{{ hardening_requirements.windows_hardening.auditing_section.system_integrity.value }}"
