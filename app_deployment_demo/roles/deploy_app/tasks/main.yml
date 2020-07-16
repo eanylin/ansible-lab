@@ -1,0 +1,16 @@
+---
+- name: "Check for any existing running process of {{ app_name }}"
+  shell: "ps -ef | grep {{ app_name }} | grep -v grep | awk '{print $2}'"
+  register: app_process_id
+
+- name: Terminate existing process
+  command: "kill -9 {{ app_process_id.stdout }}"
+  when: app_process_id.stdout != ''
+
+- name: Copy Package
+  copy:
+    src: "/tmp/{{ app_name }}.jar"
+    dest: "{{ app_folder }}/{{ app_name }}.jar"
+
+- name: Deploy Software
+  shell: "nohup java -jar {{ app_folder }}/{{ app_name }}.jar &"

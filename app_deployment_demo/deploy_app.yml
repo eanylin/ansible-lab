@@ -1,0 +1,8 @@
+---
+- name: Deploy Application
+  hosts: app-server1
+  become: yes
+  gather_facts: false
+
+  roles:
+    - deploy_app

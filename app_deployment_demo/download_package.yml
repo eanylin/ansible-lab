@@ -1,0 +1,7 @@
+---
+- name: Download Package
+  hosts: jenkins
+  gather_facts: false
+
+  roles:
+    - download_package

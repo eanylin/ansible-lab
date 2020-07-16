@@ -1,0 +1,21 @@
+---
+f5_lb_method: 'round-robin'
+f5_monitors: '/Common/http'
+f5_pool_name: 'http_pool'
+f5_provider:
+  server: "{{ f5_bigip_server }}"
+  user: "{{ f5_bigip_user }}"
+  password: "{{ f5_bigip_password }}"
+  server_port: 8443
+f5_virtual_server: 'webapp_vip'
+infoblox_username: 'cloudadmin'
+nios_provider:
+  host: "{{ grid_manager }}"
+  username: "{{ infoblox_username }}"
+  password: "{{ infoblox_password }}"
+paloalto_username: 'admin'
+subnet_netmask: '255.255.255.0'
+vm_domain: 'domain.com'
+vm_network: 'VM Network'
+webapp_port: 80
+workflow_tower_inventory: 'VMWare_Workflow'
