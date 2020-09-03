@@ -1,0 +1,3 @@
+---
+target_node: all
+cis_compliance_check_namespace: k8s-cis-compliance
