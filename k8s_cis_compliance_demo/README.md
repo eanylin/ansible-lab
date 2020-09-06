@@ -6,7 +6,7 @@ While most of the end targets are usually physical servers, network equipment an
 
 The Ansible [Community Kubernetes Collections](https://galaxy.ansible.com/community/kubernetes) is also used to retrieve logs from the pod as part of the playbook run. Collections are a distribution format for Ansible content that can include playbooks, roles, modules, and plugins (refer to this [user guide](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more information on Ansible Collection)
 
-Ansible Tower 3.7.2 and Engine 2.9.13 were used to execute the playbook. Playbook testing was performed against vanilla kubernetes built using kubeadm. The target node is as follows
+[Ansible Tower](https://www.ansible.com/products/tower) 3.7.2 and [Engine](https://github.com/ansible/ansible) 2.9.13 were used to execute the playbook (the YouTube demo video recording can be found at the following [link](https://youtu.be/6jNuK0jdB_c)). Playbook testing was performed against vanilla kubernetes built using kubeadm. The target node is as follows
 
 ```
 # kubectl get nodes -o wide
