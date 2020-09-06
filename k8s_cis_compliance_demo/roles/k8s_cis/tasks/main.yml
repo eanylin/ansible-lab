@@ -24,10 +24,19 @@
     kube_bench_command: ["kube-bench", "--benchmark", "gke-1.0", "run", "--targets", "node,policies,managedservices"]
   when: target_node == "gke"
 
-- name: Remove job.yaml, if exist
+- name: Remove job.yaml and scan_result.txt, if exist
   file:
-    path: /tmp/k8s_cis_job.yaml
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /tmp/k8s_cis_job.yaml
+    - /tmp/k8s_scan_result.txt
+
+- name: Create k8s_scan_result.txt
+  file:
+    path: /tmp/k8s_scan_result.txt
+    state: touch
+    mode: u=rw,g=r,o=r
 
 - name: Generate template
   template:
@@ -86,9 +95,10 @@
     namespace: "{{ cis_compliance_check_namespace }}"
   register: pod_log
 
-- name: Print logs
-  debug:
-    msg: "{{ pod_log.log_lines }}"
+- name: Update scan result to k8s_scan_result.txt
+  lineinfile:
+    path: /tmp/k8s_scan_result.txt
+    line: "{{ pod_log.log_lines }}"
 
 - name: Email logs
   mail:
@@ -98,9 +108,13 @@
     password: "{{ gmail_account_password }}"
     to: Anthony Lin <anthony.lin.test@gmail.com>
     subject: K8s Scan Report
-    body: "{{ pod_log.log_lines }}"
+    body: Please see attached for the scan results
+    attach: /tmp/k8s_scan_result.txt
 
-- name: Remove job.yaml, if exist
+- name: Remove job.yaml and scan_result.txt, if exist
   file:
-    path: /tmp/k8s_cis_job.yaml
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /tmp/k8s_cis_job.yaml
+    - /tmp/k8s_scan_result.txt
