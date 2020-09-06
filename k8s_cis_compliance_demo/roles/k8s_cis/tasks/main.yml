@@ -81,7 +81,7 @@
 # Refer to https://docs.ansible.com/ansible/2.10/collections/community/kubernetes/k8s_log_module.html
 # on how to install and use this collection
 - name: Get logs from kube-bench pod
-  community.kubernetes.k8s_log:
+  k8s_log:
     name: "{{ kubebench_pod.resources[0].metadata.name }}"
     namespace: "{{ cis_compliance_check_namespace }}"
   register: pod_log
