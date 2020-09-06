@@ -88,7 +88,7 @@
 
 - name: Print logs
   debug:
-    msg: "{{ pod_log }}"
+    msg: "{{ pod_log.log_lines }}"
 
 - name: Remove job.yaml, if exist
   file:
