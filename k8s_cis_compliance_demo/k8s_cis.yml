@@ -2,14 +2,14 @@
 - name: Perform k8s CIS Compliance Check
   hosts: localhost
   gather_facts: no
-  environment:
-    KUBECONFIG: /tmp/kubeconfig
-
   collections:
     # Install community.kubernetes Ansible Collection
     - name: community.kubernetes
       version: 1.0.0
       source: https://galaxy.ansible.com
+  environment:
+    KUBECONFIG: /tmp/kubeconfig
 
-  roles:
-    - k8s_cis
+  tasks:
+    - import_role:
+        name: k8s_cis
