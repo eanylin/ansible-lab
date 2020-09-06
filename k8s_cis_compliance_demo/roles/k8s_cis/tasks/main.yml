@@ -98,7 +98,7 @@
 - name: Update scan result to k8s_scan_result.txt
   lineinfile:
     path: /tmp/k8s_scan_result.txt
-    line: "{{ pod_log.log_lines }}"
+    line: "{{ pod_log.log }}"
 
 - name: Email logs
   mail:
