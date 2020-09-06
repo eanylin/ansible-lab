@@ -1,0 +1,96 @@
+---
+- name: Run Compliance Check against Master
+  set_fact:
+    kube_bench_command: ["kube-bench", "master"] 
+  when: target_node == "master"
+
+- name: Run Compliance Check against Nodes
+  set_fact:
+    kube_bench_command: ["kube-bench", "node"] 
+  when: target_node == "node"
+
+- name: Run Full Compliance Check
+  set_fact:
+    kube_bench_command: ["kube-bench"] 
+  when: target_node == "all"
+
+- name: Run Compliance Check against EKS
+  set_fact:
+    kube_bench_command: ["kube-bench", "--benchmark", "eks-1.0", "run", "--targets", "node,policies,managedservices"]
+  when: target_node == "eks"
+
+- name: Run Compliance Check against GKE
+  set_fact:
+    kube_bench_command: ["kube-bench", "--benchmark", "gke-1.0", "run", "--targets", "node,policies,managedservices"]
+  when: target_node == "gke"
+
+- name: Remove job.yaml, if exist
+  file:
+    path: /tmp/k8s_cis_job.yaml
+    state: absent
+
+- name: Generate template
+  template:
+    src: templates/k8s_cis_job.yaml.j2
+    dest: /tmp/k8s_cis_job.yaml
+    owner: awx
+    group: awx
+    mode: '0644'
+
+- name: Create cis compliance namespace, if it does not exists
+  k8s:
+    name: k8s-cis-compliance
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Deploy kube-bench
+  k8s:
+    state: present
+    src: /tmp/k8s_cis_job.yaml
+
+- name: Wait for kube-bench job to become inactive
+  k8s_info:
+    name: kube-bench
+    kind: Job
+    namespace: "{{ cis_compliance_check_namespace }}"
+  register: kubebench_job_status
+  until: kubebench_job_status.resources[0].status.active != 1
+  retries: 60
+  delay: 10
+  ignore_errors: true
+
+- name: Ensure that kube-bench job has been completed
+  k8s_info:
+    name: kube-bench
+    kind: Job
+    namespace: "{{ cis_compliance_check_namespace }}"
+  register: kubebench_job
+  until: kubebench_job.resources[0].status.succeeded == 1
+  retries: 30
+  delay: 10
+
+- name: Get name of kube-bench pod
+  k8s_info:
+    kind: Pod
+    namespace: "{{ cis_compliance_check_namespace }}"
+    label_selectors:
+      - app = kube-bench
+  register: kubebench_pod
+
+# Refer to https://docs.ansible.com/ansible/2.10/collections/community/kubernetes/k8s_log_module.html
+# on how to install and use this collection
+- name: Get logs from kube-bench pod
+  community.kubernetes.k8s_log:
+    name: "{{ kubebench_pod.resources[0].metadata.name }}"
+    namespace: "{{ cis_compliance_check_namespace }}"
+  register: pod_log
+
+- name: Print logs
+  debug:
+    msg: "{{ pod_log }}"
+
+- name: Remove job.yaml, if exist
+  file:
+    path: /tmp/k8s_cis_job.yaml
+    state: absent
