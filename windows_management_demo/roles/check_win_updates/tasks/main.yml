@@ -23,7 +23,7 @@
 - name: Template Rendering
   template:
     src: individual_vm_report.html.j2
-    dest: "reports/{{ inventory_hostname }}_interim_report.html"
+    dest: "reports/z_{{ inventory_hostname }}_interim_report.html"
   delegate_to: localhost
 
 - name: Create Interim Report
