@@ -4,6 +4,6 @@
     url: "http://{{ vm_ip }}:8080/helloworld/"
     return_content: yes
   register: _result
-  until: _result.status == 200 and 'Hello World' in _result.content
+  until: _result.status == 200 and 'Hello World 123!' in _result.content
   retries: 10
   delay: 5
