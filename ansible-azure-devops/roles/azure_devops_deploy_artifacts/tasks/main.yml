@@ -14,7 +14,7 @@
   become: true
   copy:
     src: /tmp/WebApp/target/helloworld.war
-    dest: /opt/tomcat/latest/webapps/
+    dest: "{{ tomcat_base_directory }}/webapps/"
     owner: tomcat
     group: tomcat
     mode: '0644'
