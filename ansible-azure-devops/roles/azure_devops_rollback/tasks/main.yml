@@ -1,0 +1,32 @@
+---
+- name: Terraform Destroy Infrastructure
+  terraform:
+    project_path: /tmp/
+    state: absent
+  register: tf_destroy
+
+- name: Print Terrform Destroy Results
+  debug:
+    msg: "{{ tf_destroy.stdout_lines }}"
+
+- name: Find all terraform related config files
+  find:
+    paths: /tmp
+    patterns: '*.tf,*.tfstate,*.tfplan,*.tfstate.backup'
+  register: tf_config_files
+
+- name: Remove all terraform related config files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ tf_config_files.files }}"
+
+- name: Remove latest build artifacts
+  file:
+    path: /tmp/latest_build_artifact.zip
+    state: absent
+
+- name: Remove WebApp folder
+  file:
+    path: /tmp/WebApp
+    state: absent

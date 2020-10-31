@@ -1,0 +1,163 @@
+# Configure the Azure Provider
+provider "azurerm" {
+  # whilst the `version` attribute is optional, we recommend pinning to a given version of the Provider
+  version = "~>2.0"
+
+  subscription_id = "{{ arm_subscription_id }}"
+  client_id       = "{{ arm_client_id }}"
+  client_secret   = "{{ arm_client_secret }}"
+  tenant_id       = "{{ arm_tenant_id }}"
+
+  features {}
+}
+
+# Create a resource group if it doesn't exist
+resource "azurerm_resource_group" "terraformgroup" {
+    name     = "{{ azure_terraform_resource_group }}"
+    location = "{{ azure_location }}"
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Create virtual network
+resource "azurerm_virtual_network" "terraformnetwork" {
+    name                = "{{ azure_terraform_network }}"
+    address_space       = ["{{ azure_terraform_network_cidr }}"]
+    location            = "{{ azure_location }}"
+    resource_group_name = azurerm_resource_group.terraformgroup.name
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Create subnet
+resource "azurerm_subnet" "terraformsubnet" {
+    name                 = "{{ azure_terraform_network_subnet }}"
+    resource_group_name  = azurerm_resource_group.terraformgroup.name
+    virtual_network_name = azurerm_virtual_network.terraformnetwork.name
+    address_prefixes       = ["{{ azure_terraform_network_subnet_address_prefixes }}"]
+}
+
+# Create public IPs
+resource "azurerm_public_ip" "terraformpublicip" {
+    name                         = "{{ terraform_vm_public_ip }}"
+    location                     = "{{ azure_location }}"
+    resource_group_name          = azurerm_resource_group.terraformgroup.name
+    allocation_method            = "{{ terraform_vm_public_ip_allocation_method }}"
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Create Network Security Group and rule
+resource "azurerm_network_security_group" "terraformnsg" {
+    name                = "{{ azure_terraform_security_group }}"
+    location            = "{{ azure_location }}"
+    resource_group_name = azurerm_resource_group.terraformgroup.name
+    
+    security_rule {
+        name                       = "SSH"
+        priority                   = 1001
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Create network interface
+resource "azurerm_network_interface" "terraformnic" {
+    name                      = "{{ terraform_vm_nic }}"
+    location                  = "{{ azure_location }}"
+    resource_group_name       = azurerm_resource_group.terraformgroup.name
+
+    ip_configuration {
+        name                          = "{{ terraform_vm_nic_configuration }}"
+        subnet_id                     = azurerm_subnet.terraformsubnet.id
+        private_ip_address_allocation = "{{ terraform_vm_nic_private_ip_address_allocation }}"
+        public_ip_address_id          = azurerm_public_ip.terraformpublicip.id
+    }
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "terraformsni" {
+    network_interface_id      = azurerm_network_interface.terraformnic.id
+    network_security_group_id = azurerm_network_security_group.terraformnsg.id
+}
+
+# Generate random text for a unique storage account name
+resource "random_id" "randomId" {
+    keepers = {
+        # Generate a new ID only when a new resource group is defined
+        resource_group = azurerm_resource_group.terraformgroup.name
+    }
+    
+    byte_length = 8
+}
+
+# Create storage account for boot diagnostics
+resource "azurerm_storage_account" "terraformstorageaccount" {
+    name                        = "diag${random_id.randomId.hex}"
+    resource_group_name         = azurerm_resource_group.terraformgroup.name
+    location                    = "{{ azure_location }}"
+    account_tier                = "Standard"
+    account_replication_type    = "LRS"
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}
+
+# Create virtual machine
+resource "azurerm_linux_virtual_machine" "terraformvm" {
+    name                  = "{{ vm_hostname }}"
+    location              = "{{ azure_location }}"
+    resource_group_name   = azurerm_resource_group.terraformgroup.name
+    network_interface_ids = [azurerm_network_interface.terraformnic.id]
+    size                  = "{{ terraform_vm_size }}"
+
+    os_disk {
+        name                 = "{{ terraform_vm_os_disk_name }}"
+        caching              = "{{ terraform_vm_os_disk_caching }}"
+        storage_account_type = "{{ terraform_vm_os_disk_storage_account_type }}"
+    }
+
+    source_image_reference {
+        publisher = "{{ terraform_vm_image_publisher }}"
+        offer     = "{{ terraform_vm_image_offer }}"
+        sku       = "{{ terraform_vm_image_sku }}"
+        version   = "{{ terraform_vm_image_version }}"
+    }
+
+    computer_name  = "{{ vm_hostname }}"
+    admin_username = "{{ terraform_vm_admin_user }}"
+    disable_password_authentication = true
+        
+    admin_ssh_key {
+        username       = "{{ terraform_vm_admin_user }}"
+        public_key     = "{{ ansible_user_public_key }}"
+    }
+
+    boot_diagnostics {
+        storage_account_uri = azurerm_storage_account.terraformstorageaccount.primary_blob_endpoint
+    }
+
+    tags = {
+        environment = "{{ azure_environment_tag }}"
+    }
+}

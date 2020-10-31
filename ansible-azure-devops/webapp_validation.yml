@@ -1,0 +1,7 @@
+---
+- name: Validate Deployed Application on Tomcat
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - validate_deployed_application

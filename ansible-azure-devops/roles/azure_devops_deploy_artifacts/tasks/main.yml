@@ -1,0 +1,20 @@
+---
+- name: Delete WebApp directory, if exists
+  file:
+    path: /tmp/WebApp
+    state: absent
+
+- name: Unzip artifact
+  unarchive:
+    src: /tmp/latest_build_artifact.zip
+    dest: /tmp/
+  delegate_to: localhost
+
+- name: Copy and Deploy war file on target web server
+  become: true
+  copy:
+    src: /tmp/WebApp/target/helloworld.war
+    dest: /opt/tomcat/latest/webapps/
+    owner: tomcat
+    group: tomcat
+    mode: '0644'

@@ -1,0 +1,47 @@
+---
+- name: Remove files, if exists
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/azure_latest_build_response.json
+    - /tmp/azure_latest_build_artifact_info.json
+    - /tmp/latest_build_artifact.zip
+
+- name: Get latest build
+  shell: "curl --user :{{ azure_devops_api_user_password }} 'https://dev.azure.com/{{ azure_devops_organization }}/java-demo-app/_apis/build/latest/java-demo-app?api-version=6.0-preview.1' > /tmp/azure_latest_build_response.json"
+  no_log: true
+
+- name: Include vars from /tmp/azure_latest_build_response.json
+  include_vars:
+    file: /tmp/azure_latest_build_response.json
+    name: latest_build
+  no_log: true
+
+- set_fact:
+    latest_build_id: "{{ latest_build.id }}"
+
+- name: Get information of artifact of latest build
+  shell: "curl --user :{{ azure_devops_api_user_password }} 'https://dev.azure.com/{{ azure_devops_organization }}/java-demo-app/_apis/build/builds/{{ latest_build.id }}/artifacts?api-version=6.0' > /tmp/azure_latest_build_artifact_info.json"
+  no_log: true
+
+- name: Include vars from /tmp/azure_latest_build_artifact_info.json
+  include_vars:
+    file: /tmp/azure_latest_build_artifact_info.json
+    name: latest_build_artifact
+  no_log: true
+
+- set_fact:
+    latest_build_artifact_download_url: "{{ latest_build_artifact.value[1].resource.downloadUrl }}"
+
+- name: Download Artifact
+  shell: "curl --user :{{ azure_devops_api_user_password }} {{ latest_build_artifact_download_url }} > /tmp/latest_build_artifact.zip"
+  no_log: true
+
+- name: Remove files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/azure_latest_build_response.json
+    - /tmp/azure_latest_build_artifact_info.json

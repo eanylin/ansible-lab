@@ -1,0 +1,52 @@
+---
+- name: Find all terraform related config files
+  find:
+    paths: /tmp
+    patterns: '*.tf,*.tfstate,*.tfplan,*.tfstate.backup'
+  register: tf_config_files
+
+- name: Remove all terraform related config files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ tf_config_files.files }}"
+
+- name: Create deploy_azure_resource.tf
+  file:
+    path: /tmp/deploy_azure_resource.tf
+    state: touch
+    mode: u=rw,g=r,o=r
+
+- name: Generate template
+  template:
+    src: templates/deploy_azure_resource.tf.j2
+    dest: /tmp/deploy_azure_resource.tf
+    owner: awx
+    group: awx
+    mode: '0644'
+
+- name: Deploy Azure Resource
+  terraform:
+    project_path: /tmp/
+    state: present  
+    force_init: true
+  register: tf_deploy
+
+- name: Print Terrform Deploy Results
+  debug:
+    msg: "{{ tf_deploy.stdout_lines }}"
+
+- name: Include vars from /tmp/terraform.tfstate
+  include_vars:
+    file: /tmp/terraform.tfstate
+    name: terraform_show
+  no_log: true
+
+- name: Print public IP address of newly created VM
+  debug:
+    msg: "{{ terraform_show.resources[0].instances[0].attributes.public_ip_address }}"
+
+- name: Save public IP of newly created VM for subsequent workflow
+  set_stats:
+    data:
+      vm_ip: "{{ terraform_show.resources[0].instances[0].attributes.public_ip_address }}"

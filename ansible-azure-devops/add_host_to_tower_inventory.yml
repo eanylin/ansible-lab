@@ -1,0 +1,7 @@
+---
+- name: Add New VM to Ansible Tower Inventory
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - add_host_to_tower_inventory

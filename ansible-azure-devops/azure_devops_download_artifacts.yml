@@ -1,0 +1,10 @@
+---
+- name: Retrieve and Download Artifacts from Azure DevOps
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Retrieve and Download Artifacts
+      include_role:
+        name: azure_devops_download_artifacts
+        vars_from: secrets.yml

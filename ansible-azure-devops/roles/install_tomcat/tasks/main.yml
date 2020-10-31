@@ -1,0 +1,90 @@
+---
+- name: Install OpenJDK Package
+  yum:
+    name: default-jdk
+    state: present
+
+- name: Create "tomcat" group
+  group:
+    name: tomcat
+    state: present
+
+- name: Create "tomcat" user
+  user:
+    name: tomcat
+    group: tomcat
+    home: /opt/tomcat
+
+- name: Download Tomcat
+  get_url:
+    url: "{{ tomcat_archive_url }}"
+    dest: /tmp/apache-tomcat.tar.gz
+  become: no
+  delegate_to: localhost
+
+- name: Extract /tmp/apache-tomcat.tar.gz into /opt/tomcat
+  unarchive:
+    src: /tmp/apache-tomcat.tar.gz
+    dest: /opt/tomcat
+    owner: tomcat
+    group: tomcat
+
+- name: Create symbolic link 
+  file:
+    src: "/opt/tomcat/apache-tomcat-{{ tomcat_version }}"
+    dest: "{{ tomcat_base_directory }}"
+    state: link
+
+- name: Create "tomcat" service file
+  template:
+    src: templates/tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+
+- name: Start tomcat service, also issue daemon-reload to pick up config changes
+  systemd:
+    state: started
+    daemon_reload: yes
+    enabled: yes
+    name: tomcat
+
+- name: Allow firewall for tomcat on port 8080
+  ufw:
+    rule: allow
+    port: '8080'
+    proto: tcp
+
+- name: Set UI access credentials
+  template:
+    src: templates/tomcat-users.xml.j2
+    dest: "{{ tomcat_base_directory }}/conf/tomcat-users.xml"
+    owner: tomcat
+    group: tomcat
+  notify: restart tomcat
+
+- name: Allow access to Manager and Host Manager apps from any IP
+  copy:
+    src: files/context.xml.j2 
+    dest: "{{ item }}"
+    owner: tomcat
+    group: tomcat
+  loop:
+    - "{{ tomcat_base_directory }}/webapps/host-manager/META-INF/context.xml"
+    - "{{ tomcat_base_directory }}/webapps/manager/META-INF/context.xml"
+  notify: restart tomcat
+
+- name: Add port 8080 to Security Group for Web access to Tomcat
+  azure_rm_securitygroup:
+    resource_group: "{{ azure_terraform_resource_group }}"
+    name: "{{ azure_terraform_security_group }}"
+    rules:
+      - name: AllowTomcat
+        protocol: Tcp
+        source_address_prefix: "*"
+        destination_port_range: 8080
+        access: Allow
+        priority: 1002
+        direction: Inbound
+    tags:
+      environment: "{{ azure_environment_tag }}"
+  become: false
+  delegate_to: localhost

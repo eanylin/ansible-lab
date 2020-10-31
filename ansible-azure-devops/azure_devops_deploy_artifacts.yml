@@ -1,0 +1,7 @@
+---
+- name: Deploy Artifacts
+  hosts: "{{ vm_hostname }}"
+  gather_facts: false
+
+  roles:
+    - azure_devops_deploy_artifacts

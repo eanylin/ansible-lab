@@ -1,0 +1,10 @@
+---
+- name: Add new VM to Tower Inventory
+  tower_host:
+    name: "{{ vm_hostname }}"
+    inventory: "{{ tower_inventory_name }}"
+    state: present
+    tower_verify_ssl: no
+    variables: |+
+      ---
+      ansible_host: "{{ vm_ip }}"
