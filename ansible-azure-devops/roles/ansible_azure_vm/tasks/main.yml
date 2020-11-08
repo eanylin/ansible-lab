@@ -1,0 +1,94 @@
+---
+- name: Create resource group
+  azure_rm_resourcegroup:
+    name: "{{ azure_ansible_resource_group }}"
+    location: "{{ azure_location }}"
+    tags:
+      environment: "{{ azure_environment_tag }}"
+
+- name: Create virtual network
+  azure_rm_virtualnetwork:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_network_name }}"
+    address_prefixes: "{{ azure_ansible_network_cidr }}"
+    tags:
+      environment: "{{ azure_environment_tag }}"
+
+- name: Add subnet
+  azure_rm_subnet:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_subnet_name }}"
+    address_prefix: "{{ azure_ansible_subnet_cidr }}"
+    virtual_network: "{{ azure_ansible_network_name }}"
+
+- name: Create public IP address
+  azure_rm_publicipaddress:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    allocation_method: Static
+    name: "{{ azure_ansible_public_ip_name }}"
+    tags:
+      environment: "{{ azure_environment_tag }}"
+
+- name: Create Network Security Group that allows SSH
+  azure_rm_securitygroup:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_security_group_name }}"
+    rules:
+      - name: SSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 1001
+        direction: Inbound
+    tags:
+      environment: "{{ azure_environment_tag }}"
+
+- name: Create virtual network interface card
+  azure_rm_networkinterface:
+    name: "{{ azure_ansible_vm_nic_name }}"
+    resource_group: "{{ azure_ansible_resource_group }}"
+    virtual_network: "{{ azure_ansible_network_name }}"
+    subnet: "{{ azure_ansible_subnet_name }}"
+    security_group: "{{ azure_ansible_security_group_name }}"
+    ip_configurations:
+      - name: "{{ azure_ansible_vm_ip_config_name }}"
+        public_ip_address_name: "{{ azure_ansible_public_ip_name }}"
+        primary: True
+    tags:
+      environment: "{{ azure_environment_tag }}"
+
+- name: Create VM
+  azure_rm_virtualmachine:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_vm_name }}"
+    vm_size: "{{ azure_ansible_vm_size }}"
+    admin_username: "{{ azure_ansible_vm_admin_user }}"
+    ssh_password_enabled: false
+    ssh_public_keys:
+      - path: "/home/{{ azure_ansible_vm_admin_user }}/.ssh/authorized_keys"
+        key_data: "{{ ansible_user_public_key }}"
+    network_interfaces: "{{ azure_ansible_vm_nic_name }}"
+    image:
+      offer: "{{ azure_ansible_vm_image_offer }}"
+      publisher: "{{ azure_ansible_vm_image_publisher }}"
+      sku: "{{ azure_ansible_vm_image_sku }}"
+      version: latest
+    tags:
+      environment: "{{ azure_environment_tag }}"
+  no_log: true
+
+- name: Get facts for Public IP
+  azure_rm_publicipaddress_info:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_public_ip_name }}"
+  register: vm_public_ip
+
+- name: Print public IP address of newly created VM
+  debug:
+    msg: "{{ vm_public_ip['publicipaddresses'][0]['ip_address'] }}"
+
+- name: Save public IP of newly created VM for subsequent workflow
+  set_stats:
+    data:
+      vm_ip: "{{ vm_public_ip['publicipaddresses'][0]['ip_address'] }}"
+      infra_deploy_method: "ansible"

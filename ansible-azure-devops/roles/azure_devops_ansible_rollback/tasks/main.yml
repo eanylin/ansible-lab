@@ -1,0 +1,6 @@
+---
+- name: Delete Azure Resource Group
+  azure_rm_resourcegroup:
+    name: "{{ azure_ansible_resource_group }}"
+    force_delete_nonempty: yes
+    state: absent

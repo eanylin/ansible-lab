@@ -88,3 +88,22 @@
       environment: "{{ azure_environment_tag }}"
   become: false
   delegate_to: localhost
+  when: infra_deploy_method == 'terraform'
+
+- name: Add port 8080 to Security Group for Web access to Tomcat
+  azure_rm_securitygroup:
+    resource_group: "{{ azure_ansible_resource_group }}"
+    name: "{{ azure_ansible_security_group_name }}"
+    rules:
+      - name: AllowTomcat
+        protocol: Tcp
+        source_address_prefix: "*"
+        destination_port_range: 8080
+        access: Allow
+        priority: 1002
+        direction: Inbound
+    tags:
+      environment: "{{ azure_environment_tag }}"
+  become: false
+  delegate_to: localhost
+  when: infra_deploy_method == 'ansible'

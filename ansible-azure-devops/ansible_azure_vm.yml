@@ -1,0 +1,10 @@
+---
+- name: Azure Ansible
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Create VM in Azure
+      include_role:
+        name: ansible_azure_vm
+        vars_from: secrets.yml

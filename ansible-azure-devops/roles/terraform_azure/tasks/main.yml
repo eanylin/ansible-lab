@@ -50,3 +50,4 @@
   set_stats:
     data:
       vm_ip: "{{ terraform_show.resources[0].instances[0].attributes.public_ip_address }}"
+      infra_deploy_method: "terraform"
