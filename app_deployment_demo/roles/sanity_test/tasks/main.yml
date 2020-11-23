@@ -1,0 +1,6 @@
+---
+- name: Perform simple health checks to ensure web page is still running properly
+  uri:
+    url: "{{ web_app_url }}"
+    method: GET
+    return_content: yes

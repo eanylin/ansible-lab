@@ -1,6 +1,0 @@
----
-- name: Download Package
-  fetch:
-    src: "{{ package_download_path }}/{{ app_name }}.jar"
-    dest: "/tmp/{{ app_name }}.jar"
-    flat: yes

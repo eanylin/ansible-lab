@@ -1,16 +1,25 @@
 ---
 - name: "Check for any existing running process of {{ app_name }}"
-  shell: "ps -ef | grep {{ app_name }} | grep -v grep | awk '{print $2}'"
+  shell: "ps -ef | grep {{ app_artifact_id }}-{{ app_version }} | grep -v grep | awk '{print $2}'"
   register: app_process_id
 
 - name: Terminate existing process
   command: "kill -9 {{ app_process_id.stdout }}"
   when: app_process_id.stdout != ''
 
-- name: Copy Package
-  copy:
-    src: "/tmp/{{ app_name }}.jar"
-    dest: "{{ app_folder }}/{{ app_name }}.jar"
+- name: Remove any existing artifact
+  file:
+    path: "{{ app_folder }}/{{ app_artifact_id }}-{{ app_version }}.{{ artifact_extension_type }}"
+    state: absent
 
-- name: Deploy Software
-  shell: "nohup java -jar {{ app_folder }}/{{ app_name }}.jar &"
+- name: Download artifact
+  maven_artifact:
+    group_id: "{{ app_group_id }}"
+    artifact_id: "{{ app_artifact_id }}"
+    repository_url: "{{ maven_repository_url }}"
+    extension: "{{ artifact_extension_type }}"
+    version: "{{ app_version }}"
+    dest: "{{ app_folder }}/{{ app_artifact_id }}-{{ app_version }}.{{ artifact_extension_type }}"
+
+- name: Deploy artifact
+  shell: "nohup java -jar {{ app_folder }}/{{ app_artifact_id }}-{{ app_version }}.jar &"

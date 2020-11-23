@@ -1,0 +1,7 @@
+---
+- name: Check that web app is still running after updates
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - sanity_test
