@@ -33,3 +33,5 @@ calico-kube-controllers-67f6c9d576-xqcww   1/1     Running   0          5m8s
 calico-node-sgm5l                          1/1     Running   2          2d21h
 calico-typha-6c9c786b77-wt6qg              1/1     Running   0          5m8s
 ```
+
+The YouTube video can be found at this [link](https://youtu.be/6jNuK0jdB_c)
