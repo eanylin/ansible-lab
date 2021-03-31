@@ -1,0 +1,4 @@
+---
+- name: ServiceNow and Windows Update
+  include_tasks: servicenow_windows_updates.yml
+  loop: "{{ range(0, hosts_list_with_kb_to_patch | length) | list }}"

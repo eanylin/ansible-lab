@@ -1,0 +1,13 @@
+---
+- name: Retrieve list of KBs
+  shell: cat "/tmp/{{ required_patches[item].Host }}-Required-Patches.csv" | grep https | awk '{print $2}'
+  register: list_of_kbs
+
+- set_fact:
+    current_host_list: "{{ [required_patches[item].Host] + list_of_kbs.stdout_lines }}"
+
+- set_fact:
+    current_host_dict_list: "{{ [{'host': current_host_list }] }}"
+
+- set_fact:
+    required_hosts_list: "{{ required_hosts_list + current_host_dict_list }}"

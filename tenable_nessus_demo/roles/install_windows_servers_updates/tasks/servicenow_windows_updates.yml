@@ -1,0 +1,49 @@
+---
+- name: Create ServiceNow Change Request and Install Required Updates
+  block:
+    - name: Create a Change Request in ServiceNow to track changes
+      snow_record:
+        state: present
+        table: change_request
+        username: "{{ snow_user }}"
+        password: "{{ snow_password }}"
+        instance: "{{ snow_instance }}"
+        data:
+          severity: 1
+          priority: 1
+          short_description: "Change request opened by Ansible to patch {{ hosts_list_with_kb_to_patch[item].host[0] }}"
+          work_notes: "List of required KBs are {{ hosts_list_with_kb_to_patch[item].host[1:] }}."
+      register: new_incident
+      delegate_to: localhost
+    
+    - name: Install Required Updates
+      win_updates:
+        category_names:
+          - Application
+          - Connectors
+          - CriticalUpdates
+          - DefinitionUpdates
+          - DeveloperKits
+          - FeaturePacks
+          - Guidance
+          - SecurityUpdates
+          - ServicePacks
+          - Tools
+          - UpdateRollups
+          - Updates
+          - Upgrades
+        whitelist: "{{ hosts_list_with_kb_to_patch[item].host[1:] }}"
+        reboot: yes
+
+    - name: Update Change Request
+      snow_record:
+        table: change_request
+        state: present
+        username: "{{ snow_user }}"
+        password: "{{ snow_password }}"
+        instance: "{{ snow_instance }}"
+        number: "{{ new_incident.record.task_effective_number }}"
+        data:
+          work_notes: "Finished patching {{ hosts_list_with_kb_to_patch[item].host[0] }}"
+      delegate_to: localhost
+  when: hosts_list_with_kb_to_patch[item].host[0] == ansible_ip_addresses[0] and hosts_list_with_kb_to_patch[item].host[1:] | length > 0

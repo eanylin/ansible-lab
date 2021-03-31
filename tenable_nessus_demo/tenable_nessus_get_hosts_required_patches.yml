@@ -1,0 +1,7 @@
+---
+- name: Tenable Nessus Ansible Demo
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - tenable_nessus_get_hosts_required_patches

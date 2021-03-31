@@ -1,0 +1,143 @@
+---
+- name: Get details of all available scans
+  uri:
+    url: "{{ nessus_host }}/scans"
+    headers:
+      X-ApiKeys: "accessKey={{ access_key }}; secretKey={{ secret_key }}"
+    method: GET
+    validate_certs: no
+    return_content: yes
+  register: get_scans
+
+- name: Get scan id of required scan
+  set_fact:
+    scan_id: "{{ get_scans.json.scans[item].id }}"
+  when: get_scans.json.scans[item].name == scan_name
+  loop: "{{ range(0, get_scans.json.scans | length) | list }}"
+
+- name: Wait for Nessus scan to be completed, if it is running
+  uri:
+    url: "{{ nessus_host }}/scans/{{ scan_id }}"
+    headers:
+      X-ApiKeys: "accessKey={{ access_key }}; secretKey={{ secret_key }}"
+    method: GET
+    validate_certs: no
+    return_content: yes
+  register: scan_results
+  until: scan_results.json.info.status == "completed"
+  retries: 60
+  delay: 10
+
+- name: Generate Report
+  uri:
+    url: "{{ nessus_host }}/scans/{{ scan_id }}/export"
+    headers:
+      X-ApiKeys: "accessKey={{ access_key }}; secretKey={{ secret_key }}"
+    method: POST
+    body: "format=csv"
+    validate_certs: no
+    return_content: yes
+  register: generate_scan_report
+
+- name: Get Report Generation Status
+  uri:
+    url: "{{ nessus_host }}/scans/{{ scan_id }}/export/{{ generate_scan_report.json.file }}/status"
+    headers:
+      X-ApiKeys: "accessKey={{ access_key }}; secretKey={{ secret_key }}"
+    method: GET
+    validate_certs: no
+    return_content: yes
+  register: get_generate_report_status
+  until: get_generate_report_status.json.status == "ready"
+  retries: 3
+  delay: 5
+
+- name: Download Report as csv file
+  uri:
+    url: "{{ nessus_host }}/scans/{{ scan_id }}/export/{{ generate_scan_report.json.file }}/download"
+    headers:
+      X-ApiKeys: "accessKey={{ access_key }}; secretKey={{ secret_key }}"
+    method: GET
+    validate_certs: no
+    return_content: yes
+  register: report_content
+
+- name: Remove any existing csv file
+  file:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    state: absent
+
+- name: Create Report csv file
+  lineinfile:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    create: yes
+    line: "{{ report_content.content }}"
+
+- name: Convert line breaks in csv file from DOS to Unix format
+  command: "dos2unix /tmp/scan-{{ scan_id }}-report.csv"
+
+- name: Change 'Plugin ID' Key to 'PluginOutput'
+  replace:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    regexp: "Plugin ID"
+    replace: 'PluginID'
+
+- name: Change 'See Also' Key to 'SeeAlso'
+  replace:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    regexp: "See Also"
+    replace: 'SeeAlso'
+
+- name: Change 'Plugin Output' Key to 'PluginOutput'
+  replace:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    regexp: "Plugin Output"
+    replace: 'PluginOutput'
+
+- name: Read Report csv
+  read_csv:
+    path: "/tmp/scan-{{ scan_id }}-report.csv"
+    fieldnames: PluginID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,SeeAlso,PluginOutput
+    delimiter: ','
+  register: csv_report
+
+- name: Initialize variables
+  set_fact:
+    current_host_list: []
+    required_patches: []
+    required_hosts_list: []
+
+- set_fact:
+    required_patches: "{{ required_patches + [csv_report.list[item]] }}"
+  loop: "{{ range(1, csv_report.list | length) | list }}"
+  when: csv_report.list[item].Name == 'Microsoft Windows Summary of Missing Patches'
+
+- name: Remove any existing csv file
+  file:
+    path: "/tmp/{{ required_patches[item].Host }}-Required-Patches.csv"
+    state: absent
+  loop: "{{ range(0, required_patches | length) | list }}"
+
+- name: Create csv file with list of required KBs
+  lineinfile:
+    path: "/tmp/{{ required_patches[item].Host }}-Required-Patches.csv"
+    create: yes
+    line: "{{ required_patches[item].PluginOutput }}"
+  loop: "{{ range(0, required_patches | length) | list }}"
+
+- name: Find the list of generated csv files
+  find:
+    paths: /tmp
+    file_type: file
+    use_regex: yes
+    patterns: ['^.*Required-Patches.csv$']
+  register: list_of_csv_files
+
+- name: Retrieve list of KBs for each host
+  include_tasks: tenable_nessus_get_host_kb.yml
+  loop: "{{ range(0, list_of_csv_files.files | length) | list }}"
+
+- name: Set final list of hosts with their associated KBs for the rest of the workflow
+  set_stats:
+    data:
+      hosts_list_with_kb_to_patch: "{{ required_hosts_list }}"
