@@ -1,0 +1,17 @@
+---
+- name: Create ServiceNow Ticket
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create an incident
+      snow_record:
+        username: admin
+        password: kqXcWdVYzR17
+        instance: dev43803
+        state: present
+        data:
+          short_description: "This is a test incident opened by Ansible"
+          severity: 3
+          priority: 2
+      register: new_incident
