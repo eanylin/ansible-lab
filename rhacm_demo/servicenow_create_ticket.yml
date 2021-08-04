@@ -1,5 +1,5 @@
 ---
-- name: Create ServiceNow Ticket
+- name: Create ServiceNow Change Record
   hosts: localhost
   gather_facts: no
 
@@ -11,7 +11,6 @@
         instance: dev43803
         state: present
         data:
-          short_description: "This is a test incident opened by Ansible"
+          short_description: "This is a test incident opened by Ansible for {{ app_name }}"
           severity: 3
           priority: 2
-      register: new_incident
