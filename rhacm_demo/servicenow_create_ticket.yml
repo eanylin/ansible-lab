@@ -7,8 +7,8 @@
     - name: Create an incident
       snow_record:
         username: admin
-        password: kqXcWdVYzR17
-        instance: dev43803
+        password: "{{ snow_password }}"
+        instance: "{{ snow_instance }}"
         state: present
         data:
           short_description: "This is a test incident opened by Ansible for {{ app_name }}"
