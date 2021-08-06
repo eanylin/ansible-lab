@@ -1,0 +1,13 @@
+{% set port = '8090' -%}
+{% set proxy = [] -%}
+{% for p in groups.web_proxy -%}
+  {{ proxy.append(p + '[' + port + ']') -}}
+{% endfor -%}
+embed-server --std-out=echo --server-config={{ target_config }}
+try
+batch
+/subsystem=modcluster/mod-cluster-config=configuration:write-attribute(name=proxy-list,value="{{ proxy | join(",") -}}")
+run-batch
+catch
+end-try
+stop-embedded-server

@@ -1,0 +1,28 @@
+---
+- name: Wildfy Demo
+  remote_user: ec2-user
+  become: yes
+  hosts: wildfly
+  vars:
+    jboss_home: "/opt/jboss/wildfly"
+    target_config: "standalone-full-ha.xml"
+    cli_files:
+      - "jgroup"
+      - "modcluster"
+      - "socket"
+    cli_files_path: /tmp
+
+  tasks:
+    - name: Generate and copy cli files to target host
+      template:
+        src: "templates/{{ item }}.cli.j2"
+        dest: "{{ cli_files_path }}/{{ item }}.cli"
+      loop: "{{ cli_files }}"
+
+    - name: Set up Cluster
+      jcliff_extra:
+        wfly_home: "{{ jboss_home }}"
+        subsystems:
+          - cluster_mode:
+              - enabled: true
+                file_directory: "{{ cli_files_path }}"

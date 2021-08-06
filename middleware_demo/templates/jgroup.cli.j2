@@ -1,0 +1,27 @@
+{% set port = '7600' -%}
+{% set server = [] -%}
+{% for s in groups.wildfly -%}
+  {{ server.append(s + '[' + port + ']') -}}
+{% endfor -%}  
+embed-server --std-out=echo --server-config={{ target_config }}
+try
+batch
+/subsystem=jgroups/stack=tcpping:add
+/subsystem=jgroups/stack=tcpping/transport=TCP:add(socket-binding=jgroups-tcp)
+/subsystem=jgroups/stack=tcpping/protocol=TCPPING:add
+/subsystem=jgroups/stack=tcpping/protocol=TCPPING:write-attribute(name=properties,value={initial_hosts="{{ server | join(",") }}",port_range=0,timeout=3000})
+/subsystem=jgroups/stack=tcpping/protocol=MERGE3:add
+/subsystem=jgroups/stack=tcpping/protocol=FD_SOCK:add(socket-binding=jgroups-tcp-fd)
+/subsystem=jgroups/stack=tcpping/protocol=FD:add
+/subsystem=jgroups/stack=tcpping/protocol=VERIFY_SUSPECT:add
+/subsystem=jgroups/stack=tcpping/protocol=pbcast.NAKACK2:add
+/subsystem=jgroups/stack=tcpping/protocol=UNICAST3:add
+/subsystem=jgroups/stack=tcpping/protocol=pbcast.STABLE:add
+/subsystem=jgroups/stack=tcpping/protocol=pbcast.GMS:add
+/subsystem=jgroups/stack=tcpping/protocol=MFC:add
+/subsystem=jgroups/stack=tcpping/protocol=FRAG2:add
+/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=tcpping)
+run-batch
+catch
+end-try
+stop-embedded-server

@@ -1,0 +1,14 @@
+{% set port = '8090' -%}
+embed-server --std-out=echo --server-config={{ target_config }}
+try
+batch
+{% for p in groups.web_proxy -%}
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding={{ p }}:remove
+{% endfor -%}  
+run-batch
+catch
+end-try
+{% for p in groups.web_proxy -%}
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding={{ p }}:add(host="{{ p }}",port="{{ port }}")
+{% endfor -%}  
+stop-embedded-server

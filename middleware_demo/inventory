@@ -1,0 +1,7 @@
+[wildfly]
+wildfly1 ansible_host=10.10.10.10
+wildfly2 ansible_host=10.10.10.11
+
+[web_proxy]
+proxy1 ansible_host=10.10.10.12
+proxy2 ansible_host=10.10.10.13
