@@ -1,0 +1,5 @@
+[ubuntu]
+ubuntu1 ansible_host=10.10.10.11 ansible_user=ubuntu
+
+[rhel]
+rhel1 ansible_host=10.10.10.12 ansible_user=ec2-user

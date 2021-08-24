@@ -1,0 +1,35 @@
+---
+- name: Install Instana Agents on RHEL Hosts
+  hosts: rhel
+  become: true
+  environment:
+    INSTANA_AGENT_KEY: "{{ agent_key }}"
+    INSTANA_AGENT_HOST: "{{ agent_host }}"
+    INSTANA_AGENT_PORT: "{{ agent_port }}"
+
+  tasks:
+    - name: Update all packages to their latest version
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Create Instana-Agent.repo
+      ansible.builtin.template:
+        src: templates/instana-agent.repo.j2
+        dest: /etc/yum.repos.d/Instana-Agent.repo
+
+    - name: Import key
+      ansible.builtin.rpm_key:
+        key: https://packages.instana.io/Instana.gpg
+        state: present
+
+    - name: Install "instana-agent-dynamic" package
+      yum:
+        name: instana-agent-dynamic
+        state: latest
+
+    - name: Enable and Start the instana-agent service
+      ansible.builtin.service:
+        name: instana-agent
+        state: started
+        enabled: yes

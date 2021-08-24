@@ -1,0 +1,40 @@
+---
+- name: Install Instana Agents on Ubuntu Hosts
+  hosts: ubuntu
+  become: true
+  environment:
+    INSTANA_AGENT_KEY: "{{ agent_key }}"
+    INSTANA_AGENT_HOST: "{{ agent_host }}"
+    INSTANA_AGENT_PORT: "{{ agent_port }}"
+
+  tasks:
+    - name: Update all packages to their latest version
+      apt:
+        name: "*"
+        state: latest
+
+    - name: Create instana-packages.conf
+      ansible.builtin.template:
+        src: templates/instana-packages.conf.j2
+        dest: /etc/apt/auth.conf.d/instana-packages.conf
+
+    - name: Create instana-agent.list
+      ansible.builtin.copy:
+        content: 'deb [arch=amd64] https://packages.instana.io/agent generic main'
+        dest: /etc/apt/sources.list.d/instana-agent.list
+
+    - name: Add Instana Apt signing key
+      ansible.builtin.apt_key:
+        url: https://packages.instana.io/Instana.gpg
+        state: present
+
+    - name: Update repositories cache and install "instana-agent-dynamic" package
+      apt:
+        name: instana-agent-dynamic
+        update_cache: yes
+
+    - name: Enable and Start the instana-agent service
+      ansible.builtin.service:
+        name: instana-agent
+        state: started
+        enabled: yes
