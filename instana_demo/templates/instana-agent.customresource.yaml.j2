@@ -1,0 +1,15 @@
+apiVersion: instana.io/v1beta1
+kind: InstanaAgent
+metadata:
+  name: instana-agent
+  namespace: instana-agent
+spec:
+  agent.zone.name: ''
+  agent.key: {{ agent_key }}
+  agent.endpoint.host: {{ agent_host }}
+  agent.endpoint.port: {{ agent_port }}
+  agent.env:
+    INSTANA_AGENT_TAGS: {{ agent_tag }}
+  cluster.name: ''
+  config.files:
+    configuration.yaml: |

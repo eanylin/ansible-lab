@@ -1,0 +1,34 @@
+---
+- name: Install Instana Agents on Kubernetes
+  hosts: k8s
+  gather_facts: false
+  environment:
+    INSTANA_AGENT_KEY: "{{ agent_key }}"
+    INSTANA_AGENT_HOST: "{{ agent_host }}"
+    INSTANA_AGENT_PORT: "{{ agent_port }}"
+
+  tasks:
+    - name: Download instana-agent-operator manifest
+      ansible.builtin.get_url:
+        url: https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml
+        dest: /tmp/instana-agent-operator.yaml
+        mode: '0664'
+    
+    - name: Apply instana-agent-operator manifest to k8s cluster
+      ansible.builtin.command: kubectl apply -f /tmp/instana-agent-operator.yaml
+
+    - name: Generate Instana agent customresource yaml
+      ansible.builtin.template:
+        src: templates/instana-agent.customresource.yaml.j2
+        dest: /tmp/instana-agent.customresource.yaml
+
+    - name: Apply Instana agent customresource operator
+      ansible.builtin.command: kubectl apply -f /tmp/instana-agent.customresource.yaml
+
+    - name: Remove yaml files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /tmp/instana-agent-operator.yaml
+        - /tmp/instana-agent.customresource.yaml
