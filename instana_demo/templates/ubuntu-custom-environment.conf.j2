@@ -1,0 +1,5 @@
+# A drop in unit file to extend the Instana agent's runtime environment.
+# Uncomment or extend the [Service] section for systemd compatible settings.
+
+[Service]
+Environment=INSTANA_ZONE="{{ zone }}"

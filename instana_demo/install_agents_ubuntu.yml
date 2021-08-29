@@ -6,7 +6,6 @@
     INSTANA_AGENT_KEY: "{{ agent_key }}"
     INSTANA_AGENT_HOST: "{{ agent_host }}"
     INSTANA_AGENT_PORT: "{{ agent_port }}"
-    INSTANA_ZONE: "{{ zone }}"
 
   tasks:
     - name: Update all packages to their latest version
