@@ -16,7 +16,3 @@
         count: "{{ instance_count }}"
         vpc_subnet_id: "{{ vpc_subnet_id }}"
         assign_public_ip: "{{ assign_public_ip }}"
-
-    - name: Set hostname
-      ansible.builtin.hostname:
-        name: "{{ hostname }}"
