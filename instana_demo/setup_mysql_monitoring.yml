@@ -15,7 +15,7 @@
         dest: /tmp/instana_mon_setup.sql
 
     - name: Grant required DB permissions
-      ansible.builtin.command: mysql mysql < /tmp/instana_mon_setup.sql
+      ansible.builtin.shell: mysql < /tmp/instana_mon_setup.sql
 
     - name: Restart Instana Agent service
       ansible.builtin.service:
