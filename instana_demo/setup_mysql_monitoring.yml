@@ -17,6 +17,11 @@
     - name: Grant required DB permissions
       ansible.builtin.shell: mysql < /tmp/instana_mon_setup.sql
 
+    - name: Ensure deploy directory exists
+      ansible.builtin.file:
+        path: {{ agent_install_directory }}/deploy
+        state: directory
+
     - name: Copy MySQL driver jar file
       ansible.builtin.copy:
         src: files/mysql-connector-java.jar
