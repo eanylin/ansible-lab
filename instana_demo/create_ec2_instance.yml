@@ -10,6 +10,7 @@
         instance_type: "{{ instance_type }}"
         image: "{{ ami_image }}"
         group: "{{ security_group_name }}"
+        region: "{{ aws_region }}"
         wait: yes
         wait_timeout: 600
         count: "{{ instance_count }}"
