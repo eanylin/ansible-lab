@@ -1,9 +1,9 @@
 ---
 - name: Install mysql
-  hosts: db-servers
+  hosts: db_servers
   become: yes
   vars_files:
     - vars/mysql_vars.yml
 
   roles:
-    - { role: geerlingguy.mysql }
+    - geerlingguy.mysql
