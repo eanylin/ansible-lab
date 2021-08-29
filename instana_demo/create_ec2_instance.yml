@@ -1,0 +1,17 @@
+---
+- name: Deploy EC2 Instance
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Deploy VM in AWS
+      amazon.aws.ec2:
+        key_name: "{{ aws_key }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ ami_image }}"
+        group: "{{ security_group_name }}"
+        wait: yes
+        wait_timeout: 600
+        count: "{{ instance_count }}"
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        assign_public_ip: "{{ assign_public_ip }}"
