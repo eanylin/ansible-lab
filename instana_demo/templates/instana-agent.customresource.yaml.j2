@@ -4,7 +4,7 @@ metadata:
   name: instana-agent
   namespace: instana-agent
 spec:
-  agent.zone.name: ''
+  agent.zone.name: {{ zone }}
   agent.key: {{ agent_key }}
   agent.endpoint.host: {{ agent_host }}
   agent.endpoint.port: {{ agent_port }}
