@@ -1,0 +1,28 @@
+---
+- name: Configure MySQL Agent Monitoring
+  hosts: db_servers
+  become: yes
+
+  tasks:
+    - name: Update configuration yaml file for mysql plugin
+      ansible.builtin.template:
+        src: templates/instana_mysql_configuration.yaml.j2
+        dest: /opt/instana/agent/etc/instana/configuration.yaml
+
+    - name: Generate sql commands file
+      ansible.builtin.template:
+        src: templates/instana_mon_setup.sql.j2
+        dest: /tmp/instana_mon_setup.sql
+
+    - name: Grant required DB permissions
+      ansible.builtin.command: mysql mysql < /tmp/instana_mon_setup.sql
+
+    - name: Restart Instana Agent service
+      ansible.builtin.service:
+        name: instana-agent
+        state: restarted
+
+    - name: Remove sql commands files
+      ansible.builtin.file:
+        path: /tmp/instana_mon_setup.sql
+        state: absent
