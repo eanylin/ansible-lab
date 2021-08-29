@@ -1,6 +1,8 @@
 USE mysql;
 GRANT ALL ON *.* TO 'ansible'@'localhost';
 FLUSH PRIVILEGES;
+USE ansible;
+GRANT ALL ON *.* TO 'ansible'@'localhost';
 GRANT SELECT ON performance_schema.* TO 'ansible'@'localhost';
 GRANT SELECT ON performance_schema.events_waits_summary_global_by_event_name TO 'ansible'@'localhost';
 GRANT SELECT ON performance_schema.events_statements_summary_by_digest TO 'ansible'@'localhost';
