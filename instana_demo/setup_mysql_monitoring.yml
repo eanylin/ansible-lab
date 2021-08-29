@@ -7,7 +7,7 @@
     - name: Update configuration yaml file for mysql plugin
       ansible.builtin.template:
         src: templates/instana_mysql_configuration.yaml.j2
-        dest: /opt/instana/agent/etc/instana/configuration.yaml
+        dest: {{ agent_install_directory }}/etc/instana/configuration.yaml
 
     - name: Generate sql commands file
       ansible.builtin.template:
@@ -16,6 +16,11 @@
 
     - name: Grant required DB permissions
       ansible.builtin.shell: mysql < /tmp/instana_mon_setup.sql
+
+    - name: Copy MySQL driver jar file
+      ansible.builtin.copy:
+        src: files/mysql-connector-java.jar
+        dest: {{ agent_install_directory }}/deploy/mysql-connector-java-8.0.20.jar
 
     - name: Restart Instana Agent service
       ansible.builtin.service:
