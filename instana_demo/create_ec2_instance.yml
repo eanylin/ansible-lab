@@ -17,14 +17,6 @@
         vpc_subnet_id: "{{ vpc_subnet_id }}"
         assign_public_ip: "{{ assign_public_ip }}"
 
-    - name: Set hostname for RHEL/CentOS
+    - name: Set hostname
       ansible.builtin.hostname:
         name: "{{ hostname }}"
-        strategy: systemd
-      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
- 
-    - name: Set hostname for Ubuntu/Debian
-      ansible.builtin.hostname:
-        name: "{{ hostname }}"
-        strategy: debian
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
