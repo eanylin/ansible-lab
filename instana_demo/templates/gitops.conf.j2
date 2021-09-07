@@ -1,0 +1,10 @@
+[Service]
+## GiOps environment variables
+Environment=INSTANA_GIT_REMOTE_REPOSITORY={{ git_repo }}
+Environment=INSTANA_GIT_REMOTE_BRANCH={{ git_branch }}
+{% if git_user is defined %}
+Environment=INSTANA_GIT_REMOTE_USERNAME={{ git_user }}
+{% endif %}
+{% if git_user_password is defined %}
+Environment=INSTANA_GIT_REMOTE_PASSWORD={{ git_user_password }}
+{% endif %}

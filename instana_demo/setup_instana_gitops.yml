@@ -1,0 +1,15 @@
+---
+- name: Configure GitOps for Instana
+  hosts: db_servers
+  become: yes
+
+  tasks:
+    - name: Create gitops configuration file
+      ansible.builtin.template:
+        src: templates/gitops.conf.j2
+        dest: "/etc/systemd/system/instana-agent.service.d/gitops.conf"
+
+    - name: Restart Instana Agent service
+      ansible.builtin.service:
+        name: instana-agent
+        state: restarted

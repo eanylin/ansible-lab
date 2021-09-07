@@ -4,11 +4,13 @@
   become: yes
 
   tasks:
-    - name: Update configuration yaml file for mysql plugin
-      ansible.builtin.template:
-        src: templates/instana_mysql_configuration.yaml.j2
-        dest: "{{ agent_install_directory }}/etc/instana/configuration.yaml"
-
+#    # Uncomment and execute this task if you are not intending to use GitOps approach
+#    # from Instanta to place the configuration file 
+#    - name: Create configuration file for mysql plugin
+#      ansible.builtin.template:
+#        src: templates/instana_mysql_configuration.yaml.j2
+#        dest: "{{ agent_install_directory }}/etc/instana/mysql_configuration.yaml"
+#
     - name: Generate sql commands file
       ansible.builtin.template:
         src: templates/instana_mon_setup.sql.j2
