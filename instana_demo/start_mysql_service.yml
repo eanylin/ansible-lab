@@ -1,0 +1,10 @@
+---
+- name: Start MySQL Service
+  hosts: db_servers
+  become: yes
+
+  tasks:
+    - name: Ensure MySQL Service is started
+      ansible.builtin.systemd:
+        state: started
+        name: mysql
