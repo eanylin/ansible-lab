@@ -9,12 +9,19 @@
       name: httpd
       state: latest
 
-  - name: latest index.html file is present
-    copy:
+  - name: Generate index.html
+    ansible.builtin.copy:
       src: files/index.html
       dest: /var/www/html/
 
   - name: Ensure httpd is started
-    service:
+    ansible.builtin.service:
       name: httpd
       state: started
+
+  - name: Allow http traffic
+    ansible.posix.firewalld:
+      service: http
+      permanent: yes
+      state: enabled
+      immediate: yes
