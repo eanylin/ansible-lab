@@ -18,6 +18,18 @@
     ansible.builtin.service:
       name: httpd
       state: started
+      enabled: yes
+
+  - name: Ensure firewalld package is present
+    yum:
+      name: firewalld
+      state: latest
+
+  - name: Ensure firewalld is started
+    ansible.builtin.service:
+      name: firewalld
+      state: started
+      enabled: yes
 
   - name: Allow http traffic
     ansible.posix.firewalld:
