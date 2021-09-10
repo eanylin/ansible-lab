@@ -17,7 +17,7 @@
         mode: '0664'
     
     - name: Apply instana-agent-operator manifest to k8s cluster
-      community.kubernetes.k8s:
+      community.kubernetes.core:
         state: present
         src: /tmp/instana-agent-operator.yaml
 
@@ -27,7 +27,7 @@
         dest: /tmp/instana-agent.customresource.yaml
 
     - name: Apply Instana agent customresource operator
-      community.kubernetes.k8s:
+      community.kubernetes.core:
         state: present
         src: /tmp/instana-agent.customresource.yaml
 
