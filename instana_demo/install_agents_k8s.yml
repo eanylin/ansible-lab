@@ -7,9 +7,14 @@
     INSTANA_AGENT_HOST: "{{ agent_host }}"
     INSTANA_AGENT_PORT: "{{ agent_port }}"
     INSTANA_ZONE: "{{ zone }}"
-    KUBECONFIG: files/kubeconfig
+    KUBECONFIG: /tmp/kubeconfig
 
   tasks:
+    - name: Copy kubeconfig to /tmp
+      ansible.builtin.copy:
+       src: files/kubeconfig
+       dest: /tmp/kubeconfig
+     
     - name: Download instana-agent-operator manifest
       ansible.builtin.get_url:
         url: https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml
@@ -38,3 +43,4 @@
       loop:
         - /tmp/instana-agent-operator.yaml
         - /tmp/instana-agent.customresource.yaml
+        - /tmp/kubeconfig
