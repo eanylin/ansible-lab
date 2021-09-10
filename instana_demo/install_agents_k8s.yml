@@ -7,7 +7,7 @@
     INSTANA_AGENT_HOST: "{{ agent_host }}"
     INSTANA_AGENT_PORT: "{{ agent_port }}"
     INSTANA_ZONE: "{{ zone }}"
-    KUBECONFIG: /home/ubuntu/.kube/config
+    KUBECONFIG: files/kubeconfig
 
   tasks:
     - name: Download instana-agent-operator manifest
@@ -20,6 +20,7 @@
       kubernetes.core.k8s:
         state: present
         src: /tmp/instana-agent-operator.yaml
+      delegate_to: localhost
 
     - name: Generate Instana agent customresource yaml
       ansible.builtin.template:
@@ -30,6 +31,7 @@
       kubernetes.core.k8s:
         state: present
         src: /tmp/instana-agent.customresource.yaml
+      delegate_to: localhost
 
     - name: Remove yaml files
       ansible.builtin.file:
