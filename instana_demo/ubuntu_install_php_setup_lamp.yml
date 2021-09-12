@@ -35,3 +35,8 @@
       ansible.builtin.template:
         src: templates/employees.php.j2
         dest: /var/www/html/employees.php
+
+    - name: Remove sql commands file
+      ansible.builtin.file:
+        path: /tmp/mysql-employees-table-create-setup.sql
+        state: absent
