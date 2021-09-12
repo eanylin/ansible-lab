@@ -1,6 +1,6 @@
 ---
 - name: Install and start apache
-  hosts: web
+  hosts: rhel
   become: yes
 
   tasks:
