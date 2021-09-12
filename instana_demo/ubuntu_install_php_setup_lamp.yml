@@ -1,10 +1,10 @@
 ---
-- name: Install Php and Setup LAMP Stack
+- name: Install PHP and Setup LAMP Stack
   hosts: ubuntu
   become: yes
 
   tasks:
-    - name: Update repositories cache and install apache httpd
+    - name: Update repositories cache and install required packages
       apt:
         name:
           - php
