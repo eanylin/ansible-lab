@@ -1,0 +1,37 @@
+---
+- name: Install Php and Setup LAMP Stack
+  hosts: ubuntu
+  become: yes
+
+  tasks:
+    - name: Update repositories cache and install apache httpd
+      apt:
+        name:
+          - php
+          - libapache2-mod-php
+          - php-mysql
+        update_cache: yes
+        state: latest
+
+    - name: Create info.php
+      ansible.builtin.copy:
+        src: files/info.php
+        dest: /var/www/html/info.php
+
+    - name: Create new database
+      community.mysql.mysql_db:
+        name: "{{ mysql_database }}"
+        state: present
+
+    - name: Generate sql commands file
+      ansible.builtin.template:
+        src: templates/mysql-employees-table-create-setup.sql.j2
+        dest: /tmp/mysql-employees-table-create-setup.sql
+
+    - name: Create table
+      ansible.builtin.shell: mysql < /tmp/mysql-employees-table-create-setup.sql
+
+    - name: Create employees.php
+      ansible.builtin.template:
+        src: templates/employees.php.j2
+        dest: /var/www/html/employees.php

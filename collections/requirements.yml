@@ -14,6 +14,11 @@ collections:
 - name: community.general
   version: 3.6.0
   source: https://galaxy.ansible.com
+
+# Install community.mysql Ansible Collection
+- name: community.mysql
+  version: 2.1.1
+  source: https://galaxy.ansible.com
 #
 # Install amazon.aws Ansible Collection
 #- name: amazon.aws

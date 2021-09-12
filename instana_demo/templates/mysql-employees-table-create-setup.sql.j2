@@ -1,0 +1,14 @@
+USE {{ mysql_database }}
+CREATE TABLE {{ mysql_table }}
+( id INT(11),
+name VARCHAR(30) NOT NULL,
+address TEXT NOT NULL,
+designation VARCHAR(50) NOT NULL,
+phone VARCHAR(50) NOT NULL,
+email VARCHAR(50) NULL,
+salary INT(11),
+PRIMARY KEY (id)
+);
+INSERT INTO {{ mysql_table }} values(1001, 'John Peters', '1423 State Street, Saint Louis', 'Assistant Manager', '314-111-1961', 'john@exmple.com', 4000);
+INSERT INTO {{ mysql_table }} values(1002 ,'Ian Celmons', '124 Trainer Avenue, Peoria', 'Sales Executive', '309-876-5044', 'ian@example.com', 5500);
+INSERT INTO {{ mysql_table }} values(1003 ,'Mark Halley', '532 Hott Street, Oklahoma City', 'Business Executive', '405-650-9853', 'mark@example.com', 7500);
