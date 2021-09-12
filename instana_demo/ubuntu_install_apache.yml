@@ -10,9 +10,9 @@
         update_cache: yes
         state: latest
     
-    - name: Start service httpd, if not started
+    - name: Start apache httpd service, if not started
       ansible.builtin.service:
-        name: httpd
+        name: apache2
         state: started
         enabled: yes
     
