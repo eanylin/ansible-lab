@@ -1,0 +1,23 @@
+---
+- name: Install and start apache
+  hosts: ubuntu
+  become: yes
+
+  tasks:
+    - name: Update repositories cache and install apache httpd
+      apt:
+        name: apache2
+        update_cache: yes
+        state: latest
+    
+    - name: Start service httpd, if not started
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+    
+    - name: Allow all access to tcp port 80
+      community.general.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
