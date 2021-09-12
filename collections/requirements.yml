@@ -9,6 +9,11 @@ collections:
 - name: community.kubernetes
   version: 1.2.1
   source: https://galaxy.ansible.com
+
+# Install community.general Ansible Collection
+- name: community.general
+  version: 3.6.0
+  source: https://galaxy.ansible.com
 #
 # Install amazon.aws Ansible Collection
 #- name: amazon.aws
