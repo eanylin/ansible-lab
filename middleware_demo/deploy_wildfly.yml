@@ -93,7 +93,14 @@
           args:
             chdir: "{{ jboss_home_directory }}"
 
+    - name: Create tmp directory
+      file:
+        dest: "{{ jboss_home_directory }}/.ansible/tmp"
+        state: directory
+      become: yes
+      become_user: jboss
+
     - name: Start WildFly
       shell: nohup /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 2>&1 &
       become: yes
-      become_user: jboss 
+      become_user: jboss
