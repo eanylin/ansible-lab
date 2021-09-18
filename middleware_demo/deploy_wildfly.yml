@@ -97,8 +97,9 @@
       file:
         dest: "{{ jboss_home_directory }}/.ansible/tmp"
         state: directory
+        owner: jboss
+        group: jboss
       become: yes
-      become_user: jboss
 
     - name: Start WildFly
       shell: nohup /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 2>&1 &
