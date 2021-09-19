@@ -1,0 +1,15 @@
+[Unit]
+Description=Jboss Application Server
+After=network.target
+
+[Service]
+Type=idle
+Environment=JAVA_HOME={{ java_home_path }} JBOSS_HOME={{ jboss_home_path }} JAVA={{ java_path }} JBOSS_LOG_DIR={{ java_log_directory_path }} "JAVA_OPTS={{ java_opts }}"
+User=jboss
+Group=jboss
+ExecStart=/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0
+TimeoutStartSec=600
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target

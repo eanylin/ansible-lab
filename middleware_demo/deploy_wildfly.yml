@@ -8,12 +8,18 @@
     epel_baseurl: https://download.fedoraproject.org/pub/epel/8/Everything/x86_64
     epel_rpm_key: https://src.fedoraproject.org/rpms/epel-release/raw/epel8/f/RPM-GPG-KEY-EPEL-8
     jboss_home_directory: /opt/jboss
-    wildfly_version: 24.0.0.Final 
-  environment: 
-    JAVA_HOME: /usr/lib/jvm/java
+    java_home_path: /usr/lib/jvm/java
+    java_log_directory_path: /var/log/jboss
+    java_opts: "-Xms1024m -Xmx20480m -XX:MaxPermSize=768m"
+    java_path: /usr/bin/java
+    jboss_home_path: /opt/jboss/wildfly
+    wildfly_version: 24.0.0.Final
+    wildfly_sha1: 391346c9ed2772647ff07aeae39deb838ee11dcf
+  environment:
+    JAVA_HOME: "{{ java_home_path }}"
     WILDFLY_VERSION: "{{ wildfly_version }}"
-    WILDFLY_SHA1: 391346c9ed2772647ff07aeae39deb838ee11dcf
-    JBOSS_HOME: /opt/jboss/wildfly
+    WILDFLY_SHA1: "{{ wildfly_sha1 }}"
+    JBOSS_HOME: "{{ jboss_home_path }}"
     LAUNCH_JBOSS_IN_BACKGROUND: true
 
   tasks:
@@ -101,7 +107,19 @@
         group: jboss
       become: yes
 
-    - name: Start WildFly
-      shell: nohup /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 2>&1 &
-      become: yes
-      become_user: jboss
+    - name: Create jboss-wildfly.service systemd unit file
+      template:
+        src: templates/jboss-wildfly.service.j2
+        dest: /etc/systemd/system/jboss-wildfly.service
+        mode: 0755
+
+    - name: Start WildFly and issue daemon-reload to pick up config changes
+      systemd:
+        state: started
+        daemon_reload: yes
+        name: jboss-wildfly
+
+    - name: Enable jboss-wildfly service
+      service:
+        name: jboss-wildfly
+        enabled: yes
