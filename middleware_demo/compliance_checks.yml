@@ -14,4 +14,9 @@
 
   roles:
     - wildfly_add_on_checks
-    - wildfly_generate_compliance_report
+
+  tasks:
+    - name: Generate Compliance Report
+      include_role:
+        name: wildfly_generate_compliance_report
+        vars_from: passwd.yml
