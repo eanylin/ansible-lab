@@ -75,14 +75,6 @@
       args:
         chdir: "{{ jboss_home_directory }}"
 
-- name: Create tmp directory
-  file:
-    dest: "{{ jboss_home_directory }}/.ansible/tmp"
-    state: directory
-    owner: jboss
-    group: jboss
-  become: yes
-
 - name: Create jboss-wildfly.service systemd unit file
   template:
     src: templates/jboss-wildfly.service.j2
