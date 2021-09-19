@@ -1,0 +1,11 @@
+         <tr>
+            <td><center>{{ inventory_hostname }}</center></td>
+            <td>
+               <ul>
+{% for issue in compliance_issues %}
+                  <li>{{ issue }}</li>
+{% endfor %}
+               </ul>
+            </td>
+            <td><center>{{ compliance_violations }}</center></td>
+         </tr>

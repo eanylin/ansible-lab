@@ -14,11 +14,4 @@
 
   roles:
     - wildfly_add_on_checks
-
-  tasks:
-    - name: Generate Compliance Report
-      template:
-        src: templates/compliance_report.html.j2
-        dest: /tmp/compliance_report.html
-      become: no
-      delegate_to: localhost
+    - wildfly_generate_compliance_report
