@@ -1,0 +1,13 @@
+---
+informational_headers:
+  query: /subsystem=undertow/servlet-container=default/setting=jsp:read-attribute(name=x-powered-by)
+  required_value: false
+stack_trace:
+  query: /subsystem=undertow/servlet-container=default:read-attribute(name=stack-trace-on-error)
+  required_value: "none"
+tls_version:
+  query: /core-service=management/security-realm=ApplicationRealm/server-identity=ssl:read-attribute(name=enabled-protocols)
+  required_value: ["TLSv1.2"]
+welcome_web_app:
+  query: /subsystem=undertow/server=default-server/host=default-host/location=\\/:read-resource
+  incorrect_handler_value: "welcome-content"

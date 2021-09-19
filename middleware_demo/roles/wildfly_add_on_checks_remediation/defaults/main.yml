@@ -1,0 +1,9 @@
+---
+informational_headers:
+  remediation: /subsystem=undertow/servlet-container=default/setting=jsp:write-attribute(name=x-powered-by,value=false)
+stack_trace:
+  remediation: /subsystem=undertow/servlet-container=default:write-attribute(name=stack-trace-on-error, value=none)
+tls_version:
+  remediation: /core-service=management/security-realm=ApplicationRealm/server-identity=ssl:write-attribute(name=enabled-protocols, value=['TLSv1.2'])
+welcome_web_app:
+  remediation: /subsystem=undertow/server=default-server/host=default-host/location=\/:remove

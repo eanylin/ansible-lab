@@ -1,0 +1,109 @@
+---
+- name: Check that required information has been provided
+  assert:
+    that:
+      - java_home is defined
+      - java_version is defined
+      - jboss_home is defined
+      - jdk_id is defined
+    fail_msg: "java_home, java_version, jdk_id and jboss_home must defined."
+    quiet: true
+
+- set_fact:
+    compliance_violations: 0
+    compliance_issues: []
+
+- name: Analyse Informational Headers
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    query: '{{ informational_headers.query }}'
+
+- name: Check that Informational Headers are Compliant
+  include_tasks: informational_headers_compliance.yml
+
+- name: Analyse Stack Trace
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    query: '{{ stack_trace.query }}'
+
+- name: Check that Stack Trace are Compliant
+  include_tasks: stack_trace_compliance.yml
+
+- name: Analyse TLS version
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    query: '{{ tls_version.query }}'
+
+- name: Check that TLS version is Compliant
+  include_tasks: tls_compliance.yml
+
+- name: Analyse welcome-content Handler
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    query: '{{ welcome_web_app.query }}'
+
+- name: Check that welcome-content handler is Compliant
+  include_tasks: welcome_web_app_compliance.yml
+#
+#
+#- name: Check that used network ports are in compliance with Common Criteria recommendations
+#  include_tasks: port_compliance.yml
+#  loop:
+#    - { cli_query_info_port: "/socket-binding-group=standard-sockets/socket-binding=https:read-attribute(name=port)", allowed_port: "8443" }
+#    - { cli_query_info_port: "/socket-binding-group=standard-sockets/socket-binding=http:read-attribute(name=port)", allowed_port: "8080" }
+#
+#- name: Check EAP start script compliance with Common Criteria recommendations
+#  include_tasks: service_script_compliance.yml
+#  when:
+#    - jboss_server_service is defined
+#
+#- debug:
+#    msg: 'WARN: Service setting undefined, will not check for service integration compliance'
+#  changed_when: False
+#  when:
+#    - not jboss_server_service is defined
+#
+#- name: Analyse network configuration
+#  include_tasks: tasks/jboss_cli.yml
+#  vars:
+#    query: '/interface=*:read-resource'
+#
+#- name: Check EAP network configuration compliance
+#  include_tasks: network_configuration_compliance.yml
+#  loop: "{{ (cli_result.stdout | from_json).result }}"
+#  loop_control:
+#    loop_var: jbossas_interface
+#
+#- name: Analyse socket bindings configuration
+#  include_tasks: tasks/jboss_cli.yml
+#  vars:
+#    query: '/socket-binding-group=standard-sockets/socket-binding=*:read-resource'
+#
+#- name: Check compliance of socket bindings with Common Criteria recommendations
+#  include_tasks: protocol_interface_compliance.yml
+#  loop: "{{ (cli_result.stdout | from_json ).result }}"
+#  loop_control:
+#    loop_var: socket_binding
+#
+#- name: Analyse subsystems
+#  include_tasks: tasks/jboss_cli.yml
+#  vars:
+#    query: '/subsystem=*:read-resource'
+#
+#- name: Check only recommended subsystems are used
+#  include_tasks: validate_subsys.yml
+#  loop: "{{ (cli_result.stdout | from_json)['result'] }}"
+#  loop_control:
+#    loop_var: subsystem
+#
+- block:
+    - debug:
+        msg: "{{ item }}"
+      loop: "{{ compliance_issues }}"
+
+    - name: "Display list of CC violations"
+      debug:
+        msg: "Number of violations of Common Criteria recommendations: {{ compliance_violations }}."
+      changed_when: override_changed_when_if_cc_violations | default(True)
+  when:
+    - compliance_violations is defined

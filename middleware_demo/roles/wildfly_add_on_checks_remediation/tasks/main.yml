@@ -1,0 +1,37 @@
+---
+- name: Check that required information has been provided
+  assert:
+    that:
+      - java_home is defined
+      - java_version is defined
+      - jboss_home is defined
+      - jdk_id is defined
+    fail_msg: "java_home, java_version, jdk_id and jboss_home must defined."
+    quiet: true
+
+- set_fact:
+    remediation_list: []
+
+- name: Remediate Informational Headers
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    remediate_command: '{{ informational_headers.remediation }}'
+  when: '"remediate_informational_header" in remediation_list'
+
+- name: Remediate Stack Trace
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    remediate_command: '{{ stack_trace.remediation }}'
+  when: '"remediate_stack_trace" in remediation_list'
+
+- name: Remediate TLS version
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    remediate_command: '{{ tls_version.remediation }}'
+  when: '"remediate_tls_version" in remediation_list'
+
+- name: Remediate welcome-content Handler
+  include_tasks: tasks/jboss_cli.yml
+  vars:
+    remediate_command: '{{ welcome_web_app.remediation }}'
+  when: '"remediate_welcome_content_handler" in remediation_list'

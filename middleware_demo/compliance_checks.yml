@@ -1,0 +1,24 @@
+---
+- name: Check Wildfly Compliance
+  hosts: wildfly
+  remote_user: ec2-user
+  become: yes
+  gather_facts: true
+  vars:
+    jboss_home: /opt/jboss/wildfly
+    java_home: /usr/lib/jvm/java
+    jdk_id: openjdk
+    java_version: '11.0.12'
+  environment:
+    JAVA_HOME: "{{ java_home }}"
+
+  roles:
+    - wildfly_add_on_checks
+
+  tasks:
+    - name: Generate Compliance Report
+      template:
+        src: templates/compliance_report.html.j2
+        dest: /tmp/compliance_report.html
+      become: no
+      delegate_to: localhost

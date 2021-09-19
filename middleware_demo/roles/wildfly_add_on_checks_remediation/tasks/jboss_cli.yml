@@ -1,0 +1,18 @@
+---
+- name: Ensure required values have been provided
+  assert:
+    that:
+      - jboss_home is defined
+      - remediate_command is defined
+    fail_msg: "Missing required parameters"
+    quiet: true
+
+- set_fact:
+    path_to_cli: "{{ override_path_to_cli | default(jboss_home + '/bin/jboss-cli.sh') }}"
+    controller:
+      host: "{{ override_jboss_cli_controller_host | default('localhost') }}"
+      port: "{{ override_jboss_cli_controller_port | default('9990') }}"
+
+- name: Execute remediation command
+  shell: "{{ path_to_cli }} -c --output-json --command='{{ remediate_command }}' --controller={{ controller.host }}{{':'}}{{ controller.port }}"
+  notify: restart jboss-wildfly

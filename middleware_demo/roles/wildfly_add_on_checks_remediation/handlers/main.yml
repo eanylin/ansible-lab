@@ -1,0 +1,5 @@
+---
+- name: restart jboss-wildfly
+  service:
+    name: jboss-wildfly
+    state: restarted

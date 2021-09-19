@@ -1,0 +1,19 @@
+---
+- set_fact:
+    failed_message: "{{ (cli_result.stdout | from_json)['result'] }} is not compliant to Criteria for welcome-content Handler"
+  when: (cli_result.stdout | from_json)['result'] is defined
+
+- block:
+    - name: Check that "welcome-content" handler is disabled
+      assert:
+        that:
+          - (cli_result.stdout | from_json)['result']['handler'] != welcome_web_app.incorrect_handler_value
+        fail_msg: "{{ failed_message }}"
+        quiet: true
+      when: (cli_result.stdout | from_json)['result'] is defined
+
+  rescue:
+    - set_fact:
+        compliance_violations: "{{ (compliance_violations | int) + 1 }}"
+        compliance_issues: "{{ compliance_issues + [failed_message] }}"
+      when: (cli_result.stdout | from_json)['result'] is defined

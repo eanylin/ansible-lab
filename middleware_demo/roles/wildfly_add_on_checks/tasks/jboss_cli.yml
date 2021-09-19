@@ -1,0 +1,21 @@
+---
+- name: Ensure required values have been provided
+  assert:
+    that:
+      - jboss_home is defined
+      - query is defined
+    fail_msg: "Missing required parameters"
+    quiet: true
+
+- set_fact:
+    path_to_cli: "{{ override_path_to_cli | default(jboss_home + '/bin/jboss-cli.sh') }}"
+    controller:
+      host: "{{ override_jboss_cli_controller_host | default('localhost') }}"
+      port: "{{ override_jboss_cli_controller_port | default('9990') }}"
+
+- name: Execute command query
+  command: >
+    {{ path_to_cli }} -c --output-json --command={{ query }} --controller={{ controller.host }}:{{ controller.port }}
+  register: cli_result
+  changed_when: false
+  ignore_errors: true

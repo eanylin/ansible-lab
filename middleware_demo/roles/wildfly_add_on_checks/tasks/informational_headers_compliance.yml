@@ -1,0 +1,16 @@
+---
+- set_fact:
+    failed_message: "{{ (cli_result.stdout | from_json)['result'] }} is not compliant to Criteria for informational headers"
+
+- block:
+    - name: Check that informational headers is removed and masked
+      assert:
+        that:
+          - (cli_result.stdout | from_json)['result'] == informational_headers.required_value
+        fail_msg: "{{ failed_message }}"
+        quiet: true
+
+  rescue:
+    - set_fact:
+        compliance_violations: "{{ (compliance_violations | int) + 1 }}"
+        compliance_issues: "{{ compliance_issues + [failed_message] }}"

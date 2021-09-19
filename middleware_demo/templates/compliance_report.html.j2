@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Report Table for Wildfly Servers</title>
+   </head>
+   <body>
+      <table border = "1" cellpadding = "5" cellspacing = "5">
+         <tr>
+            <th>Hostname</th>
+            <th>Compliance Issues</th>
+            <th>Total Count of Compliance Issues</th>
+         </tr>
+         <tr>
+            <td><center>{{ inventory_hostname }}</center></td>
+            <td>
+               <ul>
+{% for issue in compliance_issues %}
+                  <li>{{ issue }}</li>
+{% endfor %}
+               </ul>
+            </td>
+            <td><center>{{ compliance_violations }}</center></td>
+         </tr>
+      </table>
+   </body>
+</html>
