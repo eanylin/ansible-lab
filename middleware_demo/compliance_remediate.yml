@@ -1,6 +1,6 @@
 ---
 - name: Remediate Wildfly Compliance Issues
-  hosts: wildfly
+  hosts: "{{ target_wildfly_servers }}"
   remote_user: ec2-user
   become: yes
   gather_facts: true
