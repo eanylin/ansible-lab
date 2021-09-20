@@ -35,12 +35,12 @@
       community.kubernetes.k8s:
         state: present
         src: /tmp/instana-agent.customresource.yaml
-
-    - name: Remove yaml files
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - /tmp/instana-agent-operator.yaml
-        - /tmp/instana-agent.customresource.yaml
+#
+#    - name: Remove yaml files
+#      ansible.builtin.file:
+#        path: "{{ item }}"
+#        state: absent
+#      loop:
+#        - /tmp/instana-agent-operator.yaml
+#        - /tmp/instana-agent.customresource.yaml
 #        - /tmp/kubeconfig
