@@ -7,14 +7,8 @@
     INSTANA_AGENT_HOST: "{{ agent_host }}"
     INSTANA_AGENT_PORT: "{{ agent_port }}"
     INSTANA_ZONE: "{{ zone }}"
-#    KUBECONFIG: /tmp/kubeconfig
 
   tasks:
-#    - name: Copy kubeconfig to /tmp
-#      ansible.builtin.copy:
-#       src: files/kubeconfig
-#       dest: /tmp/kubeconfig
-#     
     - name: Download instana-agent-operator manifest
       ansible.builtin.get_url:
         url: https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml
@@ -35,12 +29,11 @@
       community.kubernetes.k8s:
         state: present
         src: /tmp/instana-agent.customresource.yaml
-#
-#    - name: Remove yaml files
-#      ansible.builtin.file:
-#        path: "{{ item }}"
-#        state: absent
-#      loop:
-#        - /tmp/instana-agent-operator.yaml
-#        - /tmp/instana-agent.customresource.yaml
-#        - /tmp/kubeconfig
+
+    - name: Remove yaml files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /tmp/instana-agent-operator.yaml
+        - /tmp/instana-agent.customresource.yaml
