@@ -1,0 +1,3 @@
+---
+epel_baseurl: https://download.fedoraproject.org/pub/epel/8/Everything/x86_64
+epel_rpm_key: https://src.fedoraproject.org/rpms/epel-release/raw/epel8/f/RPM-GPG-KEY-EPEL-8

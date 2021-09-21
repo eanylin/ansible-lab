@@ -5,8 +5,6 @@
   become: yes
   gather_facts: no
   vars:
-    epel_baseurl: https://download.fedoraproject.org/pub/epel/8/Everything/x86_64
-    epel_rpm_key: https://src.fedoraproject.org/rpms/epel-release/raw/epel8/f/RPM-GPG-KEY-EPEL-8
     jboss_home_directory: /opt/jboss
     java_home_path: /usr/lib/jvm/java
     java_log_directory_path: /var/log/jboss
