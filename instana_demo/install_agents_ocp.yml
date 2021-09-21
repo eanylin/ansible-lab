@@ -10,14 +10,13 @@
 
   tasks:
     - name: OC Login to OCP Cluster
-      command: "/usr/bin/oc login --token={{ oc_token }} --server={{ ocp_api_endpoint }}"
-      no_log: true
+      command: "oc login --token={{ oc_token }} --server={{ ocp_api_endpoint }}"
     
     - name: Create instana-agent namespace
-      command: "/usr/bin/oc new-project instana-agent"
+      command: "oc new-project instana-agent"
     
     - name: Ensure instana-agent service account is in privileged security context
-      command: "/usr/bin/oc adm policy add-scc-to-user privileged -z instana-agent"
+      command: "oc adm policy add-scc-to-user privileged -z instana-agent"
 
     - name: Download instana-agent-operator manifest
       ansible.builtin.get_url:
