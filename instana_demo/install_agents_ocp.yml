@@ -11,6 +11,7 @@
   tasks:
     - name: OC Login to OCP Cluster
       command: "oc login --insecure-skip-tls-verify --token={{ oc_token }} --server={{ ocp_api_endpoint }}"
+      no_log: true
     
     - name: Create instana-agent namespace
       command: "oc new-project instana-agent"
