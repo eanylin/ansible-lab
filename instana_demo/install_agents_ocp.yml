@@ -9,6 +9,20 @@
     INSTANA_ZONE: "{{ zone }}"
 
   tasks:
+    - name: OC Login to OCP Cluster
+      command: "oc login --insecure-skip-tls-verify --token={{ oc_token }} --server={{ ocp_api_endpoint }}"
+      no_log: true
+
+    - name: Ensure instana-agent service account is in privileged security context
+      command: "oc adm policy add-scc-to-user privileged -z instana-agent"
+
+    - name: Create instana-agent namespace
+      community.kubernetes.k8s:
+        name: instana-agent
+        api_version: v1
+        kind: Namespace
+        state: present
+
     - name: Download instana-agent-operator manifest
       ansible.builtin.get_url:
         url: https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml
