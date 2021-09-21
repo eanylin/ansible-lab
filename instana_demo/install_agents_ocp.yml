@@ -10,7 +10,7 @@
 
   tasks:
     - name: OC Login to OCP Cluster
-      command: "/usr/bin/oc login --token={{ oc_toekn }} --server={{ ocp_api_endpoint }}"
+      command: "/usr/bin/oc login --token={{ oc_token }} --server={{ ocp_api_endpoint }}"
       no_log: true
     
     - name: Create instana-agent namespace
