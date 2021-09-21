@@ -1,0 +1,49 @@
+---
+- name: Install Instana Agents on OCP Cluster
+  hosts: localhost
+  gather_facts: false
+  environment:
+    INSTANA_AGENT_KEY: "{{ agent_key }}"
+    INSTANA_AGENT_HOST: "{{ agent_host }}"
+    INSTANA_AGENT_PORT: "{{ agent_port }}"
+    INSTANA_ZONE: "{{ zone }}"
+
+  tasks:
+    - name: OC Login to OCP Cluster
+      command: "/usr/bin/oc login --token={{ oc_toekn }} --server={{ ocp_api_endpoint }}"
+      no_log: true
+    
+    - name: Create instana-agent namespace
+      command: "/usr/bin/oc new-project instana-agent"
+    
+    - name: Ensure instana-agent service account is in privileged security context
+      command: "/usr/bin/oc adm policy add-scc-to-user privileged -z instana-agent"
+
+    - name: Download instana-agent-operator manifest
+      ansible.builtin.get_url:
+        url: https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml
+        dest: /tmp/instana-agent-operator.yaml
+        mode: '0664'
+    
+    - name: Apply instana-agent-operator manifest to k8s cluster
+      community.kubernetes.k8s:
+        state: present
+        src: /tmp/instana-agent-operator.yaml
+
+    - name: Generate Instana agent customresource yaml
+      ansible.builtin.template:
+        src: templates/instana-agent.customresource.yaml.j2
+        dest: /tmp/instana-agent.customresource.yaml
+
+    - name: Apply Instana agent customresource operator
+      community.kubernetes.k8s:
+        state: present
+        src: /tmp/instana-agent.customresource.yaml
+
+    - name: Remove yaml files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /tmp/instana-agent-operator.yaml
+        - /tmp/instana-agent.customresource.yaml
