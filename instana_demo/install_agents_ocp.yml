@@ -9,7 +9,7 @@
       no_log: true
 
     - name: Ensure instana-agent service account is in privileged security context
-      command: "oc adm policy add-scc-to-user privileged -z instana-agent"
+      command: "oc adm policy add-scc-to-user privileged -z instana-agent -n instana-agent"
 
     - name: Create instana-agent namespace
       community.kubernetes.k8s:
