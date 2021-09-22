@@ -10,6 +10,6 @@ spec:
   agent.endpoint.port: {{ agent_port }}
   agent.env:
     INSTANA_AGENT_TAGS: {{ agent_tag }}
-  cluster.name: ''
+  cluster.name: {{ cluster_name }}
   config.files:
     configuration.yaml: |

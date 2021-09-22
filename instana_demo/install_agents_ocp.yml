@@ -2,11 +2,6 @@
 - name: Install Instana Agents on OCP Cluster
   hosts: localhost
   gather_facts: false
-  environment:
-    INSTANA_AGENT_KEY: "{{ agent_key }}"
-    INSTANA_AGENT_HOST: "{{ agent_host }}"
-    INSTANA_AGENT_PORT: "{{ agent_port }}"
-    INSTANA_ZONE: "{{ zone }}"
 
   tasks:
     - name: OC Login to OCP Cluster
