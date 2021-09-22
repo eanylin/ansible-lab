@@ -478,7 +478,8 @@
                 </stack>
                 <stack name="tcpping">
                     <transport type="TCP" socket-binding="jgroups-tcp"/>
-                    <protocol type="org.jgroups.protocols.TCPPING"/>
+                    <protocol type="org.jgroups.protocols.TCPPING"
+                        properties="{initial_hosts=${wildfly.tcpping.server},port_range=0,timeout=3000}"/>
                     <protocol type="MERGE3"/>
                     <socket-protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
                     <protocol type="FD"/>
