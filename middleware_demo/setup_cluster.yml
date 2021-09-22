@@ -4,25 +4,78 @@
   become: yes
   hosts: wildfly
   vars:
-    jboss_home: "/opt/jboss/wildfly"
-    target_config: "standalone-full-ha.xml"
+    wildfly_user: wildfly
+    wildfly_group: wildfly
+    wildfly:
+      workdir: /opt
+      download_base_url: https://download.jboss.org/wildfly/
+      version: 24.0.0.Final
+    wildfly_home: "/opt/wildfly-{{ wildfly.version }}"
+    jboss_home: "{{ wildfly_home }}"
+    wildfly_config_base: standalone-full-ha-tcp_ping.xml
     cli_files:
       - "jgroup"
       - "modcluster"
       - "socket"
     cli_files_path: /tmp
+  collections:
+    - middleware_automation.jcliff
+  roles:
+    - jcliff
+    - wildfly_systemd
+  pre_tasks:
+    - name: "Create {{ wildfly_group }} group"
+      group:
+        name: "{{ wildfly_group }}"
+        state: present
+
+    - name: "Create {{ wildfly_user }} user"
+      user:
+        name: "{{ wildfly_user }}"
+        comment: JBoss User
+        group: "{{ wildfly_group }}"
+        state: present
+
+    - include_role:
+        name: prereqs
+
+    - block:
+        - set_fact:
+            wfly_download_url: "{{ wildfly.download_base_url }}/{{ wildfly.version }}/wildfly-{{ wildfly.version }}.zip"
+
+        - name: "Download and unzip Wildfly zipfile from {{ wfly_download_url }}"
+          unarchive:
+            src: "{{ wfly_download_url }}"
+            dest: "{{ wildfly.workdir }}"
+            owner: "{{ wildfly_user }}"
+            group: "{{ wildfly_group }}"
+            remote_src: yes
+            creates: "{{ wildfly_home }}"
+      when:
+        - wildfly is defined
+        - wildfly.download_base_url is defined
+        - wildfly.version is defined
+
+    - name: "Deploy configuration with TCPPing enabled"
+      copy:
+        src: files/wildfly.xml
+        dest: "{{ jboss_home }}/standalone/configuration/{{ wildfly_config_base }}"
+        owner: "{{ wildfly_user }}"
+        group: "{{ wildfly_group }}"
 
   tasks:
-    - name: Generate and copy cli files to target host
-      template:
-        src: "templates/{{ item }}.cli.j2"
-        dest: "{{ cli_files_path }}/{{ item }}.cli"
-      loop: "{{ cli_files }}"
 
-    - name: Set up Cluster
-      jcliff_extra:
+    - name: "Fine tuned Wildfly configuration"
+      jcliff:
         wfly_home: "{{ jboss_home }}"
         subsystems:
-          - cluster_mode:
-              - enabled: true
-                file_directory: "{{ cli_files_path }}"
+          - modcluster:
+              proxy:
+                - name: default
+                  proxies:
+                    - proxy1
+          - standard_sockets:
+              remote_destination_outbound_socket_binding:
+                - name: "proxy1"
+                  host: localhost
+                  port: 6666
