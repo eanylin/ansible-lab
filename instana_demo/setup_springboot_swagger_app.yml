@@ -20,6 +20,7 @@
       community.kubernetes.k8s:
         state: present
         src: /tmp/springboot_swagger_secrets.yaml
+      no_log: true
 
     - name: Generate apps yaml
       ansible.builtin.template:
