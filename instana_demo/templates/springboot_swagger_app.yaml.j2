@@ -71,3 +71,20 @@ spec:
           imagePullPolicy: Always
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: springboot-swagger
+  namespace: {{ ocp_namespace }}
+  labels:
+    app: springboot-swagger
+spec:
+  host: {{ route_app_host }}
+  to:
+    kind: Service
+    name: springboot-swagger
+    weight: 100
+  port:
+    targetPort: http
+  wildcardPolicy: None
