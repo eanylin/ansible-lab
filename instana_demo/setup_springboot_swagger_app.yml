@@ -10,3 +10,23 @@
         api_version: v1
         kind: Namespace
         state: present
+
+    - name: Generate secrets yaml
+      ansible.builtin.template:
+        src: templates/springboot_swagger_secrets.yaml.j2
+        dest: /tmp/springboot_swagger_secrets.yaml
+
+    - name: Apply secrets yaml
+      community.kubernetes.k8s:
+        state: present
+        src: /tmp/springboot_swagger_secrets.yaml
+
+    - name: Generate apps yaml
+      ansible.builtin.template:
+        src: templates/springboot_swagger_app.yaml.j2
+        dest: /tmp/springboot_swagger_app.yaml
+
+    - name: Apply apps yaml
+      community.kubernetes.k8s:
+        state: present
+        src: /tmp/springboot_swagger_app.yaml

@@ -1,0 +1,71 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: springboot-swagger
+  labels:
+    app: springboot-swagger
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  selector:
+    app: springboot-swagger
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-swagger
+  labels:
+    app: springboot-swagger
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 1
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: springboot-swagger
+  template:
+    metadata:
+      labels:
+        app: springboot-swagger
+    spec:
+      containers:
+        - name: springboot-swagger
+          image: {{ registry_namespace }}/springboot-swagger-jpa-stack:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JVM_ARGS
+              value: -Xms512m -Xmx1G
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_DATASOURCE_URL
+              value: {{ datasource_url }}
+            - name: SPRING_DATASOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: db_username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: db_password
+          resources:
+            limits:
+              cpu: 800m
+              memory: 2048Mi
+            requests:
+              cpu: 200m
+              memory: 512Mi
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
