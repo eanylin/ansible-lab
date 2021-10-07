@@ -3,6 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: springboot-swagger
+  namespace: {{ ocp_namespace }}
   labels:
     app: springboot-swagger
 spec:
@@ -17,6 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: springboot-swagger
+  namespace: {{ ocp_namespace }}
   labels:
     app: springboot-swagger
 spec:
