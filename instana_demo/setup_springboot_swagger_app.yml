@@ -1,0 +1,12 @@
+---
+- name: Setup Springboot Swagger App on OCP Cluster
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Create demo namespace
+      community.kubernetes.k8s:
+        name: demo
+        api_version: v1
+        kind: Namespace
+        state: present
