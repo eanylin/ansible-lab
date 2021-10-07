@@ -9,6 +9,7 @@
         private_ip_address: "{{ ec2_private_ip }}"
         subnet_id: "{{ vpc_subnet_id }}"
         region: "{{ aws_region }}"
+        security_groups: "{{ security_group_name }}"
       register: ec2_instance_eni
 
     - name: Deploy VM in AWS
@@ -21,5 +22,4 @@
             - id: "{{ ec2_instance_eni.interface.id }}"
         instance_type: "{{ instance_type }}"
         image_id: "{{ ami_image }}"
-        security_group: "{{ security_group_name }}"
         region: "{{ aws_region }}"
