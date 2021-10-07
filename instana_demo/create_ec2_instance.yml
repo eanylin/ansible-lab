@@ -20,6 +20,6 @@
           interfaces:
             - id: "{{ ec2_instance_eni.interface.id }}"
         instance_type: "{{ instance_type }}"
-        image: "{{ ami_image }}"
+        image_id: "{{ ami_image }}"
         group: "{{ security_group_name }}"
         region: "{{ aws_region }}"
