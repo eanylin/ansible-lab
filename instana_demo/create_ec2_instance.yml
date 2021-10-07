@@ -8,22 +8,19 @@
       amazon.aws.ec2_eni:
         private_ip_address: "{{ ec2_private_ip }}"
         subnet_id: "{{ vpc_subnet_id }}"
+        group: "{{ security_group_name }}"
         region: "{{ aws_region }}"
-        state: present
       register: ec2_instance_eni
 
-    - debug:
-        msg: "{{ ec2_instance_eni }}"
-
-#    - name: Deploy VM in AWS
-#      amazon.aws.ec2:
-#        key_name: "{{ aws_key }}"
-#        instance_type: "{{ instance_type }}"
-#        image: "{{ ami_image }}"
-#        group: "{{ security_group_name }}"
-#        region: "{{ aws_region }}"
-#        wait: yes
-#        wait_timeout: 600
-#        count: "{{ instance_count }}"
-#        vpc_subnet_id: "{{ vpc_subnet_id }}"
-#        assign_public_ip: "{{ assign_public_ip }}"
+    - name: Deploy VM in AWS
+      amazon.aws.ec2_instance:
+        name: "{{ ec2_instance_name }}"
+        key_name: "{{ aws_key }}"
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        network:
+          interfaces:
+            - id: "{{ ec2_instance_eni.interface.id }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ ami_image }}"
+        group: "{{ security_group_name }}"
+        region: "{{ aws_region }}"
