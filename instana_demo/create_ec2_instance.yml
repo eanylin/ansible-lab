@@ -8,6 +8,7 @@
       amazon.aws.ec2_eni:
         private_ip_address: "{{ ec2_private_ip }}"
         subnet_id: "{{ vpc_subnet_id }}"
+        region: "{{ aws_region }}"
         state: present
       register: ec2_instance_eni
 
