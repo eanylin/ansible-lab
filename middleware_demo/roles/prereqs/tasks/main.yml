@@ -1,0 +1,29 @@
+---
+- name: Add EPEL repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    file: epel_repos
+    baseurl: "{{ epel_baseurl }}"
+    gpgcheck: yes
+
+- name: Add GPG Key
+  rpm_key:
+    state: present
+    key: "{{ epel_rpm_key }}"
+
+- name: Upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install the required packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - xmlstarlet
+    - augeas
+    - bsdtar
+    - unzip
+    - java-11-openjdk-devel

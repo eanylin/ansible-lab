@@ -1,60 +1,26 @@
 ---
-- name: Add EPEL repository
-  yum_repository:
-    name: epel
-    description: EPEL YUM repo
-    file: epel_repos
-    baseurl: "{{ epel_baseurl }}"
-    gpgcheck: yes
+- assert:
+    that:
+      - wildfly_user is defined
+      - wildfly_group is defined
+      - wildfly_uid is defined
+      - wildfly_gid is defined
+    quiet: true
 
-- name: Add GPG Key
-  rpm_key:
-    state: present
-    key: "{{ epel_rpm_key }}"
-
-- name: Upgrade all packages
-  yum:
-    name: '*'
-    state: latest
-
-- name: Install the required packages
-  yum:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - xmlstarlet
-    - augeas
-    - bsdtar
-    - unzip
-    - java-11-openjdk-devel
-
-- name: Create jboss group
+- name: "Create {{ wildfly_group }} group"
   group:
-    name: jboss
+    name: "{{ wildfly_group }}"
     state: present
-    gid: 1001
+    gid: "{{ wildfly_gid }}"
 
-- name: Create {{ jboss_home_directory }} directory
-  file:
-    path: "{{ jboss_home_directory }}"
-    state: directory
-    mode: '0755'
-
-- name: Create jboss user
+- name: "Create {{ wildfly_user }} user"
   user:
-    name: jboss
+    name: "{{ wildfly_user }}"
     comment: JBoss User
-    uid: 1001
-    group: jboss
+    uid: "{{ wildfly_uid }}"
+    group: "{{ wildfly_group }}"
     home: "{{ jboss_home_directory }}"
-
-- name: Update ownership of {{ jboss_home_directory }}
-  file:
-    path: "{{ jboss_home_directory }}"
-    state: directory
-    recurse: yes
-    owner: jboss
-    group: jboss
+    state: present
 
 # Add the WildFly distribution to /opt, and make wildfly the owner of the extracted tar content
 - name: Download and Add WildFly distribution
@@ -74,20 +40,3 @@
         && chmod -R g+rw ${JBOSS_HOME}
       args:
         chdir: "{{ jboss_home_directory }}"
-
-- name: Create jboss-wildfly.service systemd unit file
-  template:
-    src: templates/jboss-wildfly.service.j2
-    dest: /etc/systemd/system/jboss-wildfly.service
-    mode: 0755
-
-- name: Start WildFly and issue daemon-reload to pick up config changes
-  systemd:
-    state: started
-    daemon_reload: yes
-    name: jboss-wildfly
-
-- name: Enable jboss-wildfly service
-  service:
-    name: jboss-wildfly
-    enabled: yes
