@@ -4,7 +4,7 @@
   gather_facts: false
 
   tasks:
-    - name:
+    - name: Create elastic network interface
       amazon.aws.ec2_eni:
         private_ip_address: "{{ ec2_private_ip }}"
         subnet_id: "{{ vpc_subnet_id }}"
