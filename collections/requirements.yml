@@ -24,3 +24,8 @@ collections:
 - name: amazon.aws
   version: 2.0.0
   source: https://galaxy.ansible.com
+
+# Install google.cloud Ansible Collection
+- name: google.cloud
+  version: 1.0.2
+  source: https://galaxy.ansible.com
