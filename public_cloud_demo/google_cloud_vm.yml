@@ -1,0 +1,59 @@
+---
+- name: Create GCP Instance
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+    - name: Create Disk
+      google.cloud.gcp_compute_disk:
+        name: 'disk-instance'
+        size_gb: "{{ vm_disk_size }}"
+        source_image: "{{ vm_image }}"
+        zone: "{{ zone }}"
+        project: "{{ gcp_project }}"
+        auth_kind: "{{ gcp_cred_kind }}"
+        scopes:
+          - https://www.googleapis.com/auth/compute
+        state: present
+      register: disk
+
+    - name: Create Address
+      google.cloud.gcp_compute_address:
+        name: 'address-instance'
+        region: "{{ region }}"
+        project: "{{ gcp_project }}"
+        auth_kind: "{{ gcp_cred_kind }}"
+        scopes:
+          - https://www.googleapis.com/auth/compute
+        state: present
+      register: address
+
+    - name: Create Instance
+      google.cloud.gcp_compute_instance:
+        state: present
+        name: "{{ vm_name }}"
+        machine_type: "{{ vm_instance_type }}"
+        disks:
+          - auto_delete: true
+            boot: true
+            source: "{{ disk }}"
+        network_interfaces:
+          - network: null # use default
+            access_configs:
+              - name: 'External NAT'
+                nat_ip: "{{ address }}"
+                type: 'ONE_TO_ONE_NAT'
+        zone: "{{ zone }}"
+        project: "{{ gcp_project }}"
+        auth_kind: "{{ gcp_cred_kind }}"
+        scopes:
+          - https://www.googleapis.com/auth/compute
+      register: instance
+ 
+    - name: Wait for SSH to come up
+      wait_for:
+        host: "{{ address.address }}"
+        port: 22
+        delay: 10
+        timeout: 60
