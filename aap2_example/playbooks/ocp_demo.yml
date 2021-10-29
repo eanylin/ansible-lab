@@ -11,4 +11,4 @@
       register: pod_list
 
     - debug:
-        msg: "{{ pod_list.resources[0].containers }}"
+        msg: "{{ pod_list.resources[0].spec.containers }}"
