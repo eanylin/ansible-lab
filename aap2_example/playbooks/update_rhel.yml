@@ -1,0 +1,14 @@
+---
+- name: Update RHEL
+  hosts: rhel
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Print Software Version
+      command: cat /etc/redhat-release
+
+    - name: Update Packages
+      yum:
+        name: '*'
+        state: latest

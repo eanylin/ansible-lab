@@ -1,0 +1,6 @@
+[rhel]
+rhel6 ansible_host=10.10.10.11
+rhel7 ansible_host=10.10.10.12
+
+[rhel:vars]
+ansible_user=ansible

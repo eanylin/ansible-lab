@@ -1,0 +1,13 @@
+---
+- name: Create k8s Namespace
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create demo namespace, if it does not exists
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        kubeconfig: /home/ansible/awx/kubeconfig
+        name: demo
+        state: present
