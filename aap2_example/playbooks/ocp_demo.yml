@@ -1,0 +1,14 @@
+---
+- name: OCP Testing
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Get list of all pods from namespace
+      community.kubernetes.k8s_info:
+        kind: Pod
+        namespace: "{{ ns }}"
+      register: pod_list
+
+    - debug:
+        msg: "{{ pod_list }}"
