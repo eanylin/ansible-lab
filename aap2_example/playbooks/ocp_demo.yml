@@ -21,4 +21,4 @@
 
     - debug:
         msg: "{{ pod_list.resources[0].status.containerStatuses[0].state }}"
-      when: 'running' in pod_list.resources[0].status.containerStatuses[0].state
+      when: '"running" in pod_list.resources[0].status.containerStatuses[0].state'
