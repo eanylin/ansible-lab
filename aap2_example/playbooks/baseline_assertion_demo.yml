@@ -1,0 +1,7 @@
+---
+- name: Baseline Assertion Demo
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - baseline_assertion_demo

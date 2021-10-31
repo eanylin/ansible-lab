@@ -1,0 +1,24 @@
+---
+baseline:
+  allowed_aws_instance_type:
+    - t2.nano
+    - t2.micro
+    - t2.small
+    - t2.medium
+    - t2.large
+  allowed_aws_region:
+    - ap-east-1
+    - ap-southeast-1
+    - ap-southeast-2
+  allowed_os_version:
+    - windows_server_2012r2
+    - windows_server_2016
+    - windows_server_2019
+    - rhel_6
+    - rhel_7
+    - rhel_8
+  min_allowed_memory_gb: 0.5
+  max_allowed_memory_gb: 8
+  min_allowed_vcpu: 1
+  max_allowed_vcpu: 2
+  ip_network: '192.168.0.0/24'
