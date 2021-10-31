@@ -17,8 +17,8 @@ baseline:
     - rhel_6
     - rhel_7
     - rhel_8
-  min_allowed_memory_gb: 0.5
+  min_allowed_memory_gb: 1
   max_allowed_memory_gb: 8
   min_allowed_vcpu: 1
-  max_allowed_vcpu: 2
+  max_allowed_vcpu: 4
   ip_network: '192.168.0.0/24'
