@@ -17,3 +17,8 @@
         msg: "{{ pod_list.resources[0].status.containerStatuses[item].name }} is in running state"
       loop: "{{ range(0, pod_list.resources[0].status.containerStatuses | length) | list }}"
       when: '"running" in pod_list.resources[0].status.containerStatuses[0].state'
+
+    - debug:
+        msg: "{{ pod_list.resources[0].status.containerStatuses[item].name }} is in pod_list.resources[0].status.containerStatuses[item].state state"
+      loop: "{{ range(0, pod_list.resources[0].status.containerStatuses | length) | list }}"
+      when: '"running" not in pod_list.resources[0].status.containerStatuses[0].state'
