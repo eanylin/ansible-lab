@@ -29,3 +29,8 @@ collections:
 - name: google.cloud
   version: 1.0.2
   source: https://galaxy.ansible.com
+
+# Install ansible.netcommon Ansible Collection
+- name: ansible.netcommon
+  version: 2.4.0
+  source: https://galaxy.ansible.com
