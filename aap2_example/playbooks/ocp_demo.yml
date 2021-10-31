@@ -14,7 +14,8 @@
 #        msg: "{{ pod_list.resources[0].spec.containers[0].name }}"
 #
     - debug:
-        msg: "{{ pod_list.resources[0].status.containerStatuses[0].name }}"
+        msg: "{{ pod_list.resources[0].status.containerStatuses[item].name }}"
+      loop: "{{ range(0, pod_list.resources[0].status.containerStatuses | int) | list }}"
 
     - debug:
         msg: "{{ pod_list.resources[0].status.containerStatuses[0].state }}"
