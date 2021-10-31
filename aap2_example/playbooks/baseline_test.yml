@@ -1,0 +1,9 @@
+---
+- name: Baseline Test
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Testing if address belongs to a network range
+      debug:
+        msg: "{{ '192.168.0.0/24' | ansible.netcommon.network_in_usable('192.168.0.5') }}"
