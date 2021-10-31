@@ -1,0 +1,11 @@
+---
+- name: Get list of all pods from namespace
+  community.kubernetes.k8s_info:
+    kind: Pod
+    namespace: "{{ ns }}"
+  register: pod_list
+
+- include_tasks: get_status.yml
+  loop: "{{ range(0, pod_list.resources | length) | list }}"
+  loop_control:
+    loop_var: no_of_resources

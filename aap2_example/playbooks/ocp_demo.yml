@@ -1,32 +1,7 @@
 ---
-- name: OCP Testing
+- name: OCP Demo
   hosts: localhost
-  gather_facts: false
+  gather_facts: no
 
-  tasks:
-    - name: Get list of all pods from namespace
-      community.kubernetes.k8s_info:
-        kind: Pod
-        namespace: "{{ ns }}"
-      register: pod_list
-
-#    - debug:
-#        msg: "{{ pod_list.resources[0].spec.containers[0].name }}"
-#
-    - debug:
-        msg: "{{ pod_list.resources | length }}"
-
-    - debug:
-        msg: "{{ pod_list.resources[0].status.containerStatuses[item].name }} is in running state"
-      loop: "{{ range(0, pod_list.resources[0].status.containerStatuses | length) | list }}"
-      when: '"running" in pod_list.resources[0].status.containerStatuses[0].state'
-
-    - debug:
-        msg: "{{ pod_list.resources[1].status.containerStatuses[item].name }} is in running state"
-      loop: "{{ range(0, pod_list.resources[1].status.containerStatuses | length) | list }}"
-      when: '"running" in pod_list.resources[1].status.containerStatuses[0].state'
-
-    - debug:
-        msg: "{{ pod_list.resources[0].status.containerStatuses[item].name }} is in pod_list.resources[0].status.containerStatuses[item].state state"
-      loop: "{{ range(0, pod_list.resources[0].status.containerStatuses | length) | list }}"
-      when: '"running" not in pod_list.resources[0].status.containerStatuses[0].state'
+  roles:
+    - ocp_demo
