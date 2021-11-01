@@ -57,12 +57,12 @@
 #  loop: "{{ range(0, user_request | length | int - 2) | list }}"
 #
 - debug:
-    msg: "{{ ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) }}"
+    msg: "{{ user_request.list[0]['ip_network'] | ansible.netcommon.network_in_usable(user_request.list[0]['requested_ip']) }}"
 
 - name: Check if IP Address falls within the permitted network range
   assert:
     that:
-      - ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) == 'true'
+      - user_request.list[item]['ip_network'] | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) == true
     fail_msg: Requested IP Address user_request.list[item]['requested_ip'] is outside the network range!
     success_msg: Requested IP Address user_request.list[item]['requested_ip'] is within the network range
   when: user_request.list[item]['requested_ip'] is defined
