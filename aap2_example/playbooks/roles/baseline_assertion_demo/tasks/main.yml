@@ -60,7 +60,7 @@
   assert:
     that:
       - requirements.baseline.ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) == true
-    fail_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is outside the network range!"
-    success_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is within the network range"
+    fail_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is outside the allowed network range of {{ requirements.baseline.ip_network}}!"
+    success_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is within the allowed network range of {{ requirements.baseline.ip_network }}"
   when: user_request.list[item]['requested_ip'] != 'n/a'
   loop: "{{ range(0, user_request.list | length) | list }}"
