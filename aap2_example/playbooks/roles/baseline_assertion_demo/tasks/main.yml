@@ -56,15 +56,6 @@
 #  when: user_request.list[item]['requested_vcpu'] is defined
 #  loop: "{{ range(0, user_request | length | int - 2) | list }}"
 #
-- debug:
-    msg: "{{ requirements.baseline.ip_network }}"
-
-- debug:
-    msg: "{{ user_request.list[0]['requested_ip'] }}"
-
-- debug:
-    msg: "{{ requirements.baseline.ip_network | ansible.netcommon.network_in_usable(user_request.list[0]['requested_ip']) }}"
-
 - name: Check if IP Address falls within the permitted network range
   assert:
     that:
