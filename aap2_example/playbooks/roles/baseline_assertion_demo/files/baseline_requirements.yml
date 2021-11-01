@@ -17,6 +17,11 @@ baseline:
     - rhel_6
     - rhel_7
     - rhel_8
+  allowed_mssql_server:
+    - sql_server_2014
+    - sql_server_2016
+    - sql_server_2017
+    - sql_server_2019
   min_allowed_memory_gb: 1
   max_allowed_memory_gb: 8
   min_allowed_vcpu: 1
