@@ -5,7 +5,7 @@
     name: requirements
 
 - name: Read csv file
-  read_csv:
+  community.general.read_csv:
     path: files/user_request.csv 
   register: user_request
 
