@@ -9,52 +9,55 @@
     path: roles/baseline_assertion_demo/files/user_request.csv
   register: user_request
 
-- name: Check if Instance Type Meets Requirements
-  assert:
-    that:
-      - user_request.list[item]['requested_aws_instance_type'] in requirements.baseline.allowed_aws_instance_type
-    fail_msg: Requested Instance Type is {{ user_request.list[item]['requested_aws_instance_type'] }} and it is not permitted!
-    success_msg: Requested Instance Type is {{ user_request.list[item]['requested_aws_instance_type'] }} and it is permitted
-  when: user_request.list[item]['requested_aws_instance_type'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
-
-- name: Check if Region Meets Requirements
-  assert:
-    that:
-      - user_request.list[item]['requested_aws_region'] in requirements.baseline.allowed_aws_region
-    fail_msg: Region requested is {{ user_request.list[item]['requested_aws_region'] }} and it is not permitted!
-    success_msg: Region requested is {{ user_request.list[item]['requested_aws_region'] }} and it is permitted
-  when: user_request.list[item]['requested_aws_region'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
-
-- name: Check if Operating System Meets Requirements
-  assert:
-    that:
-      - user_request.list[item]['requested_os_version'] in requirements.baseline.allowed_os_version
-    fail_msg: Requested OS is {{ user_request.list[item]['requested_os_version'] }} and it is not permitted!
-    success_msg: Requested OS is {{ user_request.list[item]['requested_os_version'] }} and it is permitted
-  when: user_request.list[item]['requested_os_version'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
-
-- name: Check if Memory Meets Requirements
-  assert:
-    that:
-      - user_request.list[item]['requested_mem_gb'] | int >= requirements.baseline.min_allowed_memory_gb
-      - user_request.list[item]['requested_mem_gb'] | int <= requirements.baseline.max_allowed_memory_gb
-    fail_msg: Memory (GiB) requested is {{ user_request.list[item]['requested_mem_gb'] }} and it is out of the allowed range!
-    success_msg: Memory (GiB) requested is {{ user_request.list[item]['requested_mem_gb'] }} and it is within the allowed range
-  when: user_request.list[item]['requested_mem_gb'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
-
-- name: Check if vCPU Meets Requirements
-  assert:
-    that:
-      - user_request.list[item]['requested_vcpu'] | int >= requirements.baseline.min_allowed_vcpu
-      - user_request.list[item]['requested_vcpu'] | int <= requirements.baseline.max_allowed_vcpu
-    fail_msg: vCPU (GiB) requested is {{ user_request.list[item]['requested_vcpu'] }} and it is out of the allowed range!
-    success_msg: vCPU (GiB) requested is {{ user_request.list[item]['requested_vcpu'] }} and it is within the allowed range
-  when: user_request.list[item]['requested_vcpu'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#- name: Check if Instance Type Meets Requirements
+#  assert:
+#    that:
+#      - user_request.list[item]['requested_aws_instance_type'] in requirements.baseline.allowed_aws_instance_type
+#    fail_msg: Requested Instance Type is {{ user_request.list[item]['requested_aws_instance_type'] }} and it is not permitted!
+#    success_msg: Requested Instance Type is {{ user_request.list[item]['requested_aws_instance_type'] }} and it is permitted
+#  when: user_request.list[item]['requested_aws_instance_type'] is defined
+#  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#
+#- name: Check if Region Meets Requirements
+#  assert:
+#    that:
+#      - user_request.list[item]['requested_aws_region'] in requirements.baseline.allowed_aws_region
+#    fail_msg: Region requested is {{ user_request.list[item]['requested_aws_region'] }} and it is not permitted!
+#    success_msg: Region requested is {{ user_request.list[item]['requested_aws_region'] }} and it is permitted
+#  when: user_request.list[item]['requested_aws_region'] is defined
+#  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#
+#- name: Check if Operating System Meets Requirements
+#  assert:
+#    that:
+#      - user_request.list[item]['requested_os_version'] in requirements.baseline.allowed_os_version
+#    fail_msg: Requested OS is {{ user_request.list[item]['requested_os_version'] }} and it is not permitted!
+#    success_msg: Requested OS is {{ user_request.list[item]['requested_os_version'] }} and it is permitted
+#  when: user_request.list[item]['requested_os_version'] is defined
+#  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#
+#- name: Check if Memory Meets Requirements
+#  assert:
+#    that:
+#      - user_request.list[item]['requested_mem_gb'] | int >= requirements.baseline.min_allowed_memory_gb
+#      - user_request.list[item]['requested_mem_gb'] | int <= requirements.baseline.max_allowed_memory_gb
+#    fail_msg: Memory (GiB) requested is {{ user_request.list[item]['requested_mem_gb'] }} and it is out of the allowed range!
+#    success_msg: Memory (GiB) requested is {{ user_request.list[item]['requested_mem_gb'] }} and it is within the allowed range
+#  when: user_request.list[item]['requested_mem_gb'] is defined
+#  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#
+#- name: Check if vCPU Meets Requirements
+#  assert:
+#    that:
+#      - user_request.list[item]['requested_vcpu'] | int >= requirements.baseline.min_allowed_vcpu
+#      - user_request.list[item]['requested_vcpu'] | int <= requirements.baseline.max_allowed_vcpu
+#    fail_msg: vCPU (GiB) requested is {{ user_request.list[item]['requested_vcpu'] }} and it is out of the allowed range!
+#    success_msg: vCPU (GiB) requested is {{ user_request.list[item]['requested_vcpu'] }} and it is within the allowed range
+#  when: user_request.list[item]['requested_vcpu'] is defined
+#  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+#
+- debug:
+    msg: "{{ ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) }}"
 
 - name: Check if IP Address falls within the permitted network range
   assert:
