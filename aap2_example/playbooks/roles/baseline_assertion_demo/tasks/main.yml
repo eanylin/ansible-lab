@@ -63,4 +63,4 @@
     fail_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is outside the network range!"
     success_msg: "Requested IP Address {{ user_request.list[item]['requested_ip'] }} is within the network range"
   when: user_request.list[item]['requested_ip'] is defined
-  loop: "{{ range(0, user_request | length | int - 2) | list }}"
+  loop: "{{ range(0, user_request.list | length | int - 2) | list }}"
