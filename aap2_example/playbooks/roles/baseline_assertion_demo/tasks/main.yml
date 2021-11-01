@@ -69,7 +69,7 @@
   assert:
     that:
       - user_request.list[item]['requested_mssql_server'] in requirements.baseline.allowed_mssql_server
-    fail_msg: {{ user_request.list[item]['requested_mssql_server'] }} is not permitted!
-    success_msg: {{ user_request.list[item]['requested_mssql_server'] }} is permitted
+    fail_msg: "{{ user_request.list[item]['requested_mssql_server'] }} is not permitted!"
+    success_msg: "{{ user_request.list[item]['requested_mssql_server'] }} is permitted"
   when: user_request.list[item]['requested_mssql_server'] != 'n/a'
   loop: "{{ range(0, user_request.list | length) | list }}"
