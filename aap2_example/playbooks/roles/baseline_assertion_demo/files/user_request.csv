@@ -1,4 +1,4 @@
 requested_aws_instance_type,requested_aws_region,requested_os_version,requested_mem_gb,requested_vcpu,requested_ip,requested_mssql_server
 t2.small,ap-east-1,rhel_8,n/a,n/a,192.168.0.5,n/a
-t2.large,ap-southeast-1,windows_server_2016,n/a,n/a,192.168.0.6,n/a
-n/a,n/a,windows_server_2019,8,4,192.168.1.10,sql_server_2016
+t2.large,ap-southeast-1,windows_server_2019,n/a,n/a,192.168.0.6,n/a
+n/a,n/a,windows_server_2016,8,4,192.168.1.10,sql_server_2016
