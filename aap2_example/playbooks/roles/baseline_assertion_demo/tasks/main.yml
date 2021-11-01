@@ -6,7 +6,7 @@
 
 - name: Read csv file
   community.general.read_csv:
-    path: user_request.csv
+    path: roles/baseline_assertion_demo/files/user_request.csv
   register: user_request
 
 - name: Check if Instance Type Meets Requirements
