@@ -6,7 +6,7 @@
 
 - name: Read csv file
   community.general.read_csv:
-    path: files/user_request.csv 
+    path: user_request.csv
   register: user_request
 
 - name: Check if Instance Type Meets Requirements
