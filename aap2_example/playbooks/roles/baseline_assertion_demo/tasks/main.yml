@@ -62,7 +62,7 @@
 - name: Check if IP Address falls within the permitted network range
   assert:
     that:
-      - ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) == true
+      - ip_network | ansible.netcommon.network_in_usable(user_request.list[item]['requested_ip']) == 'true'
     fail_msg: Requested IP Address user_request.list[item]['requested_ip'] is outside the network range!
     success_msg: Requested IP Address user_request.list[item]['requested_ip'] is within the network range
   when: user_request.list[item]['requested_ip'] is defined
