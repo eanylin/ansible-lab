@@ -16,7 +16,7 @@
         disk:
         - size_gb: "{{ disk_size }}"
           type: thin
-          datastore: "{{ gems20-datastore1 }}"
+          datastore: "{{ vmware_datastore }}"
         hardware:
           memory_mb: "{{ vm_memory }}"
           num_cpus: "{{ vm_cpu }}"
