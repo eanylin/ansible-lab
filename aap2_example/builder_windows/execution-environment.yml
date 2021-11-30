@@ -1,0 +1,14 @@
+---
+version: 1
+
+build_arg_defaults:
+  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-20-early-access/ee-minimal-rhel8:2.0.1'
+
+dependencies:
+  galaxy: requirements.yml
+
+additional_build_steps:
+  prepend: |
+    RUN pip3 install --upgrade pip setuptools
+  append:
+    - RUN ls -la /etc
