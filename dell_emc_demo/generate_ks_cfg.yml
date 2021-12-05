@@ -1,0 +1,14 @@
+---
+- name: Generate kickstart configuration
+  hosts: webserver
+  become: yes
+  gather_facts: false
+
+  tasks:
+    - name: Generate ks.cfg
+      ansible.builtin.template:
+        src: templates/ks.cfg.j2
+        dest: "{{ ks_cfg_path }}"
+        owner: root
+        group: root
+        mode: '0777'

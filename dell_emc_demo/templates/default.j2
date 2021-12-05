@@ -1,0 +1,20 @@
+default menu.c32
+prompt 0
+timeout 50
+
+MENU TITLE PXE Menu
+
+label linux
+  menu label ^Install system
+  menu default
+  kernel images/rhel-8.5/vmlinuz
+  append initrd=images/rhel-8.5/initrd.img ip=dhcp inst.repo={{ repo_path }}  inst.noverifyssl inst.ks={{ repo_path }}/ks.cfg inst.text
+
+label rescue
+  menu label ^Rescue installed system
+  kernel images/rhel-8.5/vmlinuz
+  append initrd=images/rhel-8.5/initrd.img rescue
+
+label local
+  menu label Boot from ^local drive
+  localboot 0xffff

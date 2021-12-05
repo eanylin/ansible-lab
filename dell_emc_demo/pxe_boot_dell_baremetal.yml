@@ -1,0 +1,59 @@
+---
+- name: PXE Boot Dell Bare Metal
+  hosts: bootstrap_server
+  become: yes
+  gather_facts: false
+
+  tasks:
+    - name: Create configuration file for pxelinux.cfg
+      ansible.builtin.template:
+        src: templates/default.j2
+        dest: /var/lib/tftpboot/pxelinux.cfg/default
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Execute restorecon
+      ansible.builtin.command: 'restorecon -Rv /var/lib/tftpboot/'
+
+    - name: Ensure server is Powered On
+      dellemc.openmanage.redfish_powerstate:
+        baseuri: "{{ idrac_ip }}"
+        username: "{{ idrac_user }}"
+        password: "{{ idrac_password }}"
+        reset_type: "On"
+      delegate_to: localhost
+
+    - name: Reset Server
+      dellemc.openmanage.redfish_powerstate:
+        baseuri: "{{ idrac_ip }}"
+        username: "{{ idrac_user }}"
+        password: "{{ idrac_password }}"
+        reset_type: "ForceRestart"
+      delegate_to: localhost
+
+    - name: One Time boot from Network
+      dellemc.openmanage.idrac_bios:
+        idrac_ip: "{{ idrac_ip }}"
+        idrac_user: "{{ idrac_user }}"
+        idrac_password: "{{ idrac_password }}"
+        onetime_boot_mode: "OneTimeBootSeq"
+      delegate_to: localhost
+
+    - name: Wait for Bare Metal to Boot Strap
+      wait_for:
+        timeout: 600
+
+    - name: Ensure Correct Boot Sequence at the end of Bootstrap Process
+      dellemc.openmanage.idrac_bios:
+        idrac_ip: "{{ idrac_ip }}"
+        idrac_user: "{{ idrac_user }}"
+        idrac_password: "{{ idrac_password }}"
+        boot_sources:
+          - Name: "HardDisk.List.1-1"
+            Enabled: true
+            Index: 0
+          - Name: "NIC.Integrated.1-1-1"
+            Enabled: true
+            Index: 1
+      delegate_to: localhost

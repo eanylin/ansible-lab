@@ -1,0 +1,15 @@
+[rhel-8-appstream-rpms]
+name=Red Hat Enterprise Linux 8 for $basearch - AppStream from RHUI (RPMs)
+baseurl=https://{{ repo_server }}/repos/rhel8/AppStream
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+sslverify=0
+
+[rhel-8-baseos-rpms]
+name=Red Hat Enterprise Linux 8 for $basearch - BaseOS from RHUI (RPMs)
+baseurl=https://{{ repo_server }}/repos/rhel8/BaseOS
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+sslverify=0

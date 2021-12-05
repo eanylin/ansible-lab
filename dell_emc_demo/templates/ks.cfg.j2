@@ -1,0 +1,21 @@
+lang en_US
+keyboard us
+timezone {{ server_time_zone }} --isUtc
+rootpw {{ encrypted_passwd }} --iscrypted
+#platform x86_64
+reboot
+text
+url --noverifyssl --url={{ repo_path }}
+bootloader --append="rhgb quiet crashkernel=auto"
+zerombr
+clearpart --all --initlabel
+autopart
+authselect --passalgo=sha512 --useshadow
+user --name=ansible --groups=wheel --iscrypted --password={{ encrypted_passwd }}
+selinux --enforcing
+firewall --enabled
+firstboot --disable
+%packages
+@^minimal-environment
+kexec-tools
+%end
