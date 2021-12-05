@@ -1,0 +1,52 @@
+{
+  "spec": {
+    "name": "{{ vm_name }}",
+    "description": "Ansible Managed",
+    "resources": {
+        "power_state": "ON",
+        "num_vcpus_per_socket": {{ num_of_cpu }},
+        "num_sockets": 1,
+        "memory_size_mib": {{ memory_mb }},
+        "disk_list": [{
+            "device_properties": {
+                "device_type": "DISK",
+                "disk_address": {
+                    "device_index": 0,
+                    "adapter_type": "SCSI"
+                }
+            },
+            "data_source_reference": {
+                "kind": "image",
+                "uuid": "{{ golden_image.json.entities[0].metadata.uuid }}"
+            }
+        }],
+        "nic_list": [{
+            "nic_type": "NORMAL_NIC",
+            "is_connected":true,
+            "ip_endpoint_list":[{
+                "ip_type":"DHCP"
+            }],
+            "subnet_reference": {
+                "kind": "subnet",
+                "name": "{{ vm_subnet_name }}",
+                "uuid": "{{ vm_subnet.json.entities[0].metadata.uuid }}"
+            }
+        }],
+        "guest_tools":{
+            "nutanix_guest_tools":{
+                "state":"ENABLED",
+                "iso_mount_state":"MOUNTED"
+            }
+        }
+    },
+    "cluster_reference": {
+        "kind": "cluster",
+        "name": "{{ cluster_name }}",
+        "uuid": "{{ cluster_info.json.entities[1].metadata.uuid }}"
+    }
+  },
+  "api_version": "3.1.0",
+  "metadata": {
+    "kind": "vm"
+  }
+}

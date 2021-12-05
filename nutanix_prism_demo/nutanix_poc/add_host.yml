@@ -1,0 +1,40 @@
+---
+- name: Add VM to Inventory
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create json file from a template
+      ansible.builtin.template:
+        src: templates/create_host.json.j2
+        dest: create_host.json
+
+    - name: Add Host to Inventory
+      uri:
+        url: "https://{{ ansible_controller_ip }}/api/v2/inventories/{{ ansible_inventory_id }}/hosts/"
+        method: POST
+        user: "{{ username }}"
+        password: "{{ password }}"
+        body: "{{ lookup('file','create_host.json') }}"
+        force_basic_auth: yes
+        body_format: json
+        headers:
+          Content-Type: application/json
+        status_code: 201
+        validate_certs: no
+
+    - name: Add Host to Web Group
+      uri:
+        url: "https://{{ ansible_controller_ip }}/api/v2/groups/{{ ansible_web_group_id }}/hosts/"
+        method: POST
+        user: "{{ username }}"
+        password: "{{ password }}"
+        body:
+          name: "{{ vm_name }}"
+          inventory: "{{ ansible_inventory_id }}"
+        force_basic_auth: yes
+        body_format: json
+        headers:
+          Content-Type: application/json
+        status_code: 204
+        validate_certs: no

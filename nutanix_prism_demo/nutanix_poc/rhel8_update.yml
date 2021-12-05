@@ -1,0 +1,19 @@
+---
+- name: Setup Repo and Update VM
+  hosts: web
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: Setup Repo
+      template:
+        src: templates/redhat.repo.j2
+        dest: /etc/yum.repos.d/redhat.repo
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest

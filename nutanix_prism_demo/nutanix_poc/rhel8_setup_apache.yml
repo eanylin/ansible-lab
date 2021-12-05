@@ -1,0 +1,29 @@
+---
+- name: Apache server installed
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Ensure Apache is enabled and running
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+    - name: Create index.html
+      template:
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+
+    - name: Allow HTTP Traffic
+      firewalld:
+        service: http
+        zone: public
+        immediate: yes
+        permanent: yes
+        state: enabled

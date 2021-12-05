@@ -1,0 +1,111 @@
+---
+- name: Create VM on Nutanix
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Create image json file from j2 template
+      ansible.builtin.template:
+        src: templates/get_image.json.j2
+        dest: get_image.json
+
+    - name: Retrieve Information of Golden Image
+      uri:
+        url: "https://{{ prism }}:9440/api/nutanix/v3/images/list"
+        user: "{{ prism_user }}"
+        password: "{{ prism_password }}"
+        method: POST
+        body: "{{ lookup('file','get_image.json') }}"
+        force_basic_auth: yes
+        validate_certs: no
+        body_format: json
+        headers:
+          Content-Type: application/json
+        return_content: true
+      register: golden_image
+
+    - name: Create subnet json file from j2 template
+      ansible.builtin.template:
+        src: templates/get_subnet.json.j2
+        dest: get_subnet.json
+
+    - name: Retrieve Information for Subnet
+      uri:
+        url: "https://{{ prism }}:9440/api/nutanix/v3/subnets/list"
+        user: "{{ prism_user }}"
+        password: "{{ prism_password }}"
+        method: POST
+        body: "{{ lookup('file','get_subnet.json') }}"
+        force_basic_auth: yes
+        validate_certs: no
+        body_format: json
+        headers:
+          Content-Type: application/json
+        return_content: true
+      register: vm_subnet
+
+    - name: Create Cluster json file from j2 template
+      ansible.builtin.template:
+        src: templates/get_cluster.json.j2
+        dest: get_cluster.json
+
+    - name: Retrieve Information of Cluster
+      uri:
+        url: "https://{{ prism }}:9440/api/nutanix/v3/clusters/list"
+        user: "{{ prism_user }}"
+        password: "{{ prism_password }}"
+        method: POST
+        body: "{{ lookup('file','get_cluster.json') }}"
+        force_basic_auth: yes
+        validate_certs: no
+        body_format: json
+        headers:
+          Content-Type: application/json
+        return_content: true
+      register: cluster_info
+
+    - name: Create VM json file from j2 template
+      ansible.builtin.template:
+        src: templates/create_vm.json.j2
+        dest: create_vm.json
+
+    - name: Create VM
+      uri:
+        url: "https://{{ prism }}:9440/api/nutanix/v3/vms"
+        user: "{{ prism_user }}"
+        password: "{{ prism_password }}"
+        method: POST
+        body: "{{ lookup('file','create_vm.json') }}"
+        force_basic_auth: yes
+        validate_certs: no
+        body_format: json
+        headers:
+          Content-Type: application/json
+        status_code: 202
+        return_content: true
+      register: vm_creation
+
+    # Note that we are using an external DHCP server in this setup, with DHCP turned off
+    # for the subnet. If the DHCP service is enabled on the subnet, then the IP will be
+    # retrieved under 'spec' instead of 'resources'. Note that there are differences and
+    # the conditional checks will need to be updated/changed accordingly.
+    - name: Get VM Atttributes
+      uri:
+        url: "https://{{ prism }}:9440/api/nutanix/v3/vms/{{ vm_creation.json.metadata.uuid }}"
+        user: "{{ prism_user }}"
+        password: "{{ prism_password }}"
+        method: GET
+        force_basic_auth: yes
+        validate_certs: no
+        headers:
+          Content-Type: application/json
+        return_content: true
+      register: get_vm_attributes
+      retries: 10
+      delay: 60
+      until: get_vm_attributes.json.status.resources.nic_list[0].ip_endpoint_list[0].ip is defined
+
+    - name: Capture VM IP for subsequent workflow
+      ansible.builtin.set_stats:
+        data:
+          vm_ip: "{{ get_vm_attributes.json.status.resources.nic_list[0].ip_endpoint_list[0].ip }}"
