@@ -1,0 +1,13 @@
+---
+- name: VMware Tools Update
+  hosts: "{{ new_build_vars.windows_unattended_install.vmware_cluster.windows_base_vm.name }}"
+  gather_facts: false
+
+  roles:
+    - update_vmware_tools
+
+  post_tasks:
+    - name: Check connectivity to Windows VM as VM will be restarted if VMware tools were updated in the previous task
+      wait_for_connection:
+        timeout: 300
+

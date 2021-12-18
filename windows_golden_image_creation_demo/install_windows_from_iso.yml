@@ -1,0 +1,8 @@
+---
+- name: Installation of Windows Server 2019 from ISO
+  hosts: esx_host
+  become: yes
+  gather_facts: false
+
+  roles:
+    - install_windows_from_iso

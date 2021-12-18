@@ -1,0 +1,117 @@
+---
+windows_hardening:
+  system_access: "System Access"
+  password_section:
+    password_expiry_warning:
+      name: 'PasswordExpiryWarning'
+      path: 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon'
+      value: 14
+    password_history_size:
+      name: 'PasswordHistorySize'
+      value: 5
+    maximum_password_age:
+      name: 'MaximumPasswordAge'
+      value: 90
+    minimum_password_age:
+      name: 'MinimumPasswordAge'
+      value: 1
+    minimum_password_length:
+      name: 'MinimumPasswordLength'
+      value: 8
+    password_complexity:
+      name: 'PasswordComplexity'
+      value: 1
+    clear_text_password:
+      name: 'ClearTextPassword'
+      value: 0
+  account_lockout_section:
+    lockout_bad_count:
+      name: 'LockoutBadCount'
+      value: 5
+    lockout_duration:
+      name: 'LockoutDuration'
+      value: 1800
+    reset_lockout_count:
+      name: 'ResetLockoutCount'
+      value: 1800
+  auditing_section:
+    credential_validation:
+      name: 'Credential Validation'
+      value: 'success, failure'
+    application_group_management:
+      name: 'Application Group Management'
+      value: 'success, failure'
+    computer_account_management:
+      name: 'Computer Account Management'
+      value: 'success, failure'
+    other_account_management_events:
+      name: 'Other Account Management Events'
+      value: 'success, failure'
+    security_group_management:
+      name: 'Security Group Management'
+      value: 'success, failure'
+    user_account_management:
+      name: 'User Account Management'
+      value: 'success, failure'
+    plug_and_play_events:
+      name: 'Plug and Play Events'
+      value: 'success'
+    process_creation:
+      name: 'Process Creation'
+      value: 'success'
+    account_lockout:
+      name: 'Account Lockout'
+      value: 'success, failure'
+    group_membership:
+      name: 'Group Membership'
+      value: 'success'
+    logoff:
+      name: 'Logoff'
+      value: 'success'
+    logon:
+      name: 'Logon'
+      value: 'success, failure'
+    other_logon_logoff_events:
+      name: 'Other Logon/Logoff Events'
+      value: 'success, failure'
+    special_logon:
+      name: 'Special Logon'
+      value: 'success'
+    removable_storage:
+      name: 'Removable Storage'
+      value: 'success, failure'
+    audit_policy_change:
+      name: 'Audit Policy Change'
+      value: 'success, failure'
+    authentication_policy_change:
+      name: 'Authentication Policy Change'
+      value: 'success'
+    authorization_policy_change:
+      name: 'Authorization Policy Change'
+      value: 'success'
+    sensitive_privilege_use:
+      name: 'Sensitive Privilege Use'
+      value: 'success, failure'
+    other_system_events:
+      name: 'Other System Events'
+      value: 'success, failure'
+    security_state_change:
+      name: 'Security State Change'
+      value: 'success'
+    security_system_extension:
+      name: 'Security System Extension'
+      value: 'success, failure'
+    system_integrity:
+      name: 'System Integrity'
+      value: 'success, failure'
+  registry_fixes_section:
+    dont_display_last_user_name:
+      name: 'DontDisplayLastUserName'
+      path: 'HKLM:\Software\Microsoft\Windows\Currentversion\Policies\System'
+      value: '1'
+      type: 'dword'
+    screen_saver_is_secure:
+      name: 'ScreenSaverIsSecure'
+      path: 'HKU:\.DEFAULT\Software\Policies\Microsoft\Windows\Control Panel\Desktop'
+      value: '1'
+      type: 'string'
