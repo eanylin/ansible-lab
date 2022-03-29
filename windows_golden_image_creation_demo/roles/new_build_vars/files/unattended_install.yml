@@ -22,7 +22,7 @@ windows_unattended_install:
     build_vm_ip: '10.10.10.12'
     build_vm_network_default_gateway: '10.10.10.1'
     build_vm_subnet_prefix: '24'
-    unattended_iso_name: 'win2019_Dec2021.iso'
+    unattended_iso_name: 'win2019_Dec2021_Test123.iso'
     unattended_iso_path: '/var/www/html/windows/unattended_iso'
     windows_server_iso_name: '17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso'
     windows_server_path: '/var/www/html/windows/windows_server_iso'
