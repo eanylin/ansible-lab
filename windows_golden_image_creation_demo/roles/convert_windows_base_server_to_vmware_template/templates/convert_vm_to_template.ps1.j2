@@ -1,9 +1,0 @@
-# Connect to vCenter
-Connect-VIServer -Server {{ vcenter }} -User {{ vcenter_user }} -Password {{ vcenter_user_password }}
-
-# Remove the CD-ROM Drive from VM Base Template
-$cd = Get-CDDrive -VM {{ new_build_vars.windows_unattended_install.vmware_cluster.windows_base_vm.name }}
-Remove-CDDrive -CD $cd -Confirm:$false
-
-# Convert VM to Template
-Get-VM -Name {{ new_build_vars.windows_unattended_install.vmware_cluster.windows_base_vm.name }} | Set-VM -ToTemplate -Confirm:$false

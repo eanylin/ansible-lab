@@ -1,7 +1,0 @@
----
-- name: Install Windows Server Update
-  hosts: "{{ new_build_vars.windows_unattended_install.vmware_cluster.windows_base_vm.name }}"
-  gather_facts: false
-
-  roles:
-    - windows_updates

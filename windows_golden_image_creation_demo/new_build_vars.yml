@@ -1,7 +1,0 @@
----
-- name: Get vars for new build
-  hosts: localhost
-  gather_facts: false
-
-  roles:
-    - new_build_vars

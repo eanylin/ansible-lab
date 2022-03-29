@@ -1,8 +1,0 @@
----
-- name: Create ISO with autounattend.xml and other required files
-  hosts: bastion_host
-  become: yes
-  gather_facts: false
-
-  roles:
-    - create_iso_with_autounattend_xml

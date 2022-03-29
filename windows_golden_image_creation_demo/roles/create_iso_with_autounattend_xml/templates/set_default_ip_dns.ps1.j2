@@ -1,5 +1,0 @@
-# Set default IP
-New-NetIPAddress -InterfaceAlias Ethernet0 -IPAddress {{ new_build_vars.windows_unattended_install.iso_build.build_vm_ip }} -PrefixLength {{ new_build_vars.windows_unattended_install.iso_build.build_vm_subnet_prefix }} -DefaultGateway {{ new_build_vars.windows_unattended_install.iso_build.build_vm_network_default_gateway }}
-
-# Set DNS
-Set-DnsClientServerAddress -InterfaceAlias Ethernet0 -ServerAddresses ("{{ new_build_vars.windows_unattended_install.iso_build.build_vm_dns_server }}")

@@ -1,5 +1,0 @@
----
-- name: Install Windows Updates
-  ansible.windows.win_updates:
-    category_names: "{{ new_build_vars.windows_unattended_install.windows_update_category }}"
-    reboot: "yes"
