@@ -1,0 +1,4 @@
+---
+ocp_cluster: 'ocp_cluster_1'
+ocp_namespace: 'rhacs-operator'
+rox_central_address: 'central-rhacs-operator.apps.cluster-4m5sv.4m5sv.sandbox616.opentlc.com:443'

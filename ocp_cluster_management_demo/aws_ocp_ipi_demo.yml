@@ -1,0 +1,7 @@
+---
+- name: OCP AWS IPI Demo
+  hosts: jumphost1
+  gather_facts: no
+
+  roles:
+    - aws_ocp_ipi_demo

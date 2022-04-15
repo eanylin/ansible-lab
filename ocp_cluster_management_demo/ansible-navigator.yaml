@@ -1,0 +1,15 @@
+---
+ansible-navigator:
+  ansible:
+    config: /tmp/ansible.cfg
+    cmdline: "--forks 15"
+
+  execution-environment:
+    container-engine: podman
+    enabled: True
+    image: quay.io/julin/ocp_collection_image:1.2
+
+  logging:
+    level: critical
+    append: False
+    file: /tmp/ansible_log.txt

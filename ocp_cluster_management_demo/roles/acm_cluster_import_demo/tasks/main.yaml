@@ -1,0 +1,41 @@
+---
+- name: Generate required YAML definition files
+  ansible.builtin.template:
+    src: "templates/{{ item }}.yaml.j2"
+    dest: "/tmp/{{ item }}.yaml"
+  loop:
+    - managed_cluster
+    - auto_import_secret
+    - klusterlet_addon_config
+
+- name: Create the namespace for the cluster to be imported
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ ocp_import_cluster_namespace }}"
+    state: present
+
+- name: Add label to namespace of cluster to be imported
+  kubernetes.core.k8s:
+    state: patched
+    kind: Namespace
+    name: "{{ ocp_import_cluster_namespace }}"
+    definition:
+      metadata:
+        labels:
+          cluster.open-cluster-management.io/managedCluster: "{{ ocp_import_cluster_namespace }}"
+
+- name: Create Managed Cluster for import cluster
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/managed_cluster.yaml
+      
+- name: Create auto-import-secret for import cluster
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/auto_import_secret.yaml
+
+- name: Import klusterlet
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/klusterlet_addon_config.yaml

@@ -1,0 +1,59 @@
+---
+- name: Copy ca.pem and acs_admin_token
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
+    dest: /tmp
+  loop:
+    - ca.pem
+    - acs_admin_token.txt
+
+- name: Create Init Bundle
+  command: "/tmp/roxctl -e {{ rox_central_address }} central init-bundles generate {{ ocp_cluster }} --output-secrets /tmp/securedcluster_init_bundle.yaml --ca /tmp/ca.pem --token-file /tmp/acs_admin_token.txt"
+
+- name: Generate securedcluster.yaml
+  ansible.builtin.template:
+    src: "templates/{{ item }}.yaml.j2"
+    dest: "/tmp/{{ item }}.yaml"
+  loop:
+    - securedcluster
+    - acs_operator_group
+    - acs_operator_subscription
+
+- name: Create rhacs namespace
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: "{{ ocp_namespace }}"
+    state: present
+
+- name: Deploy ACS Operator Group
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/acs_operator_group.yaml
+      
+- name: Deploy ACS Operator Subscription
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/acs_operator_subscription.yaml
+
+- name: Wait for ACS Operator to be deployed
+  kubernetes.core.k8s_info:
+    kind: Pod
+    namespace: "{{ ocp_namespace }}"
+    label_selectors:
+      - app = rhacs-operator
+      - control-plane = controller-manager
+    wait: yes
+    wait_sleep: 10
+    wait_timeout: 360
+
+- name: Deploy init bundle
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/securedcluster_init_bundle.yaml
+    namespace: "{{ ocp_namespace }}"
+
+- name: Deploy Secured Cluster
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/securedcluster.yaml

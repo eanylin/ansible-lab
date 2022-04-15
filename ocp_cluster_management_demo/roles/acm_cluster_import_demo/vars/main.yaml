@@ -1,0 +1,4 @@
+---
+ocp_import_cluster_namespace: 'ocp-aws-cluster1'
+ocp_import_cluster_token: 'xyz'
+ocp_import_cluster_api_endpoint: 'https://api.cluster-s3sm4.s3sm4.sandbox933.opentlc.com:6443'

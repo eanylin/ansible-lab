@@ -1,0 +1,6 @@
+[jumphost]
+jumphost1 ansible_host=10.10.10.10
+
+[jumphost:vars]
+ansible_user=ansible
+ansible_password=ansible

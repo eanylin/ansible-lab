@@ -1,0 +1,8 @@
+---
+- name: Generate Install-Config
+  ansible.builtin.template:
+    src: templates/install-config.yaml.j2
+    dest: "{{ install_directory }}/install-config.yaml"
+
+- name: Deploy OCP 4 cluster on AWS using IPI
+  command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
