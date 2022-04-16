@@ -16,7 +16,6 @@
 - name: Apply ntp configuration on Master nodes
   kubernetes.core.k8s:
     state: present
-    kubeconfig: files/kubeconfig
     src: /tmp/master-chrony-configuration.yml
 
 - name: Generate worker chrony configuration YAML
@@ -27,5 +26,4 @@
 - name: Apply ntp configuration on Worker nodes
   kubernetes.core.k8s:
     state: present
-    kubeconfig: files/kubeconfig
     src: /tmp/worker-chrony-configuration.yml
