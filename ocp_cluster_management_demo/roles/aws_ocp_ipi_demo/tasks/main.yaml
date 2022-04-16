@@ -1,8 +1,19 @@
 ---
+- name: Remove all content in install directoy, if it exists
+  ansible.builtin.file:
+    path: "{{ install_directory }}"
+    state: absent
+
+- name: Create install directory
+  ansible.builtin.file:
+    path: "{{ install_directory }}"
+    state: directory
+    mode: '0755'
+
 - name: Generate Install-Config
   ansible.builtin.template:
     src: templates/install-config.yaml.j2
     dest: "{{ install_directory }}/install-config.yaml"
 
-- name: Deploy OCP 4 cluster on AWS using IPI
+- name: Deploy OCP cluster
   command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
