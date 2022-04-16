@@ -1,0 +1,7 @@
+---
+- name: Configure NTP on master and worker nodes in OCP Cluster
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - ocp_ntp_configuration

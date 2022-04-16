@@ -1,0 +1,31 @@
+---
+- name: Generate chrony.conf
+  ansible.builtin.template:
+    src: templates/chrony.conf.j2
+    dest: /tmp/chrony.conf
+
+- name: Encode chrony.conf into base64 format and save to variable
+  command: 'base64 -w0 /tmp/chrony.conf'
+  register: ntp_base64_config
+
+- name: Generate master chrony configuration YAML
+  ansible.builtin.template:
+    src: templates/master-chrony-configuration.yml.j2
+    dest: /tmp/master-chrony-configuration.yml
+
+- name: Apply ntp configuration on Master nodes
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: files/kubeconfig
+    src: /tmp/master-chrony-configuration.yml
+
+- name: Generate worker chrony configuration YAML
+  ansible.builtin.template:
+    src: templates/worker-chrony-configuration.yml.j2
+    dest: /tmp/worker-chrony-configuration.yml
+
+- name: Apply ntp configuration on Worker nodes
+  kubernetes.core.k8s:
+    state: present
+    kubeconfig: files/kubeconfig
+    src: /tmp/worker-chrony-configuration.yml
