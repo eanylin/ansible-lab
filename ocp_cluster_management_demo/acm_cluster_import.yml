@@ -4,4 +4,4 @@
   gather_facts: no
 
   roles:
-    - acm_cluster_import_demo
+    - acm_cluster_import
