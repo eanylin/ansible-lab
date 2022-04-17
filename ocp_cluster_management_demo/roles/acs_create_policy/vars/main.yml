@@ -1,0 +1,4 @@
+---
+acs_host: central-rhacs-operator.apps.cluster-6xlf2.6xlf2.sandbox912.opentlc.com
+acs_token: 'xyz'
+json_policy_file: 'files/new_policy/whitelisted_registries.json'

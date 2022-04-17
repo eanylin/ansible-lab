@@ -1,0 +1,60 @@
+{
+  "id": "f09f8da1-6111-4ca0-8f49-294a76c65115",
+  "name": "Fixable CVSS >= 7",
+  "description": "Alert on deployments with fixable vulnerabilities with a CVSS of at least 7",
+  "rationale": "Known vulnerabilities make it easier for adversaries to exploit your application. You can fix these high-severity vulnerabilities by updating to a newer version of the affected component(s).",
+  "remediation": "Use your package manager to update to a fixed version in future builds or speak with your security team to mitigate the vulnerabilities.",
+  "disabled": true,
+  "categories": [
+    "Vulnerability Management"
+  ],
+  "fields": null,
+  "lifecycleStages": [
+    "BUILD",
+    "DEPLOY"
+  ],
+  "eventSource": "NOT_APPLICABLE",
+  "whitelists": [],
+  "exclusions": [],
+  "scope": [],
+  "severity": "HIGH_SEVERITY",
+  "enforcementActions": [
+    "FAIL_BUILD_ENFORCEMENT"
+  ],
+  "notifiers": [],
+  "SORTName": "Fixable CVSS >= 7",
+  "SORTLifecycleStage": "BUILD,DEPLOY",
+  "SORTEnforcement": true,
+  "policyVersion": "1.1",
+  "policySections": [
+    {
+      "sectionName": "",
+      "policyGroups": [
+        {
+          "fieldName": "Fixed By",
+          "booleanOperator": "OR",
+          "negate": false,
+          "values": [
+            {
+              "value": ".*"
+            }
+          ]
+        },
+        {
+          "fieldName": "CVSS",
+          "booleanOperator": "OR",
+          "negate": false,
+          "values": [
+            {
+              "value": ">= 7.000000"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "mitreAttackVectors": [],
+  "criteriaLocked": true,
+  "mitreVectorsLocked": true,
+  "isDefault": true
+}

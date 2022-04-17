@@ -1,0 +1,67 @@
+"id": "93f4b2dd-ef5a-419e-8371-38aed480fb36",
+"name": "Fixable CVSS >= 6 and Privileged",
+"description": "Alert on deployments running in privileged mode with fixable vulnerabilities with a CVSS of at least 6",
+"rationale": "Known vulnerabilities make it easier for adversaries to exploit your application, and highly privileged containers pose greater risk. You can fix these high-severity vulnerabilities by updating to a newer version of the affected component(s).",
+"remediation": "Use your package manager to update to a fixed version in future builds, run your container with lower privileges, or speak with your security team to mitigate the vulnerabilities.",
+"disabled": false,
+"categories": [
+  "Vulnerability Management",
+  "Privileges"
+],
+"fields": null,
+"lifecycleStages": [
+  "DEPLOY"
+],
+"eventSource": "NOT_APPLICABLE",
+"whitelists": [],
+"exclusions": [],
+"scope": [],
+"severity": "HIGH_SEVERITY",
+"enforcementActions": [],
+"notifiers": [],
+"lastUpdated": null,
+"SORTName": "",
+"SORTLifecycleStage": "",
+"SORTEnforcement": false,
+"policyVersion": "1.1",
+"policySections": [
+  {
+    "sectionName": "",
+    "policyGroups": [
+      {
+        "fieldName": "Privileged Container",
+        "booleanOperator": "OR",
+        "negate": false,
+        "values": [
+          {
+            "value": "true"
+          }
+        ]
+      },
+      {
+        "fieldName": "Fixed By",
+        "booleanOperator": "OR",
+        "negate": false,
+        "values": [
+          {
+            "value": ".*"
+          }
+        ]
+      },
+      {
+        "fieldName": "CVSS",
+        "booleanOperator": "OR",
+        "negate": false,
+        "values": [
+          {
+            "value": ">= 6.000000"
+          }
+        ]
+      }
+    ]
+  }
+],
+"mitreAttackVectors": [],
+"criteriaLocked": true,
+"mitreVectorsLocked": true,
+"isDefault": true

@@ -1,0 +1,19 @@
+---
+- name: Set path of json policy file
+  set_fact:
+    path_of_json_policy_file: "{{ json_policy_file }}" 
+
+- name: Read new policy from file and set as variable
+  set_fact:
+    policy_body: "{{ lookup('file', path_of_json_policy_file) | from_json }}"
+
+- name: Create new policy
+  uri:
+    url: 'https://{{ acs_host }}/v1/policies?enableStrictValidation=true'
+    headers:
+      Authorization: "Bearer {{ acs_token }}"
+    method: POST
+    body: '{{ policy_body | dict2items | rejectattr("key", "eq", "id") | list | items2dict }}'
+    body_format: json
+    validate_certs: false
+  changed_when: true
