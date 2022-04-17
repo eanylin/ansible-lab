@@ -1,0 +1,5 @@
+---
+- name: Start App Server Service
+  ansible.builtin.systemd:
+    name: resource_hub
+    state: started

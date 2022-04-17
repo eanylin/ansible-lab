@@ -1,0 +1,9 @@
+---
+- name: Perform Health Check on App Servers
+  uri:
+    url: "http://{{ frontend_server }}/ping"
+    return_content: yes
+  until: '"alive" in result.content'
+  retries: 10
+  delay: 1
+  register: result

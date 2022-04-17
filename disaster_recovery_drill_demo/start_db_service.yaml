@@ -1,0 +1,8 @@
+---
+- name: Start Database Service
+  hosts: "{{ target_database_servers }}"
+  become: yes
+  gather_facts: false
+
+  roles:
+    - start_db_service

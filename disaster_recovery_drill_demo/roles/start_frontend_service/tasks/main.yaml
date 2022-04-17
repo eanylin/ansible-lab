@@ -1,0 +1,5 @@
+---
+- name: Start Frontend Service
+  ansible.builtin.systemd:
+    name: haproxy
+    state: started

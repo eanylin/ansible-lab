@@ -1,0 +1,7 @@
+---
+- name: App Servers Health Checks
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - app_health_check

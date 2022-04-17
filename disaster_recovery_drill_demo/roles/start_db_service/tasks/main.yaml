@@ -1,0 +1,5 @@
+---
+- name: Start DB Service
+  ansible.builtin.systemd:
+    name: postgresql-10
+    state: started

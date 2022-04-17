@@ -1,0 +1,8 @@
+---
+- name: Start Application Server Service
+  hosts: "{{ target_app_servers }}"
+  become: yes
+  gather_facts: false
+
+  roles:
+    - start_app_server_service

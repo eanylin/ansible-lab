@@ -1,0 +1,8 @@
+---
+- name: Stop Frontend Service
+  hosts: "{{ target_load_balancers }}"
+  become: yes
+  gather_facts: false
+
+  roles:
+    - stop_frontend_service
