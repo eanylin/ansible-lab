@@ -1,5 +1,5 @@
 {
-  "name": "Whitelisted_Registry",
+  "name": "Whitelisted Registry",
   "description": "Only allow images from these image registries",
   "rationale": "Restrict users to the authorised Image Registries ",
   "remediation": "Ensure users are using the authorised Image Registries ",
