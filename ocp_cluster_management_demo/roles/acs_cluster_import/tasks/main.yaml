@@ -57,3 +57,7 @@
   kubernetes.core.k8s:
     state: present
     src: /tmp/securedcluster.yaml
+
+- name: Wait for Cluster to be fully imported
+  wait_for:
+    timeout: 300

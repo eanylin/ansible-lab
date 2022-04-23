@@ -39,3 +39,7 @@
   kubernetes.core.k8s:
     state: present
     src: /tmp/klusterlet_addon_config.yaml
+
+- name: Wait for Cluster to be fully imported
+  wait_for:
+    timeout: 300
