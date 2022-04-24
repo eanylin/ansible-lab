@@ -3,8 +3,7 @@
   hosts: jumphost1
   gather_facts: no
   vars:
-    kubeconfig_file: "{{ install_directory }}/auth/kubeconfig"
-    kubeconfig: "{{ lookup('file', kubeconfig_file) }}"
+    kubeconfig_file_path: "{{ install_directory }}/auth/kubeconfig"
 
   roles:
     - acm_cluster_import

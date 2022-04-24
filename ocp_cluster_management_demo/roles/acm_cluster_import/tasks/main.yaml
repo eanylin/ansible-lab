@@ -1,17 +1,8 @@
 ---
-- command: cat /home/ec2-user/ocp_aws_ipi_4_9/auth/kubeconfig
+- name: Retrieve content of kubeconfig
+  set_fact:
+    kubeconfig: "{{ lookup('file', kubeconfig_file_path) }}"
 
-- debug:
-    var: kubeconfig
-
-#- name: Set path of kubeconfig file
-#  set_fact:
-#    kubeconfig_file: "{{ install_directory }}/auth/kubeconfig"
-#
-#- name: Retrieve content of kubeconfig
-#  set_fact:
-#    kubeconfig: "{{ lookup('file', kubeconfig_file) }}"
-#
 - name: Generate required YAML definition files
   ansible.builtin.template:
     src: "templates/{{ item }}.yaml.j2"
