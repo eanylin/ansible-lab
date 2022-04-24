@@ -18,8 +18,8 @@
 # Note that the assumption over here is that the relevant AWS settings has been properly set up
 # on the jumphost. For instance, AWS Access Key ID, AWS Secret Access Key have been defined via
 # the 'aws configure' command prior to running the task
-- name: Deploy OCP cluster
-  command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
+#- name: Deploy OCP cluster
+#  command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
 
 - name: Generate new_sso_client.yaml
   ansible.builtin.template:
