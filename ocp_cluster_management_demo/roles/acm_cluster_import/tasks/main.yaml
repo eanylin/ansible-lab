@@ -1,4 +1,7 @@
 ---
+- debug:
+    var: kubeconfig
+
 #- name: Set path of kubeconfig file
 #  set_fact:
 #    kubeconfig_file: "{{ install_directory }}/auth/kubeconfig"
