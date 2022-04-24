@@ -1,9 +1,9 @@
 ---
-- name: Remove all content in install directoy, if it exists
-  ansible.builtin.file:
-    path: "{{ install_directory }}"
-    state: absent
-
+#- name: Remove all content in install directoy, if it exists
+#  ansible.builtin.file:
+#    path: "{{ install_directory }}"
+#    state: absent
+#
 - name: Create install directory
   ansible.builtin.file:
     path: "{{ install_directory }}"
