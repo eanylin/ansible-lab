@@ -2,6 +2,9 @@
 - name: Import OCP Cluster into ACS
   hosts: localhost
   gather_facts: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
   roles:
     - acs_cluster_import
