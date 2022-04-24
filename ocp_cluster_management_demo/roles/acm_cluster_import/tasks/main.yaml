@@ -5,7 +5,7 @@
 - name: Retrieve content of kubeconfig
   set_fact:
     #kubeconfig: "{{ lookup('file', '/home/ec2-user/ocp_aws_ipi_4_9/auth/kubeconfig') }}"
-    kubeconfig: "{{ kubeconfig_output.stdout }}"
+    kubeconfig: "{{ kubeconfig_output.stdout_lines }}"
 
 - name: Generate required YAML definition files
   ansible.builtin.template:
