@@ -25,16 +25,19 @@
     kind: Namespace
     name: "{{ rhacs_namespace }}"
     state: present
+    validate_certs: no
 
 - name: Deploy ACS Operator Group
   kubernetes.core.k8s:
     state: present
     src: /tmp/acs_operator_group.yaml
+    validate_certs: no
       
 - name: Deploy ACS Operator Subscription
   kubernetes.core.k8s:
     state: present
     src: /tmp/acs_operator_subscription.yaml
+    validate_certs: no
 
 - name: Wait for ACS Operator to be deployed
   kubernetes.core.k8s_info:
@@ -46,17 +49,20 @@
     wait: yes
     wait_sleep: 10
     wait_timeout: 360
+    validate_certs: no
 
 - name: Deploy init bundle
   kubernetes.core.k8s:
     state: present
     src: /tmp/securedcluster_init_bundle.yaml
     namespace: "{{ rhacs_namespace }}"
+    validate_certs: no
 
 - name: Deploy Secured Cluster
   kubernetes.core.k8s:
     state: present
     src: /tmp/securedcluster.yaml
+    validate_certs: no
 
 - name: Wait for Cluster to be fully imported
   wait_for:
