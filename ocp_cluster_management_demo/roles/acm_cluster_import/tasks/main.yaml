@@ -6,11 +6,6 @@
 - debug:
     var: ocp_token.stdout
 
-- name: Retrieve content of kubeconfig
-  set_fact:
-    #kubeconfig: "{{ lookup('file', '/home/ec2-user/ocp_aws_ipi_4_9/auth/kubeconfig') }}"
-    kubeconfig: "{{ kubeconfig_output.stdout_lines }}"
-
 - name: Generate required YAML definition files
   ansible.builtin.template:
     src: "templates/{{ item }}.yaml.j2"
@@ -19,7 +14,6 @@
     - managed_cluster
     - auto_import_secret
     - klusterlet_addon_config
-  delegate_to: localhost
 
 - name: Create the namespace for the cluster to be imported
   kubernetes.core.k8s:
@@ -27,7 +21,6 @@
     kind: Namespace
     name: "{{ ocp_cluster_name }}"
     state: present
-  delegate_to: localhost
 
 - name: Add label to namespace of cluster to be imported
   kubernetes.core.k8s:
@@ -38,25 +31,21 @@
       metadata:
         labels:
           cluster.open-cluster-management.io/managedCluster: "{{ ocp_cluster_name }}"
-  delegate_to: localhost
 
 - name: Create Managed Cluster for import cluster
   kubernetes.core.k8s:
     state: present
     src: /tmp/managed_cluster.yaml
-  delegate_to: localhost
       
 - name: Create auto-import-secret for import cluster
   kubernetes.core.k8s:
     state: present
     src: /tmp/auto_import_secret.yaml
-  delegate_to: localhost
 
 - name: Import klusterlet
   kubernetes.core.k8s:
     state: present
     src: /tmp/klusterlet_addon_config.yaml
-  delegate_to: localhost
 
 - name: Wait for Cluster to be fully imported
   wait_for:

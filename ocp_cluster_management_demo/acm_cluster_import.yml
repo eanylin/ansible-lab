@@ -1,9 +1,7 @@
 ---
 - name: Import OCP Cluster into ACM
-  hosts: jumphost1
+  hosts: localhost
   gather_facts: no
-  vars:
-    kubeconfig_file_path: "{{ install_directory }}/auth/kubeconfig"
 
   roles:
     - acm_cluster_import
