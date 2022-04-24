@@ -1,0 +1,24 @@
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: {{ ocp_cluster_name }}
+  namespace: {{ rhsso_namespace }}
+  labels:
+    app: sso
+spec:
+  client:
+    clientAuthenticatorType: client-secret
+    redirectUris:
+      - >-
+        https://oauth-openshift.apps.{{ ocp_cluster_name }}.{{ ocp_domain_name }}/oauth2callback/keycloak
+    clientId: {{ ocp_cluster_name }}
+    implicitFlowEnabled: false
+    secret: {{ rhsso_client_secret }}
+    publicClient: false
+    standardFlowEnabled: true
+    directAccessGrantsEnabled: false
+  realmSelector:
+    matchLabels:
+      app: sso
+  scopeMappings: {}

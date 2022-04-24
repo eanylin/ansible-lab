@@ -20,3 +20,13 @@
 # the 'aws configure' command prior to running the task
 - name: Deploy OCP cluster
   command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
+
+- name: Generate new_sso_client.yaml
+  ansible.builtin.template:
+    src: templates/new_sso_client.yaml.j2
+    dest: /tmp/new_sso_client.yaml
+
+- name: Create new RHSSO client
+  kubernetes.core.k8s:
+    state: present
+    src: /tmp/new_sso_client.yaml
