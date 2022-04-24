@@ -1,8 +1,7 @@
 ---
 - name: Retrieve OCP Token
-  shell: "curl -s -i -L -X GET -k --user {{ kube_user }}:{{ kube_user_password }} 'https://oauth-openshift.apps.{{ ocp_cluster_name }}.{{ ocp_domain_name }}/oauth/authorize?response_type=token&client_id=openshift-challenging-client'"
+  shell: curl -s -i -L -X GET -k --user '{{ kube_user }}':'{{ kube_user_password }}' 'https://oauth-openshift.apps.{{ ocp_cluster_name }}.{{ ocp_domain_name }}/oauth/authorize?response_type=token&client_id=openshift-challenging-client' | grep -oP "access_token=\K[^&]*"
   register: ocp_token
-  ignore_errors: true
 
 - debug:
     var: ocp_token.stdout
