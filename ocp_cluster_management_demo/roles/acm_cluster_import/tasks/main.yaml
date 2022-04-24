@@ -37,6 +37,8 @@
     state: present
     src: /tmp/managed_cluster.yaml
       
+- command: cat /tmp/auto_import_secret.yaml
+
 - name: Create auto-import-secret for import cluster
   kubernetes.core.k8s:
     state: present
