@@ -35,12 +35,18 @@
     state: present
     src: /tmp/acs_operator_group.yaml
     validate_certs: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
       
 - name: Deploy ACS Operator Subscription
   kubernetes.core.k8s:
     state: present
     src: /tmp/acs_operator_subscription.yaml
     validate_certs: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Wait for ACS Operator to be deployed
   kubernetes.core.k8s_info:
@@ -53,6 +59,9 @@
     wait_sleep: 10
     wait_timeout: 360
     validate_certs: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Deploy init bundle
   kubernetes.core.k8s:
@@ -60,12 +69,18 @@
     src: /tmp/securedcluster_init_bundle.yaml
     namespace: "{{ rhacs_namespace }}"
     validate_certs: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Deploy Secured Cluster
   kubernetes.core.k8s:
     state: present
     src: /tmp/securedcluster.yaml
     validate_certs: no
+  environment:
+    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Wait for Cluster to be fully imported
   wait_for:
