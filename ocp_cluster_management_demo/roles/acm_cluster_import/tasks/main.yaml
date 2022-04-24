@@ -1,6 +1,10 @@
 ---
-- command: "cat {{ kubeconfig_file_path }}"
-  register: kubeconfig_output
+- name: Retrieve OCP Token
+- shell: curl -s -i -L -X GET -k --user '{{ kube_user }}':'{{ kube_user_password }}' 'https://oauth-openshift.apps.{{ ocp_cluster_name }}.{{ ocp_domain_name }}/oauth/authorize?response_type=token&client_id=openshift-challenging-client' | grep -oP "access_token=\K[^&]*"
+  register: ocp_token
+
+- debug:
+    var: ocp_token.stdout
 
 - name: Retrieve content of kubeconfig
   set_fact:
