@@ -25,6 +25,16 @@
         labels:
           cluster.open-cluster-management.io/managedCluster: "{{ ocp_cluster_name }}"
 
+- name: Set path of kubeconfig file
+  set_fact:
+    kubeconfig_file: "{{ install_directory }}/auth/kubeconfig"
+  delegate_to: jumphost1
+
+- name: Retrieve content of kubeconfig
+  set_fact:
+    kubeconfig: "{{ lookup('file', kubeconfig_file) }}"
+  delegate_to: jumphost1
+
 - name: Create Managed Cluster for import cluster
   kubernetes.core.k8s:
     state: present
