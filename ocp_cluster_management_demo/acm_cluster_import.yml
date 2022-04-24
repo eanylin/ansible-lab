@@ -1,6 +1,6 @@
 ---
 - name: Import OCP Cluster into ACM
-  hosts: localhost
+  hosts: jumphost1
   gather_facts: no
 
   roles:
