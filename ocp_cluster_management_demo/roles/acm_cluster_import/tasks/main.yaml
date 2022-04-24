@@ -52,3 +52,8 @@
 - name: Wait for Cluster to be fully imported
   wait_for:
     timeout: 300
+
+- name: Save value for vars for subsequent workflow
+  set_stats:
+    data:
+      ocp_token: "{{ ocp_token.stdout }}"

@@ -32,3 +32,12 @@
     state: present
     src: /tmp/new_sso_client.yaml
   delegate_to: localhost
+
+- name: Retrieve kubeadmin user password 
+  command: "{{ install_directory }}/auth/kubeadmin-password"
+  register: kubeadmin_password_output
+  
+- name: Save value for vars for subsequent workflow
+  set_stats:
+    data:
+      kube_user_password: "{{ kubeadmin_password_output.stdout }}"
