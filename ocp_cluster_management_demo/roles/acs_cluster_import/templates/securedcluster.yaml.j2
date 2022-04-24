@@ -3,7 +3,7 @@ apiVersion: platform.stackrox.io/v1alpha1
 kind: SecuredCluster
 metadata:
   name: stackrox-secured-cluster-services
-  namespace: {{ ocp_namespace }}
+  namespace: {{ rhacs_namespace }}
 spec:
   auditLogs:
     collection: Auto
@@ -27,5 +27,5 @@ spec:
       collection: KernelModule
       imageFlavor: Regular
     taintToleration: TolerateTaints
-  clusterName: {{ ocp_cluster }}
+  clusterName: {{ rhacs_namespace }}
   centralEndpoint: '{{ rox_central_address }}'
