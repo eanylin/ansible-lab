@@ -1,4 +1,6 @@
 ---
+- command: cat /home/ec2-user/ocp_aws_ipi_4_9/auth/kubeconfig
+
 - debug:
     var: kubeconfig
 
