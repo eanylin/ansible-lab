@@ -2,8 +2,8 @@
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: {{ ocp_import_cluster_namespace }}
-  namespace: {{ ocp_import_cluster_namespace }}
+  name: {{ ocp_cluster_name }}
+  namespace: {{ ocp_cluster_name }}
 spec:
   applicationManager:
     enabled: true

@@ -12,18 +12,18 @@
   kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
-    name: "{{ ocp_import_cluster_namespace }}"
+    name: "{{ ocp_cluster_name }}"
     state: present
 
 - name: Add label to namespace of cluster to be imported
   kubernetes.core.k8s:
     state: patched
     kind: Namespace
-    name: "{{ ocp_import_cluster_namespace }}"
+    name: "{{ ocp_cluster_name }}"
     definition:
       metadata:
         labels:
-          cluster.open-cluster-management.io/managedCluster: "{{ ocp_import_cluster_namespace }}"
+          cluster.open-cluster-management.io/managedCluster: "{{ ocp_cluster_name }}"
 
 - name: Create Managed Cluster for import cluster
   kubernetes.core.k8s:
