@@ -34,8 +34,7 @@
 #  delegate_to: localhost
 #
 - name: Retrieve kubeadmin user password 
-  command: "{{ install_directory }}/auth/kubeadmin-password"
-  become: yes
+  command: "cat {{ install_directory }}/auth/kubeadmin-password"
   register: kubeadmin_password_output
   
 - name: Save value for vars for subsequent workflow
