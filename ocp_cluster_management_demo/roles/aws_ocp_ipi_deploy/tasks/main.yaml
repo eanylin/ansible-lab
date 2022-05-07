@@ -1,26 +1,26 @@
 ---
-- name: Remove all content in install directoy, if it exists
-  ansible.builtin.file:
-    path: "{{ install_directory }}"
-    state: absent
-
-- name: Create install directory
-  ansible.builtin.file:
-    path: "{{ install_directory }}"
-    state: directory
-    mode: '0755'
-
-- name: Generate Install-Config
-  ansible.builtin.template:
-    src: templates/install-config.yaml.j2
-    dest: "{{ install_directory }}/install-config.yaml"
-
+#- name: Remove all content in install directoy, if it exists
+#  ansible.builtin.file:
+#    path: "{{ install_directory }}"
+#    state: absent
+#
+#- name: Create install directory
+#  ansible.builtin.file:
+#    path: "{{ install_directory }}"
+#    state: directory
+#    mode: '0755'
+#
+#- name: Generate Install-Config
+#  ansible.builtin.template:
+#    src: templates/install-config.yaml.j2
+#    dest: "{{ install_directory }}/install-config.yaml"
+#
 # Note that the assumption over here is that the relevant AWS settings has been properly set up
 # on the jumphost. For instance, AWS Access Key ID, AWS Secret Access Key have been defined via
 # the 'aws configure' command prior to running the task
-- name: Deploy OCP cluster
-  command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
-
+#- name: Deploy OCP cluster
+#  command: "openshift-install create cluster --dir {{ install_directory }} --log-level=debug"
+#
 - name: Generate new_sso_client.yaml
   ansible.builtin.template:
     src: templates/new_sso_client.yaml.j2
