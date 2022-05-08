@@ -31,7 +31,7 @@
     state: present
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Deploy ACS Operator Group
@@ -40,7 +40,7 @@
     src: /tmp/acs_operator_group.yaml
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
       
 - name: Deploy ACS Operator Subscription
@@ -49,7 +49,7 @@
     src: /tmp/acs_operator_subscription.yaml
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Wait for ACS Operator to be deployed
@@ -64,7 +64,7 @@
     wait_timeout: 360
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Deploy init bundle
@@ -74,7 +74,7 @@
     namespace: "{{ rhacs_namespace }}"
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Deploy Secured Cluster
@@ -83,7 +83,7 @@
     src: /tmp/securedcluster.yaml
     validate_certs: no
   environment:
-    K8S_AUTH_API_KEY: '{{ ocp_token }}'
+    K8S_AUTH_API_KEY: '{{ ocp_token.stdout }}'
     K8S_AUTH_HOST: 'https://api.{{ ocp_cluster_name }}.{{ ocp_domain_name }}:6443'
 
 - name: Wait for Cluster to be fully imported
