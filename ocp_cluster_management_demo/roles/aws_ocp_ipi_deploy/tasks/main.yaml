@@ -36,8 +36,10 @@
 - name: Retrieve kubeadmin user password 
   command: "cat {{ install_directory }}/auth/kubeadmin-password"
   register: kubeadmin_password_output
+  no_log: true
   
 - name: Save value for vars for subsequent workflow
   set_stats:
     data:
       kube_user_password: "{{ kubeadmin_password_output.stdout }}"
+  no_log: true
