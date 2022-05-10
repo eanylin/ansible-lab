@@ -13,6 +13,8 @@ spec:
       - >-
         https://oauth-openshift.apps.{{ ocp_cluster_name }}.{{ ocp_domain_name }}/oauth2callback/keycloak
     clientId: {{ ocp_cluster_name }}
+    defaultClientScopes:
+      - profile
     implicitFlowEnabled: false
     secret: {{ rhsso_client_secret }}
     publicClient: false
