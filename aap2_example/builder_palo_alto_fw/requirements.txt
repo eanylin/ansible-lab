@@ -6,5 +6,5 @@ netcat
 pan-os-python==1.5.1
 pan-python==0.16.0
 requests==2.22.0
-urllib3==1.25.11
+urllib3>=1.26.5
 xmltodict==0.12.0
