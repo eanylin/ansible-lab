@@ -4,6 +4,9 @@
   register: ocp_token
 #  no_log: true
 
+- debug:
+    msg: '{{ ocp_token.stdout }}'
+
 - name: Copy ca.pem and acs_admin_token
   ansible.builtin.copy:
     src: "files/{{ item }}"
