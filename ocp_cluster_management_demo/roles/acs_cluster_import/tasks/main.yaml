@@ -5,7 +5,7 @@
 #  no_log: true
 
 - debug:
-    msg: '{{ ocp_token.stdout }}'
+    msg: '{{ ocp_token }}'
 
 - name: Copy ca.pem and acs_admin_token
   ansible.builtin.copy:
