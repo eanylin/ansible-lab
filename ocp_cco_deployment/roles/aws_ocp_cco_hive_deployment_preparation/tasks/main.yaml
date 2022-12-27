@@ -10,6 +10,7 @@
     state: absent
     wait: true
     validate_certs: false
+  delegate_to: localhost
 
 - name: Create cluster namespace
   kubernetes.core.k8s:
@@ -18,6 +19,7 @@
     kind: Namespace
     state: present
     validate_certs: false
+  delegate_to: localhost
 
 - name: Create secret for Hive Deployment
   ansible.builtin.command: "{{ install_directory }}/oc create secret generic bound-service-account-signing-key --from-file=bound-service-account-signing-key.key=serviceaccount-signer.private -n {{ ocp_cluster_name }}"
