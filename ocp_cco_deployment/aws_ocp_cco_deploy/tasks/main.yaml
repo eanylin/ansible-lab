@@ -1,28 +1,34 @@
 ---
 - name: Remove all content in install directoy, if it exists
   ansible.builtin.file:
-    path: "{{ install_directory }}/{{ ocp_cluster_name }}"
+    path: "{{ item }}"
     state: absent
+  loop:
+    - "{{ install_directory }}/{{ ocp_cluster_name }}"
+    - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
 
 - name: Create install directory
   ansible.builtin.file:
-    path: "{{ install_directory }}/{{ ocp_cluster_name }}"
+    path: "{{ item }}"
     state: directory
     mode: '0755'
+  loop:
+    - "{{ install_directory }}/{{ ocp_cluster_name }}"
+    - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
 
 - name: Generate public and private RSA key files used to set up the OpenID Connect provider for the cluster
   ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-key-pair"
   args:
-    chdir: "{{ install_directory }}/{{ ocp_cluster_name }}"
+    chdir: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
 
 - name: Create an OpenID Connect identity provider and S3 bucket on AWS
-  ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-identity-provider --name={{ ocp_cluster_name }} --region={{ ocp_cluster_region }} --public-key-file={{ install_directory }}/{{ ocp_cluster_name }}/serviceaccount-signer.public"
+  ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-identity-provider --name={{ ocp_cluster_name }} --region={{ ocp_cluster_region }} --public-key-file={{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/serviceaccount-signer.public"
 
 - name: Extract the list of CredentialsRequest objects
-  ansible.builtin.command: "{{ install_directory }}/oc adm release extract --credentials-requests --cloud=aws --to={{ install_directory }}/{{ ocp_cluster_name }}/credrequests --from=quay.io/openshift-release-dev/ocp-release@sha256:{{ ocp_release_version }}"
+  ansible.builtin.command: "{{ install_directory }}/oc adm release extract --credentials-requests --cloud=aws --to={{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/credrequests --from=quay.io/openshift-release-dev/ocp-release@sha256:{{ ocp_release_version }}"
 
 - name: Create an OpenID Connect identity provider and S3 bucket on AWS
-  ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-iam-roles --name={{ ocp_cluster_name }} --region={{ ocp_cluster_region }} --credentials-requests-dir={{ install_directory }}/{{ ocp_cluster_name }}/credrequests --identity-provider-arn=arn:aws:iam::{{ aws_account_id }}:oidc-provider/{{ ocp_cluster_name }}-oidc.s3.{{ ocp_cluster_region }}.amazonaws.com"
+  ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-iam-roles --name={{ ocp_cluster_name }} --region={{ ocp_cluster_region }} --credentials-requests-dir={{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/credrequests --identity-provider-arn=arn:aws:iam::{{ aws_account_id }}:oidc-provider/{{ ocp_cluster_name }}-oidc.s3.{{ ocp_cluster_region }}.amazonaws.com"
 
 - name: Generate Install-Config
   ansible.builtin.template:
