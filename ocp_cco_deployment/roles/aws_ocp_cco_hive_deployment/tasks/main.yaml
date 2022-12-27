@@ -3,17 +3,6 @@
   ansible.builtin.shell: 'echo -n "$(cat {{ install_directory }}/{{ ocp_cluster_name }}/cluster-install-config.yaml)" | base64 -w 0'
   register: ocp_cluster_install_config_base64
 
-- name: Generate YAML for Hive Deployment 
-  ansible.builtin.template:
-    src: templates/hive_deploy.yaml.j2
-    dest: "{{ install_directory }}/{{ ocp_cluster_name }}/hive_deploy.yaml"
-
-#- name: Log into OCP ACM Hub Cluster with OC CLI
-#  ansible.builtin.command: "{{ install_directory }}/oc login --insecure-skip-tls-verify --token={{ oc_token }} --server={{ rhacm_api_endpoint }}"
-#
-#- name: Deploy OCP Cluster using Hive
-#  ansible.builtin.command: "{{ install_directory }}/oc apply -f {{ install_directory }}/{{ ocp_cluster_name }}/hive_deploy.yaml"
-
 - name: Deploy OCP Cluster using Hive
   kubernetes.core.k8s:
     state: present
