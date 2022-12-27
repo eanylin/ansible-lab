@@ -48,3 +48,12 @@
   ansible.builtin.command: "{{ install_directory }}/openshift-install create manifests"
   args:
     chdir: "{{ install_directory }}/{{ ocp_cluster_name }}"
+
+- name: Remove lines from cluster-dns-02-config.yml
+  ansible.builtin.lineinfile:
+    path: "{{ install_directory }}/{{ ocp_cluster_name }}/manifests/cluster-dns-02-config.yml"
+    regexp: "{{ item }}"
+    state: absent
+  loop:
+    - '^  privateZone:'
+    - '^    id:'
