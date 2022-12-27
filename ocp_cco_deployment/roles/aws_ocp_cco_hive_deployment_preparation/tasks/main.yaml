@@ -27,6 +27,6 @@
     chdir: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
 
 - name: Create Configmap for Hive Deployment
-  ansible.builtin.command: "{{ install_directory }}/oc create cm cluster-manifests --from-file={{ ocp_cluster_name }}-secret-manifests/"
+  ansible.builtin.command: "{{ install_directory }}/oc create cm cluster-manifests --from-file={{ ocp_cluster_name }}-secret-manifests/ -n {{ ocp_cluster_name }}"
   args:
     chdir: "{{ install_directory }}"
