@@ -1,6 +1,6 @@
 ---
 - name: Log into OCP ACM Hub Cluster with OC CLI
-  ansible.builtin.command: "{{ install_directory }}/oc login --insecure-skip-tls-verify -u {{ oc_user }} -p {{ oc_password }} {{ rhacm_api_endpoint }}"
+  ansible.builtin.command: "{{ install_directory }}/oc login --insecure-skip-tls-verify --token={{ oc_token }} --server={{ rhacm_api_endpoint }}"
 
 - name: Destroy cluster namespace, if exists
   kubernetes.core.k8s:
