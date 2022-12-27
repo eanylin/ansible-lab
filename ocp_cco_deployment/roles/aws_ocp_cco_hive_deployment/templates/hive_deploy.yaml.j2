@@ -83,7 +83,7 @@ metadata:
 type: Opaque
 data:
   install-config.yaml: >-
-    {{ ocp_cluster_install_config_base64 }}
+    {{ ocp_cluster_install_config_base64.stdout }}
 ---
 apiVersion: v1
 kind: Secret

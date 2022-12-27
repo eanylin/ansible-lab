@@ -1,4 +1,11 @@
 ---
+- name: Convert install-config.yaml to BASE64
+  ansible.builtin.shell: 'echo -n "$(cat {{ install_directory }}/{{ ocp_cluster_name }}/cluster-install-config.yaml)" | base64 -w 0'
+  register: ocp_cluster_install_config_base64
+
+- debug:
+    var: ocp_cluster_install_config_base64.stdout
+
 - name: Deploy OCP Cluster using Hive
   kubernetes.core.k8s:
     state: present
