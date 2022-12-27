@@ -72,8 +72,7 @@ metadata:
   name: {{ ocp_cluster_name }}-pull-secret
   namespace: {{ ocp_cluster_name }}
 stringData:
-  .dockerconfigjson: |-
-    {{ ocp_cluster_pull_secret }}
+  .dockerconfigjson: '{{ ocp_cluster_pull_secret }}'
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: v1
@@ -92,7 +91,8 @@ metadata:
   name: {{ ocp_cluster_name }}-ssh-private-key
   namespace: {{ ocp_cluster_name }}
 stringData:
-  ssh-privatekey:
+  ssh-privatekey: |-
+{{ ocp_node_ssh_private_key }}
 type: Opaque
 ---
 apiVersion: v1
@@ -103,7 +103,7 @@ metadata:
   namespace: {{ ocp_cluster_name }}
 stringData:
   aws_access_key_id: {{ aws_access_key }}
-  aws_secret_access_key:
+  aws_secret_access_key: {{ aws_secret_access_key }}
 ---
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
