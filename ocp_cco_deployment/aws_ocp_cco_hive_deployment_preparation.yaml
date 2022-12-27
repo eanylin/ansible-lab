@@ -1,0 +1,7 @@
+---
+- name: OCP Cloud Credential Operator Hive Deployment Preparation
+  hosts: helper_node
+  gather_facts: no
+
+  roles:
+    - aws_ocp_cco_hive_deployment_preparation
