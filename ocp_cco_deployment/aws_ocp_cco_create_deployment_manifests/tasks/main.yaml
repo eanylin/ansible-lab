@@ -61,7 +61,7 @@
     - '^    id:'
 
 - name: Consolidate all manifests in OCP install directory
-  ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/manifests/* {{ install_directory }}/{{ ocp_cluster_name }}/manifests/"
+  ansible.builtin.shell: "cp {{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/manifests/* {{ install_directory }}/{{ ocp_cluster_name }}/manifests/"
 
 - name: Generate public and private RSA key files used to set up the OpenID Connect provider for the cluster
   ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}/manifests/{{ item }} {{ install_directory }}/{{ ocp_cluster_name }}-secret-manifests"
