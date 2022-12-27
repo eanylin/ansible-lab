@@ -27,7 +27,7 @@
 - name: Generate Install-Config
   ansible.builtin.template:
     src: templates/install-config.yaml.j2
-    dest: "{{ install_directory }}/i{{ ocp_cluster_name }}/install-config.yaml"
+    dest: "{{ install_directory }}/{{ ocp_cluster_name }}/install-config.yaml"
 
 - name: Create installation manifests
   ansible.builtin.command: "{{ install_directory }}/openshift-install create manifests"
