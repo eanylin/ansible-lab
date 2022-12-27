@@ -6,8 +6,8 @@
 - debug:
     var: ocp_cluster_install_config_base64.stdout
 
-- name: Deploy OCP Cluster using Hive
-  kubernetes.core.k8s:
-    state: present
-    template: 'templates/hive_deploy.yaml.j2'
-    validate_certs: false
+#- name: Deploy OCP Cluster using Hive
+#  kubernetes.core.k8s:
+#    state: present
+#    template: 'templates/hive_deploy.yaml.j2'
+#    validate_certs: false
