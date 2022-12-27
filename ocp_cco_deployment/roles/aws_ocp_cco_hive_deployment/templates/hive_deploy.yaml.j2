@@ -72,7 +72,8 @@ metadata:
   name: {{ ocp_cluster_name }}-pull-secret
   namespace: {{ ocp_cluster_name }}
 stringData:
-  .dockerconfigjson:
+  .dockerconfigjson: |-
+    {{ ocp_cluster_pull_secret }}
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: v1
