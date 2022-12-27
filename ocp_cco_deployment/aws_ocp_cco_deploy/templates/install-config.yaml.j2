@@ -1,0 +1,78 @@
+---
+apiVersion: v1
+baseDomain: {{ ocp_cluster_base_domain }}
+credentialsMode: {{ oc_cluster_credentials_mode | default('Manual', true) }}
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    aws:
+      rootVolume:
+        iops: {{ ocp_worker_root_volume_iops | default('2000', true) }}
+        size: {{ ocp_worker_root_volume_size }}
+        type: {{ ocp_worker_root_volume_type | default('io1', true) }}
+      type: {{ ocp_worker_type | default('m5.2xlarge', true) }}
+      zones:
+      - {{ ocp_worker_aws_zone_1 }}
+      - {{ ocp_worker_aws_zone_2 }}
+      - {{ ocp_worker_aws_zone_3 }}
+  replicas: {{ ocp_worker_number_of_replicas | default('3', true) }}
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    aws:
+      rootVolume:
+        iops: {{ ocp_master_root_volume_iops | default('4000', true) }}
+        size: {{ ocp_master_root_volume_size }}
+        type: {{ ocp_master_root_volume_type | default('io1', true) }}
+      type: {{ ocp_master_type | default('m5.xlarge', true) }}
+      zones:
+      - {{ ocp_master_aws_zone_1 }}
+      - {{ ocp_master_aws_zone_2 }}
+      - {{ ocp_master_aws_zone_3 }}
+  replicas: {{ ocp_master_number_of_replicas | default('3', true) }}
+metadata:
+  name: {{ ocp_cluster_name }}
+networking:
+  clusterNetwork:
+  - cidr: {{ ocp_cluster_network_cidr | default('10.128.0.0/14', true) }}
+    hostPrefix: {{ ocp_cluster_network_host_prefix | default('23', true) }}
+  machineNetwork:
+  - cidr: {{ ocp_cluster_machine_network1_cidr }}
+  - cidr: {{ ocp_cluster_machine_network2_cidr }}
+  - cidr: {{ ocp_cluster_machine_network3_cidr }}
+  networkType: {{ ocp_cluster_network_type | default('OpenShiftSDN', true) }}
+  serviceNetwork:
+  - {{ ocp_cluster_service_network | default('172.30.0.0/16', true) }}
+platform:
+  aws:
+    region: {{ ocp_cluster_region }}
+    subnets:
+    - {{ ocp_cluster_subnet_1 }}
+    - {{ ocp_cluster_subnet_2 }}
+    - {{ ocp_cluster_subnet_3 }}
+    amiID: {{ ocp_cluster_ami_id }}
+    serviceEndpoints:
+      - name: ec2
+        url: https://ec2.{{ ocp_cluster_region }}.amazonaws.com
+      - name: sts
+        url: https://sts.{{ ocp_cluster_region }}.amazonaws.com
+      - name: elb
+        url: https://elasticloadbalancing.{{ ocp_cluster_region }}.amazonaws.com
+    hostedZone: {{ ocp_cluster_hosted_zone }}
+fips: {{ ocp_cluster_fips | default('false', true) }}
+sshKey: {{ ocp_cluster_public_ssh_key }}
+publish: {{ ocp_cluster_publish | default('Internal', true) }}
+pullSecret: {{ pull_secret }}
+additionalTrustBundle: |
+{{ quay_cert }}
+imageContentSources:
+- mirrors:
+  - {{ quay_mirror_ocp_release }}
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - {{ quay_mirror_ocp_v4_art_dev }}
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
