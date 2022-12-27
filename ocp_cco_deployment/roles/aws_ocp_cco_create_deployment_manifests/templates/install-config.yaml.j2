@@ -58,10 +58,10 @@ platform:
     serviceEndpoints:
       - name: ec2
         url: https://ec2.{{ ocp_cluster_region }}.amazonaws.com
-      - name: sts
-        url: https://sts.{{ ocp_cluster_region }}.amazonaws.com
       - name: elb
         url: https://elasticloadbalancing.{{ ocp_cluster_region }}.amazonaws.com
+#      - name: sts
+#        url: https://sts.{{ ocp_cluster_region }}.amazonaws.com
     hostedZone: {{ ocp_cluster_hosted_zone }}
 fips: {{ ocp_cluster_fips | default('false', true) }}
 sshKey: {{ ocp_cluster_public_ssh_key }}
