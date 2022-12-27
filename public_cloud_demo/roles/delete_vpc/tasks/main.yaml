@@ -1,0 +1,6 @@
+---
+- name: Destory Cloudformation Stack
+  amazon.aws.cloudformation:
+    stack_name: "{{ aws_cloudformation_stack_name }}"
+    state: "absent"
+    region: "{{ aws_region }}"

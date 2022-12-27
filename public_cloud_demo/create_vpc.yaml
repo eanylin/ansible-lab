@@ -1,0 +1,7 @@
+---
+- name: AWS Create VPC using Cloudformation
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - create_vpc

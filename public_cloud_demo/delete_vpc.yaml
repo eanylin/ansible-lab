@@ -1,0 +1,7 @@
+---
+- name: AWS Destroy VPC using Cloudformation
+  hosts: localhost
+  gather_facts: no
+
+  roles:
+    - delete_vpc

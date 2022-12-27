@@ -1,0 +1,19 @@
+---
+- name: Template cloudformation definition file
+  ansible.builtin.template:
+    src: templates/create_vpc.yaml.j2
+    dest: /opt/tmp/create_vpc.yaml
+
+- name: Create a Cloudformation Stack
+  amazon.aws.cloudformation:
+    stack_name: "{{ aws_cloudformation_stack_name }}"
+    state: "present"
+    region: "{{ aws_region }}"
+    disable_rollback: true
+    template: "/opt/tmp/create_vpc.yaml"
+    tags:
+      Stack: "{{ aws_cloudformation_stack_name }}"
+  register: cloudformation_stack
+
+- debug:
+    var: cloudformation_stack.stack_resources
