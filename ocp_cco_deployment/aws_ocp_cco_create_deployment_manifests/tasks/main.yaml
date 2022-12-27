@@ -6,6 +6,7 @@
   loop:
     - "{{ install_directory }}/{{ ocp_cluster_name }}"
 #    - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
+    - "{{ install_directory }}/{{ ocp_cluster_name }}-secret-manifests"
 
 - name: Create install directory
   ansible.builtin.file:
@@ -15,6 +16,7 @@
   loop:
     - "{{ install_directory }}/{{ ocp_cluster_name }}"
 #    - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
+    - "{{ install_directory }}/{{ ocp_cluster_name }}-secret-manifests"
 
 #- name: Generate public and private RSA key files used to set up the OpenID Connect provider for the cluster
 #  ansible.builtin.command: "{{ install_directory }}/ccoctl aws create-key-pair"
@@ -41,8 +43,8 @@
     src: templates/install-config.yaml.j2
     dest: "{{ install_directory }}/{{ ocp_cluster_name }}/install-config.yaml"
 
-- name: Copy install-config.yaml
-  ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}/install-config.yaml {{ install_directory }}/{{ ocp_cluster_name }}/install-config.yaml.org"
+- name: Create backup copy of install-config.yaml
+  ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}/install-config.yaml {{ install_directory }}/{{ ocp_cluster_name }}/cluster-install-config.yaml"
 
 - name: Create installation manifests
   ansible.builtin.command: "{{ install_directory }}/openshift-install create manifests"
@@ -57,3 +59,19 @@
   loop:
     - '^  privateZone:'
     - '^    id:'
+
+- name: Consolidate all manifests in OCP install directory
+  ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/manifests/* {{ install_directory }}/{{ ocp_cluster_name }}/manifests/"
+
+- name: Generate public and private RSA key files used to set up the OpenID Connect provider for the cluster
+  ansible.builtin.command: "cp {{ install_directory }}/{{ ocp_cluster_name }}/manifests/{{ item }} {{ install_directory }}/{{ ocp_cluster_name }}-secret-manifests"
+  loop:
+    - cluster-dns-02-config.yml
+    - cluster-authentication-02-config.yaml
+    - openshift-cloud-credential-operator-cloud-credential-operator-iam-ro-creds-credentials.yaml
+    - openshift-cloud-network-config-controller-cloud-credentials-credentials.yaml
+    - openshift-cluster-csi-drivers-ebs-cloud-credentials-credentials.yaml
+    - openshift-config-secret-pull-secret.yaml
+    - openshift-image-registry-installer-cloud-credentials-credentials.yaml
+    - openshift-ingress-operator-cloud-credentials-credentials.yaml
+    - openshift-machine-api-aws-cloud-credentials-credentials.yaml
