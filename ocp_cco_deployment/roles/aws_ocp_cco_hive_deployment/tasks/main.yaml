@@ -6,7 +6,7 @@
 - name: Generate YAML for Hive Deployment 
   ansible.builtin.template:
     src: templates/hive_deploy.yaml.j2
-    dest: {{ install_directory }}/{{ ocp_cluster_name }}/hive_deploy.yaml
+    dest: "{{ install_directory }}/{{ ocp_cluster_name }}/hive_deploy.yaml"
 
 #- name: Deploy OCP Cluster using Hive
 #  kubernetes.core.k8s:
