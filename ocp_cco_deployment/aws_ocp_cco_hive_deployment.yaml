@@ -1,6 +1,6 @@
 ---
 - name: Deploy OCP Cluster Using Hive
-  hosts: localhost
+  hosts: helper_node
   gather_facts: no
 
   roles:

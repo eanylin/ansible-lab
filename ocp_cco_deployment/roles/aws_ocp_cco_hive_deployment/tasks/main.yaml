@@ -11,3 +11,4 @@
 #    state: present
 #    template: 'templates/hive_deploy.yaml.j2'
 #    validate_certs: false
+#  delegate_to: localhost
