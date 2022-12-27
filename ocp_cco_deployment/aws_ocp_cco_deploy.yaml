@@ -1,7 +1,0 @@
----
-- name: OCP CCO Manual Mode Deployment
-  hosts: helper_node
-  gather_facts: no
-
-  roles:
-    - aws_ocp_cco_deploy
