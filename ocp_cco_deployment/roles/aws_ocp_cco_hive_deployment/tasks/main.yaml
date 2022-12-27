@@ -1,0 +1,6 @@
+---
+- name: Deploy OCP Cluster using Hive
+  kubernetes.core.k8s:
+    state: present
+    template: 'templates/hive_deploy.yaml.j2'
+    validate_certs: false
