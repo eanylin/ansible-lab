@@ -1,12 +1,12 @@
 ---
 - name: Remove all content in install directoy, if it exists
   ansible.builtin.file:
-    path: "{{ install_directory }}"
+    path: "{{ install_directory }}/{{ ocp_cluster_name }}"
     state: absent
 
 - name: Create install directory
   ansible.builtin.file:
-    path: "{{ install_directory }}"
+    path: "{{ install_directory }}/{{ ocp_cluster_name }}"
     state: directory
     mode: '0755'
 
