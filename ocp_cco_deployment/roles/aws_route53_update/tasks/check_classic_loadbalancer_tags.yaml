@@ -1,3 +1,6 @@
 - debug:
     var: classic_elb_info.elbs[item].tags.keys()
-  when: ocp_cluster_name in classic_elb_info.elbs[item].tags.keys()
+
+- debug:
+    var: classic_elb_info.elbs[item].tags.keys()
+  when: "'cluster' in classic_elb_info.elbs[item].tags.keys()[1]"
