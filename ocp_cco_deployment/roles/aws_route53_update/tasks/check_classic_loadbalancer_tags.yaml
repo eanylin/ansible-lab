@@ -1,6 +1,9 @@
 - debug:
     var: classic_elb_info.elbs[item].tags.keys()
 
-- debug:
-    var: classic_elb_info.elbs[item].tags.keys()
-  when: "'cluster' in classic_elb_info.elbs[item].tags.keys()[1]"
+- ansible.builtin.set_fact:
+    tag_key: classic_elb_info.elbs[item].tags.keys()
+
+#- debug:
+#    var: classic_elb_info.elbs[item].tags.keys()
+#  when: "'cluster' in classic_elb_info.elbs[item].tags.keys()"
