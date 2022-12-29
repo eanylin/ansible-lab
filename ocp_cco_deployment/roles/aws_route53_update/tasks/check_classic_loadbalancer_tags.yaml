@@ -5,11 +5,8 @@
     tag_key: "{{ classic_elb_info.elbs[item].tags.keys() }}"
 
 - debug:
-    var: tag_key[0]
-
-- debug:
-    var: tag_key[1]
-
-- debug:
     msg: Found Key
-  when: ocp_cluster_name in tag_key[1]
+  when: ocp_cluster_name in tag_key[item]
+  loop:
+    - 1
+    - 2
