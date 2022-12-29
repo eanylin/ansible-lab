@@ -4,10 +4,13 @@
     region: "{{ ocp_cluster_region }}"
   register: classic_elb_info
 
-- debug:
-    var: classic_elb_info
+- ansible.builtin.set_fact:
+    found_key: false
 
 - include_tasks: check_classic_loadbalancer_tags.yaml
   loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
   loop_control:
     loop_var: _tag
+
+- debug:
+    var: found_key
