@@ -1,7 +1,3 @@
 - debug:
-    var: classic_elb_info.elbs[item].tags[_tag].key
+    var: classic_elb_info.elbs[item].tags.keys()
 #when: "'cluster' in classic_elb_info.elbs[item]['tags'].key"
-  loop:
-    - 1
-    - 2
-
