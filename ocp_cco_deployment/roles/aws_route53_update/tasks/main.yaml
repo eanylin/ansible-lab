@@ -9,5 +9,3 @@
 
 - include_tasks: check_classic_loadbalancer_tags.yaml
   loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
-  loop_control:
-    loop_var: _tag
