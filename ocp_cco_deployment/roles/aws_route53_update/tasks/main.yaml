@@ -15,6 +15,8 @@
 
     - debug:
         var: found_key
+      failed_when: found_key == false
+
   rescue:
     - fail:
         msg: Ended after 5 retries
