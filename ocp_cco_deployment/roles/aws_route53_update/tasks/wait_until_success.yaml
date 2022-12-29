@@ -1,9 +1,25 @@
 ---
-- include_tasks: check_classic_loadbalancer_tags.yaml
-  loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
-  loop_control:
-    loop_var: _tag
+- name: Wait till success
+  block:
+    - name: Set the retry count
+      set_fact:
+        retry_count: "{{ 0 if retry_count is undefined else retry_count|int + 1 }}"
 
-- debug:
-    var: found_key
-  failed_when: found_key == false
+    - include_tasks: check_classic_loadbalancer_tags.yaml
+      loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
+      loop_control:
+        loop_var: _tag
+
+    - debug:
+        var: found_key
+      failed_when: found_key == false
+
+  rescue:
+    - fail:
+        msg: Ended after 5 retries
+      when: retry_count|int == 5
+
+    - debug:
+        msg: "Failed to connect - Retrying..."
+
+    - include_tasks: wait_until_success.yaml
