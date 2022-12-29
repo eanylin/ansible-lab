@@ -1,5 +1,5 @@
 - debug:
-    var: classic_elb_info.elbs[item].tags[tag_]
+    var: classic_elb_info.elbs[item].tags[tag_].key
 #when: "'cluster' in classic_elb_info.elbs[item]['tags'].key"
   loop_control:
     loop_var: tag_
