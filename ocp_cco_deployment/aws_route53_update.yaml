@@ -16,3 +16,4 @@
   - debug:
       var: classic_elb_info.elbs[item].tags
     loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
+    when: ocp_cluster_name in classic_elb_info.elbs[item].tags
