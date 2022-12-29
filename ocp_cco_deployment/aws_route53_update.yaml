@@ -8,11 +8,11 @@
   - name: Gather facts of all Classic LB
     community.aws.elb_classic_lb_info:
       region: "{{ ocp_cluster_region }}"
-    register: elb_info
+    register: classic_elb_info
 
   - debug:
-      var: elb_info
+      var: classic_elb_info
 
   - debug:
-      var: elb_info.classic_elb_info.elbs[item].tags
-    loop: "{{ range(0, elb_info.classic_elb_info.elbs | length) | list }}"
+      var: classic_elb_info.elbs[item].tags
+    loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
