@@ -2,7 +2,13 @@
     var: classic_elb_info.elbs[item].tags.keys()
 
 - ansible.builtin.set_fact:
-    tag_key: classic_elb_info.elbs[item].tags.keys()
+    tag_key: "{{ classic_elb_info.elbs[item].tags.keys() }}"
+
+- debug:
+    var: tag_key[0]
+
+- debug:
+    var: tag_key[1]
 
 #- debug:
 #    var: classic_elb_info.elbs[item].tags.keys()
