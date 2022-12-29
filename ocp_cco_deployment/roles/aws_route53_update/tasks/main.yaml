@@ -13,6 +13,11 @@
       set_fact:
         retry_count: "{{ 0 if retry_count is undefined else retry_count|int + 1 }}"
 
+    - include_tasks: check_classic_loadbalancer_tags.yaml
+      loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
+      loop_control:
+        loop_var: _tag
+
     - debug:
         var: found_key
       failed_when: found_key == false
