@@ -1,11 +1,10 @@
-- debug:
-    var: classic_elb_info.elbs[_tag].tags.keys()
-
-- ansible.builtin.set_fact:
+---
+- name: Define list with tag keys 
+  ansible.builtin.set_fact:
     tag_key: "{{ classic_elb_info.elbs[_tag].tags.keys() }}"
 
 - debug:
-    msg: Found Key
+    msg: "Found Key - {{ tag_key[item] }}"
   when: ocp_cluster_name in tag_key[item]
   loop:
     - 0
