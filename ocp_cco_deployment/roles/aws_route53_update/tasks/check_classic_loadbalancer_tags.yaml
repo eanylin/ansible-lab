@@ -1,0 +1,3 @@
+- debug:
+    var: classic_elb_info.elbs[item].tags
+#when: "'cluster' in classic_elb_info.elbs[item]['tags'].key"

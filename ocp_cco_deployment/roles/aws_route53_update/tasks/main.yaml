@@ -1,0 +1,11 @@
+---
+- name: Gather facts of all Classic LB
+  community.aws.elb_classic_lb_info:
+    region: "{{ ocp_cluster_region }}"
+  register: classic_elb_info
+
+- debug:
+    var: classic_elb_info
+
+- include_tasks: check_classic_loadbalancer_tags.yaml
+  loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"

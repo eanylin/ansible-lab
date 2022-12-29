@@ -4,16 +4,5 @@
   become: false
   gather_facts: false
 
-  tasks:
-  - name: Gather facts of all Classic LB
-    community.aws.elb_classic_lb_info:
-      region: "{{ ocp_cluster_region }}"
-    register: classic_elb_info
-
-  - debug:
-      var: classic_elb_info
-
-  - debug:
-      var: classic_elb_info.elbs[item].tags
-    loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
-    when: "'cluster' in classic_elb_info.elbs[item]['tags']"
+  roles:
+    - aws_route53_update
