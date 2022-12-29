@@ -1,0 +1,14 @@
+---
+- name: Update AWS Route53 for OpenShift wildcard DNS
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+  - name: Gather facts of all Classic LB
+    community.aws.elb_classic_lb_info:
+      region: "{{ ocp_cluster_region }}"
+    register: classic_elb_info
+
+  - debug:
+      var: classic_elb_info
