@@ -4,7 +4,8 @@
     region: "{{ ocp_cluster_region }}"
   register: classic_elb_info
 
-- ansible.builtin.set_fact:
-    found_key: false
+- name: Initialize variable 'cluster_classic_lb_created' to false
+  ansible.builtin.set_fact:
+    cluster_classic_lb_created: false
 
-- include_tasks: wait_until_success.yaml
+- include_tasks: wait_until_cluster_classic_lb_created.yaml

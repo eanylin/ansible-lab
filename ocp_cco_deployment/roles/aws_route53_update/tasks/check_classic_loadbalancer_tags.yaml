@@ -3,8 +3,11 @@
   ansible.builtin.set_fact:
     tag_key: "{{ classic_elb_info.elbs[_tag].tags.keys() }}"
 
-- ansible.builtin.set_fact:
-    found_key: true
+# Note that there will only be 2 tags created by the OpenShift installer
+# when creating the classic LB, hence we are only checking through 2 items
+- name: Set variable 'cluster_classic_lb_created' to true if it is created
+  ansible.builtin.set_fact:
+    cluster_classic_lb_created: true
   when: ocp_cluster_name in tag_key[item]
   loop:
     - 0

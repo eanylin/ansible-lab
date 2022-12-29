@@ -1,0 +1,29 @@
+---
+- name: Wait until cluster classic load balancer is created
+  block:
+    - name: Set the retry count
+      ansible.builtin.set_fact:
+        retry_count: "{{ 0 if retry_count is undefined else retry_count|int + 1 }}"
+
+    - include_tasks: check_classic_loadbalancer_tags.yaml
+      loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
+      loop_control:
+        loop_var: _tag
+
+    - ansible.builtin.debug:
+        var: cluster_classic_lb_created
+      failed_when: cluster_classic_lb_created == false
+
+  rescue:
+    - ansible.builtin.fail:
+        msg: Ended after 5 retries
+      when: retry_count|int == 5
+
+    - ansible.builtin.debug:
+        msg: "Cluster Load Balancer Not Created Yet - Retrying after 5 minutes..."
+
+    - name: Sleep for 5 minutes
+      ansible.builtin.wait_for:
+        timeout: 300
+    
+    - include_tasks: wait_until_cluster_classic_lb_created.yaml
