@@ -7,7 +7,7 @@
 
 - name: Set the retry count
   ansible.builtin.set_fact:
-    ns_list: ocp_namespaces.resources  
+    ns_list: "{{ ocp_namespaces.resources }}"
 
 - debug:
     var: ns_list[item].name
