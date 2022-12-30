@@ -28,6 +28,7 @@
   ansible.builtin.fetch:
     src: "{{ item }}"
     dest: "{{ temporary_directory }}"
+    flat: yes
   loop:
     - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/bound-service-account-signing-key.yaml"
     - "{{ install_directory }}/cluster-manifests.yaml"
