@@ -10,8 +10,11 @@
     region: "{{ ocp_cluster_region }}"
   register: classic_elb_info
 
+- ansible.builtin.set_fact:
+    classic_elb_list: "{{ classic_elb_info.elbs }}" 
+
 - debug:
-    var: classic_elb_info
+    var: classic_elb_list
 
 #- name: Add '*.apps' record in AWS Route53 Hosted Zone
 #  amazon.aws.route53:
