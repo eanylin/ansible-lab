@@ -17,6 +17,9 @@
     var: classic_elb_list[item].dns_name
   loop: "{{ range(0, classic_elb_list | length) | list }}"
 
+- debug:
+    var: cluster_classic_lb
+
 #- name: Add '*.apps' record in AWS Route53 Hosted Zone
 #  amazon.aws.route53:
 #    state: present
