@@ -21,15 +21,15 @@
 #
 #- debug:
 #    var: record
-
-- name: Add '*.apps' record in AWS Route53 Hosted Zone
-  amazon.aws.route53:
-    state: present
-    zone: "."
-    hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
-    record: "*.apps.{{ ocp_cluster_name }}.{{ ocp_cluster_base_domain }}"
-    type: A
-    value: "{{ cluster_classic_lb }}"
-    alias: true
-    alias_hosted_zone_id: "{{ ocp_cluster_alias_hosted_zone }}"
-    alias_evaluate_target_health: true
+#
+#- name: Add '*.apps' record in AWS Route53 Hosted Zone
+#  amazon.aws.route53:
+#    state: present
+#    zone: "."
+#    hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
+#    record: "*.apps.{{ ocp_cluster_name }}.{{ ocp_cluster_base_domain }}"
+#    type: A
+#    value: "{{ cluster_classic_lb }}"
+#    alias: true
+#    alias_hosted_zone_id: "{{ ocp_cluster_alias_hosted_zone }}"
+#    alias_evaluate_target_health: true
