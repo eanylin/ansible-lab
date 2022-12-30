@@ -24,10 +24,18 @@
     validate_certs: false
   delegate_to: localhost
 
+- name: Remove existing secret and configmap YAML Files, if exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ temporary_directory }}/bound-service-account-signing-key.yaml"
+    - "{{ temporary_directory }}/cluster-manifests.yaml"
+
 - name: Fetch secret and configmap YAML Files from Helper Node
   ansible.builtin.fetch:
     src: "{{ item }}"
-    dest: "{{ temporary_directory }}"
+    dest: "{{ temporary_directory }}/"
     flat: yes
   loop:
     - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/bound-service-account-signing-key.yaml"
