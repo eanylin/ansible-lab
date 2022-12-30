@@ -9,8 +9,10 @@
   ansible.builtin.set_fact:
     ns_list: "{{ ocp_namespaces.resources }}"
 
-- debug:
-    var: ns_list[item].metadata.name
+- name: Fail task if cluster namespace already exists
+  ansible.builtin.fail:
+    msg: "{{ ocp_cluster_name }} already exists! Please check before proceeding!" 
+  when: ocp_cluster_name == ns_list[item].metadata.name
   loop: "{{ range(0, ns_list | length) | list }}" 
 
 - name: Create cluster namespace
