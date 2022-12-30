@@ -14,8 +14,8 @@
   amazon.aws.route53:
     state: present
     zone: "{{ ocp_cluster_base_domain }}"
-    hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
     record: "*.apps.{{ ocp_cluster_name }}.{{ ocp_cluster_base_domain }}"
     type: A
-    alias: True
     value: "{{ cluster_classic_lb }}"
+    alias: True
+    alias_hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
