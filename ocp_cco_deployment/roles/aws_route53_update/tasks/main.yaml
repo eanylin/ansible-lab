@@ -13,7 +13,6 @@
 - name: Add '*.apps' record in AWS Route53 Hosted Zone
   amazon.aws.route53:
     state: present
-    zone: "{{ ocp_cluster_base_domain }}"
     record: "*.apps.{{ ocp_cluster_name }}.{{ ocp_cluster_base_domain }}"
     type: A
     value: "{{ cluster_classic_lb }}"
