@@ -14,7 +14,7 @@
     classic_elb_list: "{{ classic_elb_info.elbs }}" 
 
 - debug:
-    var: classic_elb_list.dns_name
+    var: classic_elb_list[item].dns_name
   loop: "{{ range(0, classic_elb_list | length) | list }}"
 
 #- name: Add '*.apps' record in AWS Route53 Hosted Zone
