@@ -5,12 +5,12 @@
   register: ocp_namespaces
   delegate_to: localhost
 
-- name: Set the retry count
+- name: Define namespace list
   ansible.builtin.set_fact:
     ns_list: "{{ ocp_namespaces.resources }}"
 
 - debug:
-    var: ns_list[item].name
+    var: ns_list[item].metadata.name
   loop: "{{ range(0, ns_list | length) | list }}" 
 
 - name: Create cluster namespace
