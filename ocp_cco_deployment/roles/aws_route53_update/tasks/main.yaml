@@ -10,24 +10,26 @@
 
 - include_tasks: wait_until_cluster_classic_lb_created.yaml
 
-- name: Get Record
-  amazon.aws.route53:
-    state: get
-    private_zone: yes
-    hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
-    record: "{{ cluster_classic_lb }}"
-    type: A
-  register: record
-
-- debug:
-    var: record
+#- name: Get Record
+#  amazon.aws.route53:
+#    state: get
+#    private_zone: yes
+#    hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
+#    record: "{{ cluster_classic_lb }}"
+#    type: A
+#  register: record
+#
+#- debug:
+#    var: record
 
 - name: Add '*.apps' record in AWS Route53 Hosted Zone
   amazon.aws.route53:
     state: present
+    zone: "."
     hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
     record: "*.apps.{{ ocp_cluster_name }}.{{ ocp_cluster_base_domain }}"
     type: A
     value: "{{ cluster_classic_lb }}"
-    alias: True
+    alias: true
     alias_hosted_zone_id: "{{ ocp_cluster_hosted_zone }}"
+    alias_evaluate_target_health: true
