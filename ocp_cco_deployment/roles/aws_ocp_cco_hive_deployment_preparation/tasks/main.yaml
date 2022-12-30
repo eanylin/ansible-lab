@@ -31,6 +31,7 @@
   loop:
     - "{{ temporary_directory }}/bound-service-account-signing-key.yaml"
     - "{{ temporary_directory }}/cluster-manifests.yaml"
+  delegate_to: localhost
 
 - name: Fetch secret and configmap YAML Files from Helper Node
   ansible.builtin.fetch:
