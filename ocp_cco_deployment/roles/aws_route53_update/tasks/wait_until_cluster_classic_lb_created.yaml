@@ -5,6 +5,11 @@
       ansible.builtin.set_fact:
         retry_count: "{{ 0 if retry_count is undefined else retry_count | int + 1 }}"
 
+    - name: Gather facts of all Classic LB
+      community.aws.elb_classic_lb_info:
+        region: "{{ ocp_cluster_region }}"
+      register: classic_elb_info
+
     - include_tasks: check_classic_loadbalancer_tags.yaml
       loop: "{{ range(0, classic_elb_info.elbs | length) | list }}"
       loop_control:

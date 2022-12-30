@@ -1,9 +1,4 @@
 ---
-- name: Gather facts of all Classic LB
-  community.aws.elb_classic_lb_info:
-    region: "{{ ocp_cluster_region }}"
-  register: classic_elb_info
-
 - name: Initialize variable 'cluster_classic_lb_created' to false
   ansible.builtin.set_fact:
     cluster_classic_lb_created: false
