@@ -1,16 +1,12 @@
 ---
-- name: Log into OCP ACM Hub Cluster with OC CLI
-  ansible.builtin.command: "{{ install_directory }}/oc login --insecure-skip-tls-verify --token={{ oc_token }} --server={{ rhacm_api_endpoint }}"
-
-- name: Destroy cluster namespace, if exists
-  kubernetes.core.k8s:
-    name: "{{ ocp_cluster_name }}"
-    api_version: v1
+- name: Get all existing Namespace
+  kubernetes.core.k8s_info:
     kind: Namespace
-    state: absent
-    wait: true
-    validate_certs: false
+  register: ns_list
   delegate_to: localhost
+
+- debug:
+    var: ns_list
 
 - name: Create cluster namespace
   kubernetes.core.k8s:
@@ -22,11 +18,11 @@
   delegate_to: localhost
 
 - name: Create secret for Hive Deployment
-  ansible.builtin.command: "{{ install_directory }}/oc create secret generic bound-service-account-signing-key --from-file=bound-service-account-signing-key.key=serviceaccount-signer.private -n {{ ocp_cluster_name }}"
-  args:
-    chdir: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/bound-service-account-signing-key.yaml"
 
 - name: Create Configmap for Hive Deployment
-  ansible.builtin.command: "{{ install_directory }}/oc create cm cluster-manifests --from-file={{ ocp_cluster_name }}-secret-manifests/ -n {{ ocp_cluster_name }}"
-  args:
-    chdir: "{{ install_directory }}"
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ install_directory }}/cluster-manifests.yaml"
