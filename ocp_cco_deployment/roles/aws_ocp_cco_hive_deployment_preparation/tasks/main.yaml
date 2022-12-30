@@ -24,12 +24,22 @@
     validate_certs: false
   delegate_to: localhost
 
+- name: Fetch secret and configmap YAML Files from Helper Node
+  ansible.builtin.fetch:
+    src: "{{ item }}"
+    dest: "{{ temporary_directory }}"
+  loop:
+    - "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/bound-service-account-signing-key.yaml"
+    - "{{ install_directory }}/cluster-manifests.yaml"
+ 
 - name: Create secret for Hive Deployment
   kubernetes.core.k8s:
     state: present
-    src: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests/bound-service-account-signing-key.yaml"
+    src: "{{ temporary_directory }}/bound-service-account-signing-key.yaml"
+  delegate_to: localhost
 
 - name: Create Configmap for Hive Deployment
   kubernetes.core.k8s:
     state: present
-    src: "{{ install_directory }}/cluster-manifests.yaml"
+    src: "{{ temporary_directory }}/cluster-manifests.yaml"
+  delegate_to: localhost
