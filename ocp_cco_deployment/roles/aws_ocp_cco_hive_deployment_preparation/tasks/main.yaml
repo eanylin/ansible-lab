@@ -2,12 +2,16 @@
 - name: Get all existing Namespaces
   kubernetes.core.k8s_info:
     kind: Namespace
-  register: ns_list
+  register: ocp_namespaces
   delegate_to: localhost
 
+- name: Set the retry count
+  ansible.builtin.set_fact:
+    ns_list: ocp_namespaces.resources  
+
 - debug:
-    var: ns_list.resources[item].name
-  loop: "{{ range(0, ns_list.resources | length) | list }}" 
+    var: ns_list[item].name
+  loop: "{{ range(0, ns_list | length) | list }}" 
 
 - name: Create cluster namespace
   kubernetes.core.k8s:
