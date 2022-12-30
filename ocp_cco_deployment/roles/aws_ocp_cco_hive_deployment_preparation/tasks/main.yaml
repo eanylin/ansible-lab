@@ -1,12 +1,13 @@
 ---
-- name: Get all existing Namespace
+- name: Get all existing Namespaces
   kubernetes.core.k8s_info:
     kind: Namespace
   register: ns_list
   delegate_to: localhost
 
 - debug:
-    var: ns_list
+    var: ns_list.resources[item].name
+  loop: "{{ range(0, ns_list.resources | length) | list }}" 
 
 - name: Create cluster namespace
   kubernetes.core.k8s:
