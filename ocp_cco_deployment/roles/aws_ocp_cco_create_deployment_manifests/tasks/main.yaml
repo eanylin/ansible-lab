@@ -75,3 +75,13 @@
     - openshift-image-registry-installer-cloud-credentials-credentials.yaml
     - openshift-ingress-operator-cloud-credentials-credentials.yaml
     - openshift-machine-api-aws-cloud-credentials-credentials.yaml
+
+- name: Generate secret YAML file for Hive Deployment
+  ansible.builtin.command: "{{ install_directory }}/oc create secret generic bound-service-account-signing-key --from-file=bound-service-account-signing-key.key=serviceaccount-signer.private -n {{ ocp_cluster_name }} --dry-run=client --output=yaml" > bound-service-account-signing-key.yaml
+  args:
+    chdir: "{{ install_directory }}/{{ ocp_cluster_name }}-credentials-requests"
+
+- name: Generate Configmap YAML file for Hive Deployment
+  ansible.builtin.command: "{{ install_directory }}/oc create configmap cluster-manifests --from-file={{ ocp_cluster_name }}-secret-manifests/ -n {{ ocp_cluster_name }} --dry-run=client --output=yaml" > cluster-manifests.yaml
+  args:
+    chdir: "{{ install_directory }}"
