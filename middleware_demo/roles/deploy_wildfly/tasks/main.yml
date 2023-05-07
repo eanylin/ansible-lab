@@ -61,7 +61,7 @@
   block:
     - name: Download tar ball
       get_url:
-        url: "https://download.jboss.org/wildfly/{{ wildfly_version }}/wildfly-{{ wildfly_version }}.tar.gz"
+        url: "https://github.com/wildfly/wildfly/releases/download/{{ wildfly_version }}/wildfly-{{ wildfly_version }}.tar.gz"
         dest: "{{ jboss_home_directory }}/wildfly-{{ wildfly_version }}.tar.gz"
 
     - name: Add WildFly distribution

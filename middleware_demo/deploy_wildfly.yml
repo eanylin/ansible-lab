@@ -10,11 +10,11 @@
     jboss_home_directory: /opt/jboss
     java_home_path: /usr/lib/jvm/java
     java_log_directory_path: /var/log/jboss
-    java_opts: "-Xms1024m -Xmx20480m -XX:MaxPermSize=768m"
+    java_opts: "-Xms1024m -Xmx20480m"
     java_path: /usr/bin/java
     jboss_home_path: /opt/jboss/wildfly
-    wildfly_version: 24.0.0.Final
-    wildfly_sha1: 391346c9ed2772647ff07aeae39deb838ee11dcf
+    wildfly_version: 26.0.0.Final
+    wildfly_sha1: 836fdefc48b6008904b91b43e00bf6ee6d917486
   environment:
     JAVA_HOME: "{{ java_home_path }}"
     WILDFLY_VERSION: "{{ wildfly_version }}"
